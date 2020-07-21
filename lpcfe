@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+#
+from quixote import enable_ptl
+enable_ptl()
+from quixote.publish import Publisher
+from quixote.server import simple_server
+
+import frontend, auth, bbb, indico
+
+def makepub():
+    fe = frontend.frontend()
+    return Publisher(fe)
+
+auth.load_users()
+bbb.load_servers()
+bbb.load_rooms()
+indico.load_timetable()
+frontend.load_track_colors()
+simple_server.run(makepub, host='localhost', port=8080)

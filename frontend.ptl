@@ -1,0 +1,407 @@
+from quixote.directory import Directory, export, subdir
+from quixote import get_request, get_response
+from quixote.form import *
+import datetime
+
+import auth, page, bbb, config, indico
+
+#
+# Simulated times to start with.
+#
+tz = datetime.timezone(datetime.timedelta(hours = 2))
+begin = datetime.datetime(2019, 9, 11, 12, 0, 0, tzinfo = tz)
+minutes = 400
+
+class frontend(Directory):
+
+    @export(name='')
+    def index [html] (self):
+        user = self.logged_in()
+        if user:
+            self.front_page(user)
+        else:
+            self.login_form()
+
+    def front_page [html] (self, user):
+        page.header('Welcome %s!' % (user.name))
+        if user.moderator:
+            self.list_servers()
+            self.list_rooms()
+        self.render_schedule(begin, minutes)
+        page.trailer()
+
+    @export
+    def stylesheet(self):
+        get_response().set_header('content-type', 'text/css')
+        return page.CSS()
+    #
+    # Return the logged-in user, if any.
+    #
+    def logged_in(self):
+        request = get_request()
+        cookie = request.get_cookie('session')
+        if not cookie:
+            return None
+        return auth.validate_cookie(cookie)
+
+    def login_form [html] (self, message = None, email = ''):
+        page.header('Please log in to continue')
+        '''To access the Linux Plumbers Conference sessions, please provide
+           your email address and your assigned password below.
+           <p>
+           '''
+        if message:
+            '<b>' + message + '</b><p>\n'
+        '<blockquote>\n'
+        LoginForm(email = email).render('/login')
+        '</blockquote>\n'
+        '''<h4>Having trouble?</h4>
+           <p>
+           Please contact <tt>helpdesk@linuxplumbersconf.org</tt> for assistance
+           accessing the conference site.
+           '''
+        page.trailer()
+
+    @export
+    def login (self):
+        email, password = LoginForm().parse()
+        if not (email and password):
+            return self.login_form('Please fill in both fields', email = email)
+        u = auth.check_password(email, password)
+        if not u:
+            return self.login_form('Unknown email or invalid password',
+                                   email = email)
+        #
+        # OK, they've convinced us that they are for real.  Let's fix
+        # them up with a session cookie and give them the real page.
+        #
+        cookie = auth.make_cookie(u)
+        response = get_response()
+        response.set_cookie('session', cookie)
+        return response.redirect(config.SITE_URL)
+
+    #
+    # Moderator's server information page.
+    #
+    def list_servers [html] (self):
+        '<h4>Server status</h4>'
+        '<dl>\n'
+        '''<blockquote>
+           <table class="OddEven">
+           <tr><th>Server</th><th>status</th><th>Rooms</th><th>People</th></tr>
+           '''
+        for server in bbb.all_servers():
+            meetings = bbb.status(server)
+            if meetings is None:
+                '<tr><td>%s</td><td>DOWN</td><td></td><td></td></tr>\n' % (server)
+                continue
+            nrooms = len(meetings)
+            npeople = 0
+            for m in meetings:
+                npeople += int(m['people'])
+            '<tr><td>%s</td><td>UP</td><td>%d</td><td>%d</td></tr>\n' % \
+                        (server, nrooms, npeople)
+        '</table></blockquote>\n'
+    #
+    # Room management
+    #
+    def list_rooms [html] (self):
+        '''<h4>Room status</h4>
+           <p>
+           <blockquote>
+           <table class="OddEven">
+           <tr><th>Room</th>
+               <th>Server</th>
+               <th>Status</th>
+               <th>People</th>
+               <th>Listen</th>
+               <th>Video</th>
+               <th>Moderators</th>
+               <th></th></tr>
+           '''
+        for room in bbb.all_rooms():
+            status = bbb.room_status(room)
+            '<tr><td>%s</td><td>%s</td>' % (room, status['server'])
+            if status['running']:
+                '''<td>RUNNING</td>
+                   <td align=right>%s</td><td align=right>%s</td>
+                   <td align=right>%s</td>
+                   <td>%s</td><td>''' % (status['people'], status['listeners'],
+                                         status['video'], status['moderators'])
+                room_join_button(room)
+                '</td></tr>\n'
+            else:
+                '''<td>CLOSED</td>
+                   <td></td><td></td><td></td><td></td><td>'''
+                room_start_button(room)
+                '</td></tr>\n'
+        '</table></blockquote>\n'
+        
+    @export
+    def start_room(self):
+        response = get_response()
+        user = self.logged_in()
+        if (not user) or (not user.moderator):
+            return response.redirect(config.SITE_URL)
+        room = HiddenWidget('room', '').parse()
+        bbb.start_room(room)
+        url = bbb.join_room_url(user.name, room, user.moderator)
+        return response.redirect(url)
+
+    @export
+    def join_room(self):
+        response = get_response()
+        user = self.logged_in()
+        if not user:
+            return response.redirect(config.SITE_URL) # No fast ones here
+        room = HiddenWidget('room', '').parse()
+        url = bbb.join_room_url(user.name, room, user.moderator)
+        return response.redirect(url)
+
+    #
+    # A first shot at rendering a schedule.
+    #
+    def render_schedule(self, begin, minutes):
+        ttable = indico.get_timetable(begin, minutes)
+        tracks = sorted(ttable.keys())
+        rows = self.generate_rows(ttable, tracks, begin, minutes)
+        return self.render_rows(begin, minutes, rows)
+
+    def generate_rows(self, ttable, tracks, begin, minutes):
+        #
+        # Step 1; find all of our start times; those will become the
+        # rows of our schedule table.
+        #
+        starts = { }
+        rooms = [ ]
+        for track in tracks:
+            for item in ttable[track]:
+                #
+                # When does this one start, in minutes since the
+                # beginning of our window?
+                #
+                offset = (item.begin - begin).seconds
+                if offset < 0: # session begins before window
+                    offset = 0
+                else:
+                    offset //= 60
+                #
+                # Store all room events starting at this time.
+                #
+                try:
+                    roominfo = starts[offset]
+                except KeyError:
+                    starts[offset] = roominfo = { }
+                roominfo[item.room] = item
+                if item.room not in rooms:
+                    rooms.append(item.room)
+        rowtimes = sorted(starts.keys())
+        rooms = sorted(rooms)
+        #
+        # Now figure out what the contents of each row will be.  Our choices
+        # are:
+        #	- An entry begins here
+        #	- A "skip" - an entry continues and we need no entry
+        #	- Blank - nothing happening.
+        #
+        openitems = { }
+        firstrow = [ room_entry('') ]
+        firstrow.extend([ room_entry(room) for room in rooms ])
+        rows = [ firstrow ]
+        for start in sorted(starts.keys()):
+            items = starts[start]
+            row = [ time_entry(begin + datetime.timedelta(minutes = start)) ]
+            for room in rooms:
+                #
+                # Start by cleaning out an open sessions that are no longer
+                # open at this time.
+                # ("sorted" to avoid "dict changed during iteration" errors)
+                #
+                for openroom in sorted(openitems.keys()):
+                    item = openitems[openroom]
+                    if item.end <= (begin + datetime.timedelta(minutes = start)):
+                        del openitems[openroom]
+                #
+                # We're starting a new session in this room at this
+                # time.
+                #
+                if room in items:
+                    item = items[room]
+                    row.append(session_entry(item))
+                    openitems[room] = item
+                    item.rows = 1
+                #
+                # There is an ongoing session in this room that maybe
+                # has ended.
+                #
+                elif room in openitems:
+                    openitems[room].rows += 1
+                    row.append(skip_entry())
+                #
+                # Otherwise nothing happening at all.
+                #
+                else:
+                    row.append(blank_entry())
+            rows.append(row)
+        return rows
+
+    #
+    # Actually generate the table.
+    #
+    def render_rows [html] (self, begin, minutes, rows):
+        '''<p>
+           <table class="tt">'''
+        for row in rows:
+            '<tr>'
+            for entry in row:
+                entry.render()
+        '</table>\n'
+
+#
+# Button creators outside the class since we use them in the entries
+# below as well.
+#
+def room_start_button [html] (room):
+    '''<form action="start_room" method="post">
+       <input type="hidden" name="room" value="%s">
+       <input type="submit" name="join" class="room"
+        value="Start room">
+       </form>''' % (room)
+
+def room_join_button [html] (room, button_text = 'Join room'):
+    '''<form action="join_room" method="post">
+       <input type="hidden" name="room" value="%s">
+       <input type="submit" name="join" class="room"
+        title="Join room" value="%s">
+       </form>''' % (room, button_text)
+
+#
+# Simple classes for each of the times of timetable content.
+#
+class ttentry:
+    def __init__(self, title):
+        self.title = title
+
+    def render [html] (self): # replace me
+        return '   <td>%s</td>\n' % (self.title)
+
+#
+# An actual event in the schedule.
+#
+class session_entry(ttentry):
+    def __init__(self, item):
+        ttentry.__init__(self, item.title)
+        self.item = item
+
+    def render [html] (self):
+        #
+        # Apply a background color if one is available.
+        #
+        bgcolor = ''
+        if self.item.track:
+            try:
+                bgcolor = 'bgcolor="%s"' % (track_colors[self.item.track])
+            except KeyError:
+                print('No color: ', self.item.track)
+        '<td rowspan=%d valign="top" %s>' % (self.item.rows, bgcolor)
+        #
+        # Render the title, as a link if we have a URL.
+        #
+        if self.item.url:
+            '<a href="%s" title="%s"><b>%s</b></a>' % (self.item.url,
+                                                            self.item.desc,
+                                                            self.item.title)
+        else:
+            '<b>%s</b>' % (self.item.title)
+        if self.item.presenters:
+            '<br>'
+            ', '.join(self.item.presenters)
+        '</td>\n'
+
+#
+# We're not putting anything in this box (skipped due to rowspan=)
+#
+class skip_entry(ttentry):
+    def __init__(self):
+        ttentry.__init__(self, 'skip')
+
+    def render [html] (self):
+        ''
+
+#
+# Nothing to see here, move along.
+#
+class blank_entry(ttentry):
+    def __init__(self):
+        ttentry.__init__(self, 'blank')
+    def render [html] (self):
+        return '<td class="blank"></td>'
+
+#
+# Times in the left column.
+#
+class time_entry(ttentry):
+    def __init__(self, time):
+        ttentry.__init__(self, 'timestamp')
+        self.time = time
+
+    def render [html] (self):
+        '   <td valign="top"><b>'
+        self.time.strftime(str("%H:%M"))
+        '</b></td>\n'
+
+#
+# Room names along the top.
+#
+class room_entry(ttentry):
+    def __init__(self, room):
+        ttentry.__init__(self, room)
+
+    def render [html] (self):
+        if self.title:
+            '<td>'
+            room_join_button(self.title, self.title)
+            '</td>'
+        else:  # hack
+            '<td><b>Rooms</b></td>\n'
+
+#
+# Crude track-to-color mapping
+#
+track_colors = { }
+def load_track_colors():
+    try:
+        with open('tracks', 'r') as f:
+            for line in f.readlines():
+                line = line.strip()
+                if line == '' or line[0] == '#':
+                    continue
+                sline = line.split(':')
+                if len(sline) != 2:
+                    print('Bad tracks line: %s' % (line))
+                else:
+                    track_colors[sline[0]] = sline[1]
+    except FileNotFoundError:
+        print('Unable to open tracks file')
+
+#
+# The login form
+#
+class LoginForm:
+    def __init__(self, email = ''):
+        self.email = StringWidget(name="email", size = 30, value = email)
+        self.pw = PasswordWidget(name = 'Password', size = 30)
+
+    def render [html] (self, target):
+        '''<form action=%s method="post">
+           <table>
+           <tr><td><b>Email</b>:</td><td>%s</td></tr>
+           <tr><td><b>Password</b>:</td><td>%s</td></tr>
+           <tr><td>%s</td><td></td></tr>
+           </table>
+           </form>
+           ''' % (target, self.email.render(), self.pw.render(),
+                  SubmitWidget(name = 'login', value = 'Log in').render())
+
+    def parse(self):
+        return (self.email.parse(), self.pw.parse())

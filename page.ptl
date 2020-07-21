@@ -1,0 +1,109 @@
+#
+# Try to capture overall stylistic elements here.
+#
+
+Stylesheet = '''
+.titlebox {
+    color: white;
+    min-height: 100px;
+    background: transparent url(https://linuxplumbersconf.org/blog/2020/wp-content/uploads/2020/06/lpc2020-banner.svg);
+    background-size: contain;
+}
+
+div.title {
+    width: 100%;
+    height: 100px;
+    margin: 0 auto;
+    vertical-align: middle;
+}
+
+h1.title {
+    vertical-align: text-top;
+    color: white;
+    background-color: black;
+    font-size: 18pt;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 2pt 8pt 2pt 8pt;
+    margin-top: 32px;
+}
+
+.room {
+    padding: 0px;
+    margin: 0px;
+    background-color: #ccccff;
+}
+
+/* Tables ripped off from lwn */
+table.OddEven {
+    border-collapse: separate;
+}
+table.OddEven tr:nth-child(even) { 
+    background-color: white;
+}
+table.OddEven tr:nth-child(odd) {
+    background-color: #eeeeee;
+}
+table.OddEven th { background-color: white; }
+table.OddEven td { padding: 3px; }
+
+/* Schedule table */
+table.tt {
+    border: black;
+    padding: 2px;
+    border-style: groove;
+    border-width: 3px;
+}
+
+table.tt tr:hover {
+    background-color: #f6f6f6;
+}
+
+table.tt td {
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+}
+
+table.tt tr:hover td {
+    border-color: green;
+}
+
+table.tt tr:hover td.blank {
+    border-color: white;
+    background-color: white;
+}
+
+/* Quixote form stuff */
+div.widget {
+    display: inline;
+}
+
+div.content {
+    display: inline;
+}
+
+br.widget { display: none; }
+form { margin: 0px; }
+'''
+
+def header [html] (title):
+    '''<html>
+       <head>
+         <title>Linux Plumbers Conference 2020</title>
+         <link rel="stylesheet" type="text/css" href="/stylesheet">
+       </head>
+       <body>
+         <div class="titlebox">
+            <h1 class="title">Linux Plumbers Conference 2020</h1>
+         </div>
+         <br>
+         <h2>%s</h2>
+         <p>
+       ''' % (title)
+
+def trailer [html] ():
+    '</body></html>'
+       
+def CSS [html] ():
+    return Stylesheet
