@@ -155,9 +155,22 @@ class frontend(Directory):
         if not user:
             return response.redirect(config.SITE_URL) # No fast ones here
         room = HiddenWidget('room', '').parse()
+        status = bbb.room_status(room)
+        if not status['running']:
+            return self.room_closed(room)
         url = bbb.join_room_url(user.name, room, user.moderator)
         return response.redirect(url)
 
+    def room_closed [html] (self, room):
+        page.header('Room closed')
+        '''The room you are trying to join has not yet been opened for
+           general access.  Please accept our apologies for the inconvenience
+           and retry shortly.
+           <p>
+           <blockquote>
+           '''
+        room_join_button(room, button_text = 'Retry room ' + room)
+        '</blockquote>\n'
     #
     # A first shot at rendering a schedule.
     #
