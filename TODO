@@ -1,0 +1,28 @@
+Put a "now playing" section at the top of the schedule?
+
+Add a logout button
+
+Make it work with a proper web server, probably with UWSGI
+
+TLS support
+
+Session tracking?
+
+Make it less ugly!
+	This includes proper mobile friendliness
+
+Do the right thing if the user wants to join a room that isn't running yet.
+
+Let MC runners start their own room and join as a moderator
+
+Event logging?
+
+Let users pick their time zone for display
+
+Get track information into the schedule
+
+Add an appropriate welcome message to the chat window
+
+Set maxParticipants?
+
+
