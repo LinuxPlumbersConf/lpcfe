@@ -34,6 +34,10 @@ h1.title {
     background-color: #ccccff;
 }
 
+a {
+    text-decoration: none;
+}
+
 /* Tables ripped off from lwn */
 table.OddEven {
     border-collapse: separate;
@@ -75,6 +79,41 @@ table.tt tr:hover td.blank {
 }
 
 form { margin: 0px; }
+
+/* Left menu, from LPC */
+.conf_leftMenu {
+    float: left;
+    font-family: "Montserrat";
+    font-size: 12px;
+    margin: 0px 1em 0px 1em;
+    width: 200px;
+    vertical-align: top;
+}
+#outer {
+    border: 1px solid #ccc;
+    background: #f6f6f6;
+    position: relative;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    padding: 0px;
+    margin-top: 0px;
+}
+#outer li a {
+    font-family:"Montserrat";
+}
+#outer li a:hover {
+    background: #e0e0e0;
+}
+#outer li {
+    display: block;
+    color: #bd891a;
+    background: #dadada;
+    border-bottom: 1px solid #d0d0d0;
+    border-top: 1px solid #d0d0d0;
+    text-align: left;
+    padding-left: 1em;
+}
 '''
 
 def header [html] (title):
@@ -89,7 +128,6 @@ def header [html] (title):
          </div>
          <br>
          <h2>%s</h2>
-         <p>
        ''' % (title)
 
 def trailer [html] ():
