@@ -74,16 +74,6 @@ table.tt tr:hover td.blank {
     background-color: white;
 }
 
-/* Quixote form stuff */
-div.widget {
-    display: inline;
-}
-
-div.content {
-    display: inline;
-}
-
-br.widget { display: none; }
 form { margin: 0px; }
 '''
 
