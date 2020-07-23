@@ -45,9 +45,9 @@ def load_file(name, mod):
     except FileNotFoundError:
         print('Unable to open "%s"' % (name))
 
-def load_users():
-    load_file('users', False)
-    load_file('moderators', True)
+def load_users(cdir):
+    load_file(cdir + '/users', False)
+    load_file(cdir + '/moderators', True)
 
 def check_password(email, password):
     try:

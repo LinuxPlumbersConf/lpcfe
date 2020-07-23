@@ -4,16 +4,24 @@ from quixote import enable_ptl
 enable_ptl()
 from quixote.publish import Publisher
 from quixote.server import simple_server
+import argparse
+import frontend, auth, bbb, indico, config
 
-import frontend, auth, bbb, indico
+def load_configs():
+    cdir = options.config
+    config.load_config(cdir)
+    auth.load_users(cdir)
+    bbb.load_config(cdir)
+    indico.load_timetable()
+    frontend.load_track_colors(cdir)
 
 def makepub():
     fe = frontend.frontend()
     return Publisher(fe)
 
-auth.load_users()
-bbb.load_servers()
-bbb.load_rooms()
-indico.load_timetable()
-frontend.load_track_colors()
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--config', dest = 'config', default = '.')
+options = parser.parse_args()
+
+load_configs()
 simple_server.run(makepub, host='', port=8080)

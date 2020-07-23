@@ -13,9 +13,9 @@ rooms = { }    # maps name to server
 MOD_PW = 'LPCmoderator'  # Oh the security
 ATT_PW = 'LPCattendee'
 
-def load_servers():
+def load_servers(cdir):
     try:
-        with open('servers', 'r') as f:
+        with open(cdir + '/servers', 'r') as f:
             for line in f.readlines():
                 line = line.strip()
                 if line == '' or line[0] == '#':
@@ -29,9 +29,9 @@ def load_servers():
         print('Unable to open servers file')
 
 
-def load_rooms():
+def load_rooms(cdir):
     try:
-        with open('rooms', 'r') as f:
+        with open(cdir + '/rooms', 'r') as f:
             for line in f.readlines():
                 line = line.strip()
                 if line == '' or line[0] == '#':
@@ -46,6 +46,10 @@ def load_rooms():
                         rooms[sline[0]] = sline[1]
     except FileNotFoundError:
         print('Unable to open rooms file')
+
+def load_config(cdir):
+    load_servers(cdir)
+    load_rooms(cdir)
 
 def all_servers():
     return sorted(servers.keys())

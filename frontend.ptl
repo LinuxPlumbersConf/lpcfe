@@ -382,9 +382,9 @@ class room_entry(ttentry):
 # Crude track-to-color mapping
 #
 track_colors = { }
-def load_track_colors():
+def load_track_colors(cdir):
     try:
-        with open('tracks', 'r') as f:
+        with open(cdir + '/tracks', 'r') as f:
             for line in f.readlines():
                 line = line.strip()
                 if line == '' or line[0] == '#':
