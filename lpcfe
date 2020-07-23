@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 #
-from quixote import enable_ptl
-enable_ptl()
+import quixote
+quixote.enable_ptl()
 from quixote.publish import Publisher
-from quixote.server import simple_server
+from wsgiref.simple_server import make_server
 import argparse
 import frontend, auth, bbb, indico, config
 
@@ -15,13 +15,18 @@ def load_configs():
     indico.load_timetable()
     frontend.load_track_colors(cdir)
 
-def makepub():
-    fe = frontend.frontend()
-    return Publisher(fe)
+class wsgi_pub(Publisher):
+    is_thread_safe = True
+
+    def __init__(self, *args, **kwargs):
+        Publisher.__init__(self, frontend.frontend())
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--config', dest = 'config', default = '.')
+parser.add_argument('-p', '--port', dest = 'port', default = 8080, type = int)
 options = parser.parse_args()
 
 load_configs()
-simple_server.run(makepub, host='', port=8080)
+pub = wsgi_pub()
+wsgi_app = quixote.get_wsgi_app() # Magically tied to pub
+make_server('', options.port, wsgi_app).serve_forever()
