@@ -114,6 +114,27 @@ form { margin: 0px; }
     text-align: left;
     padding-left: 1em;
 }
+div.SponsorBox {
+    width: 200px;
+    float: right;
+    background: #f6f6f6;
+    padding: 5px;
+    margin: 0px 6px;
+    border: 1px;
+    border-style: solid;
+    border-color: #ccc;
+}
+div.SponsorClass {
+    margin: 0;
+    text-align: center;
+    padding: 12px;
+}
+div.SponsorClass h5, div.SponsorClass a, div.SponsorClass img {
+    text-align: center;
+}
+div.SponsorClass:first-child h5 {
+    margin-top: 1px;
+}
 '''
 
 def header [html] (title):

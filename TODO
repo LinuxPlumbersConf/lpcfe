@@ -1,7 +1,5 @@
 Put a "now playing" section at the top of the schedule?
 
-Add a logout button
-
 Make it work with a proper web server, probably with UWSGI
 
 TLS support

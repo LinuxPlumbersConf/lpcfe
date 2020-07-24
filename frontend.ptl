@@ -25,6 +25,7 @@ class frontend(Directory):
     def front_page [html] (self, user):
         page.header('Welcome %s!' % (user.name))
         self.left_menu(user)
+        self.sponsor_box()
         self.main_text()
         '<br clear="all">\n'
         self.render_schedule(begin, minutes)
@@ -45,6 +46,14 @@ class frontend(Directory):
            <p>
            What other clever text do we want here?
            '''
+
+    def sponsor_box [html] (self):
+        '''<div class="SponsorBox">
+           <h4>Sponsor information here</h4>
+           Let us not forget the sponsor information....
+           </div>
+           '''
+
     @export
     def logout(self):
         response = get_response()
