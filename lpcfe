@@ -29,4 +29,4 @@ options = parser.parse_args()
 load_configs()
 pub = wsgi_pub()
 wsgi_app = quixote.get_wsgi_app() # Magically tied to pub
-make_server('', options.port, wsgi_app).serve_forever()
+make_server('localhost', options.port, wsgi_app).serve_forever()
