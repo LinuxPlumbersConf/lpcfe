@@ -37,7 +37,13 @@ class frontend(Directory):
            currently.
            <p>
            What other clever text do we want here?
-           '''
+           <p>
+           <b>NOTE</b>: the "current time" is currently wired to 12 noon on
+           September 11, 2019 in Lisbon to match the old schedule data we are
+           using; the display will eventually show what is happening now.  Times
+           have been offset to what we think is your time zone, which differs
+           from UTC by %d minutes.
+           ''' % (user_tz_offset())
 
     def sponsor_box [html] (self):
         '''<div class="SponsorBox">
@@ -68,6 +74,7 @@ class frontend(Directory):
 
     def login_form [html] (self, message = None, email = ''):
         page.header('Please log in to continue')
+        insert_tz_js()
         '''To access the Linux Plumbers Conference sessions, please provide
            your email address and your assigned password below.
            <p>
@@ -406,7 +413,7 @@ class time_entry(ttentry):
 
     def render [html] (self):
         '   <td valign="top"><b>'
-        self.time.strftime(str("%H:%M"))
+        offset_time(self.time).strftime(str("%H:%M"))
         '</b></td>\n'
 
 #
@@ -464,3 +471,29 @@ class LoginForm:
 
     def parse(self):
         return (self.email.parse(), self.pw.parse())
+
+#
+# Let's see if we can magically get their timezone offset
+#
+def insert_tz_js [html] ():
+    '''<script type="text/javascript">
+       <!--
+       function setTZCookie() {
+           off = new Date().getTimezoneOffset();
+           document.cookie = "tzoffset=" + off + "; SameSite=strict;";
+       }
+       window.onload = setTZCookie;
+       // -->
+       </script>
+       '''
+
+def user_tz_offset():
+    return -int(get_request().get_cookie('tzoffset', '0'))
+
+#
+# Shift a datetime from its current zone to our current offset.
+#
+def offset_time(dt):
+    current = dt.tzinfo.utcoffset(dt)
+    shift = current - datetime.timedelta(minutes = user_tz_offset())
+    return dt - shift
