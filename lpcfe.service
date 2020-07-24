@@ -1,0 +1,9 @@
+[Unit]
+Description=The LPC BBB front-end system
+
+[Service]
+User=corbet
+ExecStart=/usr/local/bin/lpcfe -c home/corbet/lpcfe-config
+
+[Install]
+WantedBy=multi-user.target
