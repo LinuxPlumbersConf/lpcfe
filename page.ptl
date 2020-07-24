@@ -78,6 +78,14 @@ table.tt tr:hover td.blank {
     background-color: white;
 }
 
+span.room-join {
+    display: none;
+}
+
+tr.now-happening span.room-join {
+    display: inline;
+}
+
 form { margin: 0px; }
 
 /* Left menu, from LPC */
@@ -224,7 +232,7 @@ input.LeftMenuCtrl {
 	padding-left: 7px;
     }
     div.SponsorBox {
-	float: right;
+        /* float: none; */
 	background: #f6f6f6;
 	padding: 5px;
 	margin: 6px;
@@ -268,7 +276,42 @@ input.LeftMenuCtrl {
 	margin: 2em;
 	width: 100%;
     }
+    /* Timetable trickery */
+    table.tt  {
+        display: table-row;
+	width: 95%;
+    }
+    table.tt thead {
+        display: none;
+    }
+    span.tt {
+	display: inline;
+    }
+    table.tt tbody, th, td, tr {
+        display: block;
+    }
 
+    table.tt tr.tthdr {
+	display: none;
+    }
+
+    table.tt td {
+        /* Behave  like a "row" */
+        border: none;
+        position: relative;
+        /* padding-left: 50%;*/
+    }
+
+    table.tt td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
 }
  
 '''

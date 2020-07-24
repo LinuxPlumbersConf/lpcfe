@@ -296,10 +296,18 @@ class frontend(Directory):
     def render_rows [html] (self, begin, minutes, rows):
         '''<p>
            <table class="tt">'''
+        nrow = 0
         for row in rows:
-            '<tr>'
+            if nrow == 0:
+                rowclass = 'class="tthdr"'
+            elif nrow == 1:
+                rowclass = 'class="now-happening"'
+            else:
+                rowclass = ''
+            '<tr %s>' % (rowclass)
             for entry in row:
                 entry.render()
+            nrow += 1
         '</table>\n'
 
 #
@@ -361,6 +369,12 @@ class session_entry(ttentry):
         if self.item.presenters:
             '<br>'
             ', '.join(self.item.presenters)
+        #
+        # Room join button
+        #
+        '<span class="room-join">'
+        room_join_button(self.item.room, 'Join session')
+        '</span>\n'
         '</td>\n'
 
 #
