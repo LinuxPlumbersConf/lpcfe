@@ -105,6 +105,9 @@ form { margin: 0px; }
 #outer li a:visited {
     color: #158ebb;
 }
+#outer li a {
+    color: #158ebb;
+}
 #outer li a:hover {
     background: #e0e0e0;
 }
@@ -135,6 +138,139 @@ div.SponsorClass h5, div.SponsorClass a, div.SponsorClass img {
 div.SponsorClass:first-child h5 {
     margin-top: 1px;
 }
+
+/* The checkbox that controls the left menu; we never want to actually
+   see it....*/
+input.LeftMenuCtrl {
+    display: none;
+}
+
+
+/* Wide-screen defaults. */
+@media screen and (min-width: 50em) {
+    label.LeftMenuCtrl:after,
+    input[type=checkbox]:checked ~ label.LeftMenuCtrl:after {
+	content: none;
+    }
+
+    input[type=checkbox]:checked ~ div.conf_leftMenu {
+	display: block;
+    }
+
+    li.LeftMenuCtrl {
+	display: none;
+    }
+    div.confBodyBox {
+	margin-left: 225px;
+	margin-right: 225px;
+    }
+    div.SponsorBox {
+	width: 200px;
+	float: right;
+	background: #f6f6f6;
+	padding: 5px;
+	margin: 6px;
+	border: 1px;
+	border-style: solid;
+	border-color: #ccc;
+    }
+    div.SponsorClass {
+	margin: 0;
+	text-align: center;
+	padding: 12px;
+    }
+    div.SponsorClass h5, div.SponsorClass a, div.SponsorClass img {
+	text-align: center;
+    }
+    div.SponsorClass:first-child h5 {
+	margin-top: 1px;
+    }
+}
+
+/*
+ * Small-screen stuff below here
+ */
+@media screen and (max-width: 50em) {
+    div.conf_leftMenu {
+	position: absolute;
+	top: 150px;
+	right: 1em;
+	z-index: 20;
+    }
+    label.LeftMenuCtrl:after {
+	content: "X";
+    }
+
+    label.LeftMenuCtrl {
+	position: absolute;
+	top: 130px;
+	right: 5px;
+	font-size: xx-large;
+	color: black;
+    }
+    
+    input[type=checkbox]:checked ~ label.LeftMenuCtrl:after {
+	content: "☰";
+    }
+
+    input[type=checkbox]:checked ~ div.conf_leftMenu {
+	display: none;
+    }
+    div.confBodyBox {
+	margin-left: 1em;
+	margin-right: 1em;
+    }
+    li.LeftMenuCtrl {
+	padding-left: 7px;
+    }
+    div.SponsorBox {
+	float: right;
+	background: #f6f6f6;
+	padding: 5px;
+	margin: 6px;
+	border: 1px;
+	border-style: solid;
+	border-color: #ccc;
+    }
+    div.SponsorClass {
+	display: inline-block;
+	vertical-align: top;
+	text-align: center;
+    }
+    img.confLogo {
+	width: 68px;  /* Has to be px, not % */
+	margin: 10px;
+    }
+    .confTitle {    
+	height: 90px;
+	line-height: 90px;
+    }
+    .conference-title-link {
+	padding: 5px;
+	height: 90px;
+	line-height: 90px;
+    }
+    .conference-title {
+	padding: 5px;
+	font-size: 16pt;
+    }
+    span.conference-title-link span {
+	background-color: black;
+	color: white;
+	padding: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+	font-size: 12pt;
+	font-weight: 800;
+    }
+    div.centered-column {
+	margin: 2em;
+	width: 100%;
+    }
+
+}
+ 
 '''
 
 def header [html] (title):
@@ -156,3 +292,33 @@ def trailer [html] ():
        
 def CSS [html] ():
     return Stylesheet
+
+#
+# Menu handling.
+#
+menu_items = [
+    ("https://linuxplumbersconf.org/", 'Main LPC page'),
+    ("https://www.linuxplumbersconf.org/blog/2020/", 'LPC blog'),
+    ("https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy",
+     'Anti-harrassment policy'),
+    ("https://www.linuxplumbersconf.org/event/7/page/50-contact", 'Contact'),
+    ("/logout", 'Log out') ]
+
+priv_menu_items = [
+    ('/status', 'Server/room status') ]
+
+def render_menu_item [html] (item):
+    '<li> <a href="%s">%s</a>\n' % item
+
+def menu [html] (privileged):
+    '''<input type="checkbox" checked class="LeftMenuCtrl" id="LeftMenuCtrl">
+       <label class="LeftMenuCtrl" for="LeftMenuCtrl"></label>
+       <div class="conf_leftMenu">
+       <ul id="outer">
+       '''
+    if privileged:
+        for item in priv_menu_items:
+            render_menu_item(item)
+    for item in menu_items:
+        render_menu_item(item)
+    '</ul></div>\n'
