@@ -35,9 +35,15 @@ class frontend(Directory):
         '<div class="conf_leftMenu">\n<ul id="outer">\n'
         if user.moderator:
             '<li> <a href="/status">Server/room status</a>\n'
-        '<li> <a href="https://linuxplumbersconf.org/">Main LPC page</a>\n'
-        '<li> <a href="/logout">Log out</a>\n'
-        '</ul></div>\n'
+        '''<li> <a href="https://linuxplumbersconf.org/">Main LPC page</a>
+           <li> <a href="https://www.linuxplumbersconf.org/blog/2020/">LPC blog</a>
+           <li> <a href="https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy">Anti-harrassment
+           	policy</a>
+           <li> <a href="https://www.linuxplumbersconf.org/event/7/page/50-contact">Contact</a>
+           <li> <a href="/logout">Log out</a>
+           </ul>
+           </div>
+           '''
 
     def main_text [html] (self):
         '''This is the entry portal for the Linux Plumbers Conference 2020

@@ -102,17 +102,17 @@ form { margin: 0px; }
 #outer li a {
     font-family:"Montserrat";
 }
+#outer li a:visited {
+    color: #158ebb;
+}
 #outer li a:hover {
     background: #e0e0e0;
 }
 #outer li {
     display: block;
-    color: #bd891a;
-    background: #dadada;
-    border-bottom: 1px solid #d0d0d0;
-    border-top: 1px solid #d0d0d0;
+    color: #158ebb;
     text-align: left;
-    padding-left: 1em;
+    padding: 7px 12px;
 }
 div.SponsorBox {
     width: 200px;
