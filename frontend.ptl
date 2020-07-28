@@ -450,7 +450,7 @@ class room_entry(ttentry):
 
     def render [html] (self):
         if self.title:
-            '<td><b>' + self.title + '</b></td>\n'
+            '<th>' + self.title + '</th>\n'
         else:
             '<td></td>\n'
 
