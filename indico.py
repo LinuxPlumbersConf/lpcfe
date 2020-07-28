@@ -4,6 +4,12 @@
 import requests, datetime, copy
 import config
 
+#
+# Save the time of the final session
+#
+final_time = None
+
+
 def load_timetable():
     url = '%s/export/timetable/%d.json?ak=%s&pretty=yes' % (config.INDICO_SERVER,
                                                             config.EVENT_ID,
@@ -33,11 +39,15 @@ def decrypt_indico_json(j):
                 print('Unknown entry', item['id'], item['entryType'])
 
 def add_talk(session, talk):
+    global final_time
+
     item = sched_item(talk, session)
     try:
         Tracks[session].append(item)
     except KeyError:
         Tracks[session] = [item]
+    if (final_time is None) or (item.end > final_time):
+        final_time = item.end
 
 def decrypt_session(session):
     title = session['title']
@@ -76,7 +86,7 @@ class sched_item:
 #
 # Get a piece of the timetable.
 #
-def get_timetable(begin, minutes, in_progress = 15):
+def get_timetable(begin, minutes, in_progress = 10):
     end = begin + datetime.timedelta(minutes = minutes)
     ip_end = begin + datetime.timedelta(minutes = in_progress)
     ret = { }
@@ -89,3 +99,18 @@ def get_timetable(begin, minutes, in_progress = 15):
         if items:
             ret[track] = items
     return ret
+
+#
+# Find out when the next session begins after the present time.  This is
+# inefficient, we could do this in the get_timetable() pass, but nobody
+# will care...
+#
+def find_restart_time(begin):
+    if begin > final_time:
+        return None
+    earliest = final_time
+    for track in Tracks.keys():
+        for talk in Tracks[track]:
+            if (talk.begin > begin) and (talk.begin < earliest):
+                earliest = talk.begin
+    return earliest

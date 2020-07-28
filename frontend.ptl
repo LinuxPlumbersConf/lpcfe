@@ -8,8 +8,13 @@ import auth, page, bbb, config, indico
 #
 # Simulated times to start with.
 #
-tz = datetime.timezone(datetime.timedelta(hours = 2))
-begin = datetime.datetime(2019, 9, 11, 12, 0, 0, tzinfo = tz)
+def current_time():
+    now = datetime.datetime.now()
+    tz = datetime.timezone(datetime.timedelta(hours = -4))
+    begin = datetime.datetime(2019, 9, 9, now.hour, now.minute, 0, tzinfo = tz)
+    begin += datetime.timedelta(days = now.weekday() % 3)
+    return begin
+
 minutes = 400
 
 class frontend(Directory):
@@ -28,7 +33,7 @@ class frontend(Directory):
         self.sponsor_box()
         self.main_text()
         '<br clear="all">\n'
-        self.render_schedule(begin, minutes)
+        self.render_schedule(current_time(), minutes)
         page.trailer()
 
     def main_text [html] (self):
@@ -38,12 +43,13 @@ class frontend(Directory):
            <p>
            What other clever text do we want here?
            <p>
-           <b>NOTE</b>: the "current time" is currently wired to 12 noon on
-           September 11, 2019 in Lisbon to match the old schedule data we are
-           using; the display will eventually show what is happening now.  Times
-           have been offset to what we think is your time zone, which differs
+           <b>NOTE</b>: This system is currently running on a simulated time that
+           passes repeatedly over the three-day 2019 schedule as if it were in
+           US/Eastern time; that time is currently %s.
+           Times displayed below
+           have been further offset to what we think is your time zone, which differs
            from UTC by %d minutes.
-           ''' % (user_tz_offset())
+           ''' % (current_time().strftime(str('%Y-%m-%d %H:%M')), user_tz_offset())
 
     def sponsor_box [html] (self):
         '''<div class="SponsorBox">
@@ -213,8 +219,21 @@ class frontend(Directory):
     #
     # A first shot at rendering a schedule.
     #
-    def render_schedule(self, begin, minutes):
+    def render_schedule [html] (self, begin, minutes):
         ttable = indico.get_timetable(begin, minutes)
+        if len(ttable) == 0:
+            '''<p>
+               <b>NOTE</b>: there are no sessions underway at the current
+               time.
+               '''
+            restart = indico.find_restart_time(begin)
+            if not restart:
+                'In fact, the event appears to be over.\n'
+                return
+            '''The conference will restart at %s with the sessions
+               shown below.
+               ''' % (offset_time(restart).strftime('%Y-%m-%d %H:%M'))
+            ttable = indico.get_timetable(begin, minutes)
         tracks = sorted(ttable.keys())
         rows = self.generate_rows(ttable, tracks, begin, minutes)
         return self.render_rows(begin, minutes, rows)
@@ -232,7 +251,7 @@ class frontend(Directory):
                 # When does this one start, in minutes since the
                 # beginning of our window?
                 #
-                offset = (item.begin - begin).seconds
+                offset = (item.begin - begin).total_seconds()
                 if offset < 0: # session begins before window
                     offset = 0
                 else:
@@ -260,6 +279,7 @@ class frontend(Directory):
         firstrow = [ room_entry('') ]
         firstrow.extend([ room_entry(room) for room in rooms ])
         rows = [ firstrow ]
+        has_join_button = [ ]
         for start in sorted(starts.keys()):
             items = starts[start]
             row = [ time_entry(begin + datetime.timedelta(minutes = start)) ]
@@ -279,7 +299,11 @@ class frontend(Directory):
                 #
                 if room in items:
                     item = items[room]
-                    row.append(session_entry(item))
+                    join_button = False
+                    if (room not in has_join_button) and (start < 30):
+                        join_button = True
+                        has_join_button.append(room)
+                    row.append(session_entry(item, button = join_button))
                     openitems[room] = item
                     item.rows = 1
                 #
@@ -307,8 +331,6 @@ class frontend(Directory):
         for row in rows:
             if nrow == 0:
                 rowclass = 'class="tthdr"'
-            elif nrow == 1:
-                rowclass = 'class="now-happening"'
             else:
                 rowclass = ''
             '<tr %s>' % (rowclass)
@@ -349,9 +371,10 @@ class ttentry:
 # An actual event in the schedule.
 #
 class session_entry(ttentry):
-    def __init__(self, item):
+    def __init__(self, item, button = False):
         ttentry.__init__(self, item.title)
         self.item = item
+        self.button = button
 
     def render [html] (self):
         #
@@ -379,9 +402,8 @@ class session_entry(ttentry):
         #
         # Room join button
         #
-        '<span class="room-join">'
-        room_join_button(self.item.room, 'Join session')
-        '</span>\n'
+        if self.button:
+            room_join_button(self.item.room, 'Join session')
         '</td>\n'
 
 #
@@ -413,7 +435,10 @@ class time_entry(ttentry):
 
     def render [html] (self):
         '   <td valign="top"><b>'
-        offset_time(self.time).strftime(str("%H:%M"))
+        if self.time > current_time():
+            offset_time(self.time).strftime(str("%H:%M"))
+        else:
+            '(now)'
         '</b></td>\n'
 
 #
@@ -425,11 +450,9 @@ class room_entry(ttentry):
 
     def render [html] (self):
         if self.title:
-            '<td>'
-            room_join_button(self.title, self.title)
-            '</td>'
-        else:  # hack
-            '<td><b>Rooms</b></td>\n'
+            '<td><b>' + self.title + '</b></td>\n'
+        else:
+            '<td></td>\n'
 
 #
 # Crude track-to-color mapping

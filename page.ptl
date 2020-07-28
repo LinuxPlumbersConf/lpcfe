@@ -78,14 +78,6 @@ table.tt tr:hover td.blank {
     background-color: white;
 }
 
-span.room-join {
-    display: none;
-}
-
-tr.now-happening span.room-join {
-    display: inline;
-}
-
 form { margin: 0px; }
 
 /* Left menu, from LPC */
