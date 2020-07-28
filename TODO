@@ -1,11 +1,5 @@
 Put a "now playing" section at the top of the schedule?
 
-Make it work with a proper web server, probably with UWSGI
-
-TLS support
-
-Session tracking?
-
 Make it less ugly!
 	This includes proper mobile friendliness
 
@@ -22,8 +16,4 @@ Add an appropriate welcome message to the chat window
 Think about handling maxParticipants.  We can wire it in BBB, but perhaps
 we want to enforce a limit ourselves and give moderators a way to let
 specific people in?
-
-The schedule display should do the right thing when there are no sessions
-actually happening right now.  Probably say "nothing going on" then display
-the first events when stuff picks up again?
 
