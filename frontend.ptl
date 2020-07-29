@@ -36,7 +36,6 @@ class frontend(Directory):
         self.main_text()
         '<br clear="all">\n'
         self.render_schedule(current_time(), minutes)
-        self.sponsor_box()
         page.trailer()
 
     def main_text [html] (self):
@@ -54,41 +53,6 @@ class frontend(Directory):
            from UTC by %d minutes.
            ''' % (current_time().strftime(str('%Y-%m-%d %H:%M')), user_tz_offset())
 
-    def sponsor_box [html] (self):
-          '''<br clear="all">
-          <div class="SponsorBox"><div id="sponsors-from-blog">
-          <h5>Thank you to our sponsors!</h5>
-          <div class="SponsorClass">
-          <h5>Diamond Sponsor</h5>
-          <p><a href="http://www.facebook.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://www.linuxplumbersconf.org/blog/2019/style/facebook.svg" alt=""></a>
-          </p></div>
-          <div class="SponsorClass">
-          <h5>Platinum Sponsors</h5>
-          <p><a href="https://www.netapp.com"><img class="SponsorImg alignleft" src="https://www.linuxplumbersconf.org/blog/2019/style/NetApp.svg" alt=""></a><br>
-          <a href="https://www.ibm.com"><img class="SponsorImg alignnone size-full wp-image-256" src="https://www.linuxplumbersconf.org/blog/2020/wp-content/uploads/2020/02/IBMtm.png" alt=""></a><br>
-          <a href="http://www.westerndigital.com"><img class="SponsorImg alignleft" src="https://www.linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/02/WesternDigital.svg" alt=""></a>
-          </p></div>
-          <div class="SponsorClass">
-          <h5>Gold Sponsors</h5>
-          <p><a href="https://www.arm.com"><img class="alignleft SponsorImg" src="https://www.linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt=""></a><br>
-          <a href="http://www.microsoft.com"><img class="SponsorImg alignleft" src="https://www.linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/07/MS-Azure.svg" alt=""></a>
-          </p></div>
-          <div class="SponsorClass">
-          <h5>Silver Sponsors</h5>
-          <p><a href="https://www.amd.com/"><img src="https://www.linuxplumbersconf.org/blog/2020/wp-content/uploads/2020/07/AMD_Logo.svg" class="SponsorImg"></a><br>
-          <a href="https://www.redhat.com"><img class="alignleft SponsorImg" src="https://www.linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/07/RedHat.svg" alt=""></a>
-          </p></div>
-          <div class="SponsorClass">
-          <h5>Catchbox Sponsor</h5>
-          <p><a href="https://www.collabora.com"><img class="SponsorImg alignleft" src="https://www.linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/03/Collabora-logo-new-Feb2017.svg" alt=""></a>
-          </p></div>
-          <div class="SponsorClass">
-          <h5>Conference Services Provided By</h5>
-          <p><a href="https://www.linuxfoundation.org"><img class="alignleft SponsorImg" style="width: 100px;" src="https://www.linuxplumbersconf.org/blog/2020/wp-content/uploads/2020/01/LF_logo_Pantone.svg" alt=""></a>
-          </p></div>
-          </div>
-          </div>
-           '''
 
     @export
     def logout(self):
@@ -406,7 +370,6 @@ class frontend(Directory):
             '<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n' % (room_join_button(room),
                                                               room, people)
         '</table></blockquote>\n'
-        self.sponsor_box()
         page.trailer()
 
 #
