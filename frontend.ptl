@@ -122,7 +122,9 @@ class frontend(Directory):
         if (not user) or (not user.moderator):
             get_response().redirect(config.SITE_URL)
         page.header('Server and room status')
+        page.menu(True, '/status')
         self.list_servers()
+        '<br clear="all">\n'
         self.list_rooms()
         page.trailer()
 
