@@ -11,12 +11,13 @@ import config
 # A simple class representing a room.
 #
 class Room:
-    def __init__(self, name, server):
+    def __init__(self, name, server, type):
         self.name = name
         self.server = server
+        self.type = type
 
-def add_room(name, server):
-    rooms[name] = Room(name, server)
+def add_room(name, server, type):
+    rooms[name] = Room(name, server, type)
 
 servers = { }  # Just maps name to secret
 rooms = { }    # Rooms we know about.
@@ -48,13 +49,17 @@ def load_rooms(cdir):
                 if line == '' or line[0] == '#':
                     continue
                 sline = line.split(':')
-                if len(sline) != 2:
-                    print('Bad rooms line: "%s"' % line)
+                if len(sline) == 2: # backward compatibility already!
+                    type = 'session'
+                elif len(sline) == 3:
+                    type = sline[2]
                 else:
-                    if sline[1] not in servers:
-                        print('Room %s on bad server %s' % (sline[0], sline[1]))
-                    else:
-                        add_room(sline[0], sline[1])
+                    print('Bad rooms line: "%s"' % line)
+                    continue
+                if sline[1] not in servers:
+                    print('Room %s on bad server %s' % (sline[0], sline[1]))
+                else:
+                    add_room(sline[0], sline[1], type)
     except FileNotFoundError:
         print('Unable to open rooms file')
 
@@ -95,6 +100,7 @@ def room_status(room):
         ret['server'] = server = rooms[room].server
     except KeyError:
         return ret
+    ret['type'] = rooms[room].type
     response = run_request(server, 'getMeetingInfo', meetingID = room)
     status = response.findtext('running')
     if (not status) or (status != 'true'):
@@ -104,14 +110,20 @@ def room_status(room):
     ret['listeners'] = response.findtext('listenerCount')
     ret['video'] = response.findtext('videoCount')
     mods = [ ]
+    parts = [ ]
     for attendee in response.findall('attendees/attendee'):
         if attendee.findtext('role') == 'MODERATOR':
             mods.append(attendee.findtext('fullName'))
-    ret['moderators'] = ', '.join(mods)
+        parts.append(attendee.findtext('fullName'))
+    ret['moderators'] = ', '.join(sorted(mods))
+    ret['participants'] = ' '.join(sorted(parts))
     return ret
 
-def all_rooms():
-    return sorted(rooms.keys())
+def all_rooms(type = None):
+    ret = sorted(rooms.keys())
+    if type:
+        ret = [ room for room in ret if rooms[room].type == type ]
+    return ret
 
 # 
 def start_room(room):

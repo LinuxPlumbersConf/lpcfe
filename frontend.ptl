@@ -55,7 +55,7 @@ class frontend(Directory):
            ''' % (current_time().strftime(str('%Y-%m-%d %H:%M')), user_tz_offset())
 
     def sponsor_box [html] (self):
-          '''
+          '''<br clear="all">
           <div class="SponsorBox"><div id="sponsors-from-blog">
           <h5>Thank you to our sponsors!</h5>
           <div class="SponsorClass">
@@ -189,6 +189,7 @@ class frontend(Directory):
            <table class="OddEven">
            <tr><th>Room</th>
                <th>Server</th>
+               <th>Type</th>
                <th>Status</th>
                <th>People</th>
                <th>Listen</th>
@@ -198,7 +199,8 @@ class frontend(Directory):
            '''
         for room in bbb.all_rooms():
             status = bbb.room_status(room)
-            '<tr><td>%s</td><td>%s</td>' % (room, status['server'])
+            '<tr><td>%s</td><td>%s</td><td>%s</td>' % (room, status['server'],
+                                                       status['type'])
             if status['running']:
                 '''<td>RUNNING</td>
                    <td align=right>%s</td><td align=right>%s</td>
@@ -370,6 +372,42 @@ class frontend(Directory):
                 entry.render()
             nrow += 1
         '</table>\n'
+
+    #
+    # Access to the hack rooms
+    #
+    @export
+    def hackrooms [html] (self):
+        #
+        # We need a proper _q_access function!
+        #
+        user = self.logged_in()
+        if not user:
+            return get_response().redirect(config.SITE_URL)
+        page.header('LPC 2020 hackrooms')
+        page.menu(user.moderator)
+        '''This page lists the LPC 2020 hackrooms — rooms that are open for
+           informal meetings or just the desire to get together and talk for a
+           bit.
+           <p>
+           Please remember that our code of conduct applies to the hackrooms,
+           and that your presence in these rooms will be visible on this page.
+           <p>
+           <blockquote>
+           <table>
+           <tr><th></th><th>Room</th><th>Participants</th></tr>
+           '''
+        for room in bbb.all_rooms(type = 'hack'):
+            status = bbb.room_status(room)
+            if status['running']:
+                people = status['participants']
+            else:
+                people = ''
+            '<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n' % (room_join_button(room),
+                                                              room, people)
+        '</table></blockquote>\n'
+        self.sponsor_box()
+        page.trailer()
 
 #
 # Button creators outside the class since we use them in the entries

@@ -368,6 +368,7 @@ def CSS [html] ():
 #
 menu_items = [
     ("https://linuxplumbersconf.org/", 'Main LPC page'),
+    ('/hackrooms', 'LPC 2020 hackrooms'),
     ("https://www.linuxplumbersconf.org/blog/2020/", 'LPC blog'),
     ("https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy",
      'Anti-harrassment policy'),
