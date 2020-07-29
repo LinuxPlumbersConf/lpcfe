@@ -32,7 +32,7 @@ class frontend(Directory):
 
     def front_page [html] (self, user):
         page.header('Welcome %s!' % (user.name))
-        page.menu(user.moderator)
+        page.menu(user.moderator, '/')
         self.main_text()
         '<br clear="all">\n'
         self.render_schedule(current_time(), minutes)
@@ -356,7 +356,7 @@ class frontend(Directory):
         if not user:
             return get_response().redirect(config.SITE_URL)
         page.header('LPC 2020 hackrooms')
-        page.menu(user.moderator)
+        page.menu(user.moderator, '/hackrooms')
         '''<div class="lead-text">
            This page lists the LPC 2020 hackrooms — rooms that are open for
            informal meetings or just the desire to get together and talk for a
@@ -375,7 +375,7 @@ class frontend(Directory):
             if status['running']:
                 people = status['participants']
             else:
-                people = ''
+                people = '(empty)'
             '<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n' % (room_join_button(room),
                                                               room, people)
         '</table></blockquote>\n'

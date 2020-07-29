@@ -154,6 +154,11 @@ form { margin: 0px; }
 #outer li a {
     color: #158ebb;
 }
+#outer li.selected, #outer li a.selected {
+    color: white;
+    background: #4e94af;
+}
+
 #outer li a:hover {
     background: #e0e0e0;
 }
@@ -368,8 +373,9 @@ def CSS [html] ():
 # Menu handling.
 #
 menu_items = [
-    ("https://linuxplumbersconf.org/", 'Main LPC page'),
+    ('/', 'Timetable'),
     ('/hackrooms', 'LPC 2020 hackrooms'),
+    ("https://linuxplumbersconf.org/", 'Main LPC site'),
     ("https://www.linuxplumbersconf.org/blog/2020/", 'LPC blog'),
     ("https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy",
      'Anti-harrassment policy'),
@@ -379,10 +385,13 @@ menu_items = [
 priv_menu_items = [
     ('/status', 'Server/room status') ]
 
-def render_menu_item [html] (item):
-    '<li> <a href="%s">%s</a>\n' % item
+def render_menu_item [html] (item, current):
+    sel = ''
+    if item[0] == current:
+        sel = ' class="selected"'
+    '<li%s> <a href="%s"%s>%s</a>\n' % (sel, item[0], sel, item[1])
 
-def menu [html] (privileged):
+def menu [html] (privileged, current):
     '''<input type="checkbox" checked class="LeftMenuCtrl" id="LeftMenuCtrl">
        <label class="LeftMenuCtrl" for="LeftMenuCtrl"></label>
        <div class="conf_leftMenu">
@@ -390,9 +399,9 @@ def menu [html] (privileged):
        '''
     if privileged:
         for item in priv_menu_items:
-            render_menu_item(item)
+            render_menu_item(item, current)
     for item in menu_items:
-        render_menu_item(item)
+        render_menu_item(item, current)
     '</ul></div>\n'
 
 def sponsor_box [html] ():
