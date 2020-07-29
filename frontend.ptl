@@ -15,7 +15,10 @@ def current_time():
     begin += datetime.timedelta(days = now.weekday() % 3)
     return begin
 
-minutes = 400
+#
+# Show this many minutes of upcoming sessions.
+#
+minutes = 240
 
 class frontend(Directory):
 
