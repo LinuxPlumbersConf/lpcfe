@@ -39,7 +39,8 @@ class frontend(Directory):
         page.trailer()
 
     def main_text [html] (self):
-        '''This is the entry portal for the Linux Plumbers Conference 2020
+        '''<div class="lead-text">
+           This is the entry portal for the Linux Plumbers Conference 2020
            meeting rooms.  Look below for the list of what is happening
            currently.
            <p>
@@ -51,6 +52,7 @@ class frontend(Directory):
            Times displayed below
            have been further offset to what we think is your time zone, which differs
            from UTC by %d minutes.
+           </div>
            ''' % (current_time().strftime(str('%Y-%m-%d %H:%M')), user_tz_offset())
 
 
@@ -355,12 +357,14 @@ class frontend(Directory):
             return get_response().redirect(config.SITE_URL)
         page.header('LPC 2020 hackrooms')
         page.menu(user.moderator)
-        '''This page lists the LPC 2020 hackrooms — rooms that are open for
+        '''<div class="lead-text">
+           This page lists the LPC 2020 hackrooms — rooms that are open for
            informal meetings or just the desire to get together and talk for a
            bit.
            <p>
            Please remember that our code of conduct applies to the hackrooms,
            and that your presence in these rooms will be visible on this page.
+           </div>
            <p>
            <blockquote>
            <table>

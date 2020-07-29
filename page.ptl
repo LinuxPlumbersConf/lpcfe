@@ -336,6 +336,10 @@ input.LeftMenuCtrl {
         white-space: nowrap;
     }
 }
+
+div.lead-text {
+    max-width: 55em;
+}
  
 '''
 
