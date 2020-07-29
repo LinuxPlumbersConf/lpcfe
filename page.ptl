@@ -20,10 +20,6 @@ body {
     font-size: 1em;
 }
 
-p {
-    line-height: 2em;
-}
-
 .titlebox {
     color: white;
     min-height: 100px;
@@ -394,7 +390,6 @@ def menu [html] (privileged):
     for item in menu_items:
         render_menu_item(item)
     '</ul></div>\n'
-
 
 def sponsor_box [html] ():
     '''<br clear="all">
