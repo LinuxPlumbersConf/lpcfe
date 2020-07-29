@@ -232,11 +232,11 @@ class frontend(Directory):
                 return
             '''The conference will restart at %s with the sessions
                shown below.
-               ''' % (offset_time(restart).strftime('%Y-%m-%d %H:%M'))
-            ttable = indico.get_timetable(begin, minutes)
+               ''' % (offset_time(restart).strftime(str('%Y-%m-%d %H:%M')))
+            ttable = indico.get_timetable(restart, minutes)
         tracks = sorted(ttable.keys())
         rows = self.generate_rows(ttable, tracks, begin, minutes)
-        return self.render_rows(begin, minutes, rows)
+        self.render_rows(begin, minutes, rows)
 
     def generate_rows(self, ttable, tracks, begin, minutes):
         #
