@@ -199,8 +199,13 @@ class frontend(Directory):
             return response.redirect(config.SITE_URL) # No fast ones here
         room = HiddenWidget('room', '').parse()
         status = bbb.room_status(room)
+        #
+        # Policy: let any user start a room if they have access to
+        # a "join" button.
+        #
         if not status['running']:
-            return self.room_closed(room)
+            bbb.start_room(room)
+#            return self.room_closed(room)
         url = bbb.join_room_url(user.name, room, user.moderator)
         return response.redirect(url)
 
