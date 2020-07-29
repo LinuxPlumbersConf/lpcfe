@@ -3,6 +3,27 @@
 #
 
 Stylesheet = '''
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v12/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+* {
+    font-family: "Montserrat";
+}
+
+body {
+    margin: 0px;
+    font-size: 1em;
+}
+
+p {
+    line-height: 2em;
+}
+
 .titlebox {
     color: white;
     min-height: 100px;
@@ -29,13 +50,42 @@ h1.title {
 }
 
 .room {
-    padding: 0px;
-    margin: 0px;
-    background-color: #ccccff;
+    padding: 6px;
+    margin: 6px;
+    font-size: 12pt;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    background-color: #865899;
+    color: #FFFFFF;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+    border-radius: 0.4em;
+    cursor: pointer;
+    display: block;
+    margin: auto;
 }
 
-a {
+a, .fake-link, .ui-widget-content a {
+    color: #000021;
     text-decoration: none;
+}
+
+a:hover, .fake-link:hover, .ui-widget-content a:hover {
+    color: #865899;
+}
+
+.contributiontitle {
+    line-height: 1.4em;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.speakers {
+    color: #000021;
+    line-height: 1.1em;
 }
 
 /* Tables ripped off from lwn */

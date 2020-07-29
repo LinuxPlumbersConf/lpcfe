@@ -391,14 +391,13 @@ class session_entry(ttentry):
         # Render the title, as a link if we have a URL.
         #
         if self.item.url:
-            '<a href="%s" title="%s"><b>%s</b></a>' % (self.item.url,
-                                                            self.item.desc,
-                                                            self.item.title)
+            '''<p class="contributiontitle">
+               <a href="%s" title="%s">%s</a></p>
+               ''' % (self.item.url, self.item.desc, self.item.title)
         else:
-            '<b>%s</b>' % (self.item.title)
+            '<p class="contributiontitle">%s</p>' % (self.item.title)
         if self.item.presenters:
-            '<br>'
-            ', '.join(self.item.presenters)
+            '<p class="speakers">%s</p>\n' % (', '.join(self.item.presenters))
         #
         # Room join button
         #
