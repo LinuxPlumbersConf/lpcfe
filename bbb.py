@@ -7,8 +7,19 @@ from xml.etree import ElementTree
 from urllib.parse import quote_plus
 import config
 
+#
+# A simple class representing a room.
+#
+class Room:
+    def __init__(self, name, server):
+        self.name = name
+        self.server = server
+
+def add_room(name, server):
+    rooms[name] = Room(name, server)
+
 servers = { }  # Just maps name to secret
-rooms = { }    # maps name to server
+rooms = { }    # Rooms we know about.
 
 MOD_PW = 'LPCmoderator'  # Oh the security
 ATT_PW = 'LPCattendee'
@@ -43,7 +54,7 @@ def load_rooms(cdir):
                     if sline[1] not in servers:
                         print('Room %s on bad server %s' % (sline[0], sline[1]))
                     else:
-                        rooms[sline[0]] = sline[1]
+                        add_room(sline[0], sline[1])
     except FileNotFoundError:
         print('Unable to open rooms file')
 
@@ -81,7 +92,7 @@ def status(server):
 def room_status(room):
     ret = { 'running': False, 'server': '???' }
     try:
-        ret['server'] = server = rooms[room]
+        ret['server'] = server = rooms[room].server
     except KeyError:
         return ret
     response = run_request(server, 'getMeetingInfo', meetingID = room)
@@ -104,7 +115,7 @@ def all_rooms():
 
 # 
 def start_room(room):
-    server = rooms[room]
+    server = rooms[room].server
     response = run_request(server, 'create', name = room,
                            meetingID = room,
                            attendeePW = ATT_PW,
@@ -119,7 +130,7 @@ def join_room_url(name, room, as_moderator):
     pw = ATT_PW
     if as_moderator:
         pw = MOD_PW
-    return make_request(rooms[room], 'join', meetingID = room,
+    return make_request(rooms[room].server, 'join', meetingID = room,
                         fullName = name,
                         password = pw)
 
