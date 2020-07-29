@@ -167,27 +167,47 @@ form { margin: 0px; }
     text-align: left;
     padding: 7px 12px;
 }
+
+div.SponsorClass:first-child h5 {
+    margin-top: 1px;
+}
+
+div.SponsorClass img {
+    width: 120px;
+    vertical-align: middle;
+    margin: 0px 3em;
+}
+
 div.SponsorBox {
-    width: 200px;
-    float: right;
     background: #f6f6f6;
-    padding: 5px;
-    margin: 0px 6px;
+    margin: 6px;
     border: 1px;
     border-style: solid;
     border-color: #ccc;
 }
-div.SponsorClass {
-    margin: 0;
-    text-align: center;
-    padding: 12px;
+
+div.SponsorClass br {
+    display: none;
 }
-div.SponsorClass h5, div.SponsorClass a, div.SponsorClass img {
-    text-align: center;
-}
-div.SponsorClass:first-child h5 {
+
+div.SponsorBox h5 {
+    font-size: 2em;
     margin-top: 1px;
 }
+
+div.SponsorBox h5, div.SponsorClass a, div.SponsorClass img {
+    text-align: center;
+}
+
+    div.SponsorClass {
+	margin: 0;
+	text-align: center;
+    }
+    div.SponsorClass img {
+        width: 120px;
+        vertical-align: middle;
+        margin: 0px 3em;
+    }
 
 /* The checkbox that controls the left menu; we never want to actually
    see it....*/
@@ -213,27 +233,6 @@ input.LeftMenuCtrl {
     div.confBodyBox {
 	margin-left: 225px;
 	margin-right: 225px;
-    }
-    div.SponsorBox {
-	width: 200px;
-	float: right;
-	background: #f6f6f6;
-	padding: 5px;
-	margin: 6px;
-	border: 1px;
-	border-style: solid;
-	border-color: #ccc;
-    }
-    div.SponsorClass {
-	margin: 0;
-	text-align: center;
-	padding: 12px;
-    }
-    div.SponsorClass h5, div.SponsorClass a, div.SponsorClass img {
-	text-align: center;
-    }
-    div.SponsorClass:first-child h5 {
-	margin-top: 1px;
     }
 }
 
@@ -272,20 +271,6 @@ input.LeftMenuCtrl {
     }
     li.LeftMenuCtrl {
 	padding-left: 7px;
-    }
-    div.SponsorBox {
-        /* float: none; */
-	background: #f6f6f6;
-	padding: 5px;
-	margin: 6px;
-	border: 1px;
-	border-style: solid;
-	border-color: #ccc;
-    }
-    div.SponsorClass {
-	display: inline-block;
-	vertical-align: top;
-	text-align: center;
     }
     img.confLogo {
 	width: 68px;  /* Has to be px, not % */
