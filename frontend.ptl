@@ -64,7 +64,9 @@ class frontend(Directory):
 
     @export
     def stylesheet(self):
-        get_response().set_header('content-type', 'text/css')
+        response = get_response()
+        response.set_header('content-type', 'text/css; charset=utf-8')
+        response.cache = 600
         return page.CSS()
     #
     # Return the logged-in user, if any.
