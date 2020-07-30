@@ -3,8 +3,9 @@
 import quixote
 quixote.enable_ptl()
 from quixote.publish import Publisher
-from wsgiref.simple_server import make_server
-import argparse
+from wsgiref.simple_server import make_server, WSGIServer
+from socketserver import ThreadingMixIn
+import argparse, threading
 import frontend, auth, bbb, indico, config
 
 def load_configs():
@@ -15,11 +16,32 @@ def load_configs():
     indico.load_timetable()
     frontend.load_track_colors(cdir)
 
+#
+# Our publisher class.  Much of what's here is dedicated to managing
+# the request object, which quixote stores globally - bad for threading.
+#
 class wsgi_pub(Publisher):
     is_thread_safe = True
 
     def __init__(self, *args, **kwargs):
         Publisher.__init__(self, frontend.frontend())
+        self.requests = { }
+
+    def _set_request(self, request):
+        self.requests[threading.get_ident()] = request
+
+    def clear_request(self):
+        try:
+            del self.requests[threading.get_ident()]
+        except KeyError:
+            pass
+
+    def get_request(self):
+        return self.requests[threading.get_ident()]
+
+# https://gist.github.com/coffeesnake/3093598
+class ThreadingServer(ThreadingMixIn, WSGIServer):
+    pass
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--config', dest = 'config', default = '.')
@@ -29,4 +51,4 @@ options = parser.parse_args()
 load_configs()
 pub = wsgi_pub()
 wsgi_app = quixote.get_wsgi_app() # Magically tied to pub
-make_server('localhost', options.port, wsgi_app).serve_forever()
+make_server('localhost', options.port, wsgi_app, ThreadingServer).serve_forever()
