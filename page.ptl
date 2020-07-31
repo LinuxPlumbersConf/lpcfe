@@ -388,8 +388,8 @@ def CSS [html] ():
 menu_items = [
     ('/', 'Timetable'),
     ('/hackrooms', 'LPC 2020 hackrooms'),
+    ('https://chat.2020.linuxplumbersconf.org/home', 'Chat area'),
     ("https://linuxplumbersconf.org/", 'Main LPC site'),
-    ("https://www.linuxplumbersconf.org/blog/2020/", 'LPC blog'),
     ("https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy",
      'Anti-harrassment policy'),
     ("https://www.linuxplumbersconf.org/event/7/page/50-contact", 'Contact'),
