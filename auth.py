@@ -1,4 +1,6 @@
 import hashlib
+import ldap
+import config
 #
 # Cheesy authentication stuff.
 #
@@ -15,8 +17,6 @@ secret = '1da177e4c3f41524e886b7f1b8a0c1fc7321cac2'
 # maintain a session database.
 #
 
-Users = { }
-
 class User:
     def __init__(self, id, email, name, mod):
         self.id = id
@@ -24,35 +24,75 @@ class User:
         self.name = name
         self.moderator = mod
 
-def load_lines(f, mod):
+#
+# LDAP machinery.
+#
+ldap_search_base = 'dc=users,dc=2020,dc=linuxplumbersconf,dc=org'
+ldap_search_filter = '(cn=%s)'
+ldap_attrs = ['givenName', 'sn', 'labeledURI']
+ldap_conn = None
+
+def ldap_connect():
+    global ldap_conn
+    ldap_conn = ldap.initialize(config.LDAP_SERVER)
+    ldap_conn.simple_bind_s(config.LDAP_USER, config.LDAP_PW)
+
+def ldap_lookup(email):
+    #
+    # Query the LDAP server.
+    #
+    ss = ldap_search_filter % (email)
+    results = ldap_conn.search_s(ldap_search_base, ldap.SCOPE_ONELEVEL, ss, ldap_attrs)
+    if not results:
+        return None
+    #
+    # Now dig into the response to eventually get the stuff we're after.
+    #
+    results = results[0][1] # it's down there somewhere!
+    id = results['labeledURI'][0].decode('utf8') # it *must* be in there somewhere!
+    name = '%s %s' % (results['givenName'][0].decode('utf8'),
+                      results['sn'][0].decode('utf8'))
+    return User(id, email, name, False)
+
+#
+# Tracking moderators outside of LDAP for now, that could change.  The file format
+# is now
+#
+#	email:rooms
+#
+# if "rooms" is "*", the user has full admin access.
+#
+
+Mods = { }
+
+def load_lines(f):
     for line in f.readlines():
         if len(line.strip()) == 0 or line[0] == '#':
             continue
         sline = line.strip().split(':')
-        if len(sline) != 3:
+        if len(sline) != 2:
             print("Bad user line: '%s'" % (line[:-1]))
             continue
-        u = User(sline[2], sline[0], sline[1], mod)
-        if u.email in Users:
-            print('Duplicate user %s' % (u.email))
+        u = ldap_lookup(sline[0])
+        if not u:
+            print('Unknown moderator %s' % (sline[0]))
             continue
-        Users[u.email] = u
+        Mods[sline[0]] = sline[1]
 
-def load_file(name, mod):
+def load_mods(cdir):
     try:
-        with open(name, 'r') as f:
-            load_lines(f, mod)
+        with open(cdir + '/moderators', 'r') as f:
+            load_lines(f)
     except FileNotFoundError:
         print('Unable to open "%s"' % (name))
 
-def load_users(cdir):
-    load_file(cdir + '/users', False)
-    load_file(cdir + '/moderators', True)
+def setup(cdir):
+    ldap_connect()
+    load_mods(cdir)
 
 def check_password(email, password):
-    try:
-        u = Users[email]
-    except KeyError:
+    u = ldap_lookup(email)
+    if not u:
         return False
     if password == u.id:
         return u
@@ -68,14 +108,22 @@ def validate_cookie(cookie):
     sc = cookie.split(':')
     if len(sc) != 2:
         return None
-    try:
-        u = Users[sc[0]]
-    except KeyError:
+    #
+    # This goes to the LDAP server for every hit.  Probably not a
+    # terrible thing but we could consider some sort of caching.
+    #
+    u = ldap_lookup(sc[0])
+    if not u:
         return None
     hash = make_hash(u)
-    if hash == sc[1]:
-        return u
-    return None
+    if hash != sc[1]:
+        return None
+    try:
+        modinfo = Mods[u.email]
+    except KeyError:
+        return u # not a moderator
+    u.moderator = (modinfo == '*')
+    return u
 
 def make_cookie(u):
     return u.email + ':' + make_hash(u)

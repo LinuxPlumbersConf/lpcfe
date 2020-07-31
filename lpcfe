@@ -11,7 +11,7 @@ import frontend, auth, bbb, indico, config
 def load_configs():
     cdir = options.config
     config.load_config(cdir)
-    auth.load_users(cdir)
+    auth.setup(cdir)
     bbb.load_config(cdir)
     indico.load_timetable()
     frontend.load_track_colors(cdir)
