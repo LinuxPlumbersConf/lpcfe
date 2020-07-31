@@ -315,7 +315,7 @@ input.LeftMenuCtrl {
     span.tt {
 	display: inline;
     }
-    table.tt tbody, th, td, tr {
+    table.tt tbody, table.tt th, table.tt td, table.tt tr {
         display: block;
     }
 
