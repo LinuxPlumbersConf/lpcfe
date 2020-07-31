@@ -48,10 +48,14 @@ def ldap_lookup(email):
     #
     # Now dig into the response to eventually get the stuff we're after.
     #
-    results = results[0][1] # it's down there somewhere!
-    id = results['labeledURI'][0].decode('utf8') # it *must* be in there somewhere!
-    name = '%s %s' % (results['givenName'][0].decode('utf8'),
-                      results['sn'][0].decode('utf8'))
+    try:
+        results = results[0][1] # it's down there somewhere!
+        id = results['labeledURI'][0].decode('utf8') # it *must* be in there somewhere!
+        name = '%s %s' % (results['givenName'][0].decode('utf8'),
+                          results['sn'][0].decode('utf8'))
+    except (KeyError, IndexError):
+        print('Screwy LDAP response: %s' % (results))
+        return None
     return User(id, email, name, False)
 
 #
