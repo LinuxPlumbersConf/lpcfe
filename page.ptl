@@ -348,7 +348,7 @@ div.lead-text {
  
 '''
 
-def header [html] (title):
+def header [html] (current, title, moderator = False):
     '''<html>
        <head>
          <title>Linux Plumbers Conference 2020</title>
@@ -359,10 +359,23 @@ def header [html] (title):
             <h1 class="title">Linux Plumbers Conference 2020</h1>
          </div>
          <br>
-         <h2>%s</h2>
+       '''
+    menu(moderator, current)
+    '''<div class="lead-text">
+       <h2>%s</h2>
        ''' % (title)
 
+def end_text_area():
+    #
+    # The new <div> doesn't do much other than give something for the
+    # </div> in trailer() to close.
+    #
+    '''</div>
+       <br clear="all">
+       <div class="below-menu">'''
+
 def trailer [html] ():
+    '</div>\n'
     sponsor_box()
     '</body></html>'
        

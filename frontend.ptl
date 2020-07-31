@@ -31,16 +31,14 @@ class frontend(Directory):
             self.login_form()
 
     def front_page [html] (self, user):
-        page.header('Welcome %s!' % (user.name))
-        page.menu(user.moderator, '/')
+        page.header('/', 'Welcome %s!' % (user.name), user.moderator)
         self.main_text()
-        '<br clear="all">\n'
+        page.end_text_area()
         self.render_schedule(current_time(), minutes)
         page.trailer()
 
     def main_text [html] (self):
-        '''<div class="lead-text">
-           This is the entry portal for the Linux Plumbers Conference 2020
+        '''This is the entry portal for the Linux Plumbers Conference 2020
            meeting rooms.  Look below for the list of what is happening
            currently.
            <p>
@@ -52,7 +50,6 @@ class frontend(Directory):
            Times displayed below
            have been further offset to what we think is your time zone, which differs
            from UTC by %d minutes.
-           </div>
            ''' % (current_time().strftime(str('%Y-%m-%d %H:%M')), user_tz_offset())
 
 
@@ -79,7 +76,7 @@ class frontend(Directory):
         return auth.validate_cookie(cookie)
 
     def login_form [html] (self, message = None, email = ''):
-        page.header('Please log in to continue')
+        page.header('/', 'Please log in to continue', False)
         insert_tz_js()
         '''To access the Linux Plumbers Conference sessions, please provide
            your email address and your assigned password below.
@@ -123,8 +120,7 @@ class frontend(Directory):
         user = self.logged_in()
         if (not user) or (not user.moderator):
             get_response().redirect(config.SITE_URL)
-        page.header('Server and room status')
-        page.menu(True, '/status')
+        page.header('/status', 'Server and room status', True)
         self.list_servers()
         '<br clear="all">\n'
         self.list_rooms()
@@ -215,8 +211,11 @@ class frontend(Directory):
         url = bbb.join_room_url(user.name, room, user.moderator)
         return response.redirect(url)
 
+    #
+    # This is not currently used.
+    #
     def room_closed [html] (self, room):
-        page.header('Room closed')
+        page.header('/', 'Room closed', False)
         '''The room you are trying to join has not yet been opened for
            general access.  Please accept our apologies for the inconvenience
            and retry shortly.
@@ -359,17 +358,16 @@ class frontend(Directory):
         user = self.logged_in()
         if not user:
             return get_response().redirect(config.SITE_URL)
-        page.header('LPC 2020 hackrooms')
-        page.menu(user.moderator, '/hackrooms')
-        '''<div class="lead-text">
-           This page lists the LPC 2020 hackrooms — rooms that are open for
+        page.header('/hackrooms', 'LPC 2020 hackrooms', user.moderator)
+        '''This page lists the LPC 2020 hackrooms — rooms that are open for
            informal meetings or just the desire to get together and talk for a
            bit.
            <p>
            Please remember that our code of conduct applies to the hackrooms,
            and that your presence in these rooms will be visible on this page.
-           </div>
-           <p>
+           '''
+        page.end_text_area()
+        '''<p>
            <blockquote>
            <table>
            <tr><th></th><th>Room</th><th>Participants</th></tr>
