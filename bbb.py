@@ -116,7 +116,7 @@ def room_status(room):
             mods.append(attendee.findtext('fullName'))
         parts.append(attendee.findtext('fullName'))
     ret['moderators'] = ', '.join(sorted(mods))
-    ret['participants'] = ' '.join(sorted(parts))
+    ret['participants'] = ', '.join(sorted(parts))
     return ret
 
 def all_rooms(type = None):
