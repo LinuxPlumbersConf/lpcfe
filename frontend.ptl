@@ -76,7 +76,7 @@ class frontend(Directory):
         return auth.validate_cookie(cookie)
 
     def login_form [html] (self, message = None, email = ''):
-        page.header('/', 'Please log in to continue', False)
+        page.header('/', 'Please log in to continue', menu = False)
         insert_tz_js()
         '''To access the Linux Plumbers Conference sessions, please provide
            your email address and your assigned password below.

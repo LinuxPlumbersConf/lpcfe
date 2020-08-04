@@ -361,7 +361,7 @@ div.lead-text {
  
 '''
 
-def header [html] (current, title, moderator = False):
+def header [html] (current, title, moderator = False, menu = True):
     '''<html>
        <head>
          <title>Linux Plumbers Conference 2020</title>
@@ -373,7 +373,8 @@ def header [html] (current, title, moderator = False):
          </div>
          <br>
        '''
-    menu(moderator, current)
+    if menu:
+        left_menu(moderator, current)
     '''<div class="lead-text">
        <h2>%s</h2>
        ''' % (title)
@@ -417,7 +418,7 @@ def render_menu_item [html] (item, current):
         sel = ' class="selected"'
     '<li%s> <a href="%s"%s>%s</a>\n' % (sel, item[0], sel, item[1])
 
-def menu [html] (privileged, current):
+def left_menu [html] (privileged, current):
     '''<input type="checkbox" checked class="LeftMenuCtrl" id="LeftMenuCtrl">
        <label class="LeftMenuCtrl" for="LeftMenuCtrl"></label>
        <div class="conf_leftMenu">
