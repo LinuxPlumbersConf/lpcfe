@@ -254,7 +254,6 @@ class frontend(Directory):
         # rows of our schedule table.
         #
         starts = { }
-        rooms = [ ]
         for track in tracks:
             for item in ttable[track]:
                 #
@@ -273,11 +272,8 @@ class frontend(Directory):
                     roominfo = starts[offset]
                 except KeyError:
                     starts[offset] = roominfo = { }
-                roominfo[item.room] = item
-                if item.room not in rooms:
-                    rooms.append(item.room)
+                roominfo[track] = item
         rowtimes = sorted(starts.keys())
-        rooms = sorted(rooms)
         #
         # Now figure out what the contents of each row will be.  Our choices
         # are:
@@ -287,41 +283,41 @@ class frontend(Directory):
         #
         openitems = { }
         firstrow = [ room_entry('') ]
-        firstrow.extend([ room_entry(room) for room in rooms ])
+        firstrow.extend([ room_entry(track) for track in tracks ])
         rows = [ firstrow ]
         has_join_button = [ ]
         for start in sorted(starts.keys()):
             items = starts[start]
             row = [ time_entry(begin + datetime.timedelta(minutes = start)) ]
-            for room in rooms:
+            for track in tracks:
                 #
                 # Start by cleaning out an open sessions that are no longer
                 # open at this time.
                 # ("sorted" to avoid "dict changed during iteration" errors)
                 #
-                for openroom in sorted(openitems.keys()):
-                    item = openitems[openroom]
+                for opentrack in sorted(openitems.keys()):
+                    item = openitems[opentrack]
                     if item.end <= (begin + datetime.timedelta(minutes = start)):
-                        del openitems[openroom]
+                        del openitems[opentrack]
                 #
-                # We're starting a new session in this room at this
+                # We're starting a new session in this track at this
                 # time.
                 #
-                if room in items:
-                    item = items[room]
+                if track in items:
+                    item = items[track]
                     join_button = False
-                    if (room not in has_join_button) and (start < 30):
+                    if (track not in has_join_button) and (start < 30):
                         join_button = True
-                        has_join_button.append(room)
+                        has_join_button.append(track)
                     row.append(session_entry(item, button = join_button))
-                    openitems[room] = item
+                    openitems[track] = item
                     item.rows = 1
                 #
-                # There is an ongoing session in this room that maybe
+                # There is an ongoing session in this track that maybe
                 # has ended.
                 #
-                elif room in openitems:
-                    openitems[room].rows += 1
+                elif track in openitems:
+                    openitems[track].rows += 1
                     row.append(skip_entry())
                 #
                 # Otherwise nothing happening at all.
