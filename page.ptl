@@ -45,7 +45,7 @@ h1.title {
     margin-top: 32px;
 }
 
-.room {
+.room, input[type=submit] {
     padding: 6px;
     margin: 6px;
     font-size: 12pt;
@@ -213,7 +213,7 @@ div.SponsorClass h5 {
     div.SponsorClass img {
         width: 120px;
         vertical-align: middle;
-        margin: 0px 2em 1em 21m;
+        margin: 0px 2em 1em 2em;
     }
 
 /* The checkbox that controls the left menu; we never want to actually
@@ -357,8 +357,13 @@ input.LeftMenuCtrl {
 
 div.lead-text {
     max-width: 55em;
+    margin: 6px;
 }
- 
+
+#loginemail, #logincode {
+   height: 2.5rem;
+}
+
 '''
 
 def header [html] (current, title, moderator = False, menu = True):

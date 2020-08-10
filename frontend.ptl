@@ -78,8 +78,10 @@ class frontend(Directory):
     def login_form [html] (self, message = None, email = ''):
         page.header('/', 'Please log in to continue', menu = False)
         insert_tz_js()
-        '''To access the Linux Plumbers Conference sessions, please provide
-           your email address and your assigned password below.
+        '''Please login with the email address you used to register to LPC 2020.
+           You need to enter your Registration Confirmation Number. That
+           information is found in your confirmation email titled
+           "Registration Confirmed - Linux Plumbers Conference 2020".
            <p>
            '''
         if message:
@@ -521,16 +523,16 @@ def load_track_colors(cdir):
 #
 class LoginForm:
     def __init__(self, email = ''):
-        self.email = StringWidget(name="email", size = 30, value = email)
-        self.pw = PasswordWidget(name = 'Password', size = 30)
+        self.email = StringWidget(name="email", size = 30, value = email,
+                                  id="loginemail", placeholder="Email address")
+        self.pw = PasswordWidget(name = 'Password', size = 30, id="logincode",
+                                 placeholder="Registration Confirmation Number")
 
     def render [html] (self, target):
         '''<form action=%s method="post">
-           <table>
-           <tr><td><b>Email</b>:</td><td>%s</td></tr>
-           <tr><td><b>Password</b>:</td><td>%s</td></tr>
-           <tr><td>%s</td><td></td></tr>
-           </table>
+           %s
+           %s
+           %s
            </form>
            ''' % (target, self.email.render(), self.pw.render(),
                   SubmitWidget(name = 'login', value = 'Log in').render())
