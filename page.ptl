@@ -384,7 +384,7 @@ def header [html] (current, title, moderator = False, menu = True):
        <h2>%s</h2>
        ''' % (title)
 
-def end_text_area():
+def end_text_area [html] ():
     #
     # The new <div> doesn't do much other than give something for the
     # </div> in trailer() to close.
