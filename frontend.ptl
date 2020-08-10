@@ -10,9 +10,9 @@ import auth, page, bbb, config, indico
 #
 def current_time():
     now = datetime.datetime.now()
-    tz = datetime.timezone(datetime.timedelta(hours = -4))
-    begin = datetime.datetime(2019, 9, 9, now.hour, now.minute, 0, tzinfo = tz)
-    begin += datetime.timedelta(days = now.weekday() % 3)
+    tz = datetime.timezone(datetime.timedelta(hours = config.SERVER_TZOFFSET))
+    begin = datetime.datetime(2020, 8, 24, now.hour, now.minute, 0, tzinfo = tz)
+    begin += datetime.timedelta(days = now.weekday() % 5)
     return begin
 
 #
@@ -45,8 +45,7 @@ class frontend(Directory):
            What other clever text do we want here?
            <p>
            <b>NOTE</b>: This system is currently running on a simulated time that
-           passes repeatedly over the three-day 2019 schedule as if it were in
-           US/Eastern time; that time is currently %s.
+           passes repeatedly over the 2020 schedule.  The current time is %s.
            Times displayed below
            have been further offset to what we think is your time zone, which differs
            from UTC by %d minutes.
