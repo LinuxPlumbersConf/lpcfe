@@ -315,9 +315,11 @@ input.LeftMenuCtrl {
 	width: 100%;
     }
     /* Timetable trickery */
+    below-menu {
+	margin: 6px;
+    }
     table.tt  {
-        display: table-row;
-	width: 95%;
+	width: 100%;
     }
     table.tt thead {
         display: none;
