@@ -35,6 +35,8 @@ class frontend(Directory):
         self.main_text()
         page.end_text_area()
         self.render_schedule(current_time(), minutes)
+        if user.moderator:
+            self.time_selector(current_time())
         page.trailer()
 
     def main_text [html] (self):
@@ -42,14 +44,30 @@ class frontend(Directory):
            meeting rooms.  Look below for the list of what is happening
            currently.
            <p>
-           What other clever text do we want here?
-           <p>
            <b>NOTE</b>: This system is currently running on a simulated time that
            passes repeatedly over the 2020 schedule.  The current time is %s.
            Times displayed below
            have been further offset to what we think is your time zone, which differs
            from UTC by %d minutes.
            ''' % (current_time().strftime(str('%Y-%m-%d %H:%M')), user_tz_offset())
+
+    def time_selector(self, when):
+        return time_selector_widget(when.weekday(), when.hour).render()
+
+    @export
+    def fake_time [html] (self):
+        weekday, hour = time_selector_widget(0, 0).parse()
+        page.header('/', 'LPC timetable at a fake time')
+        tz = datetime.timezone(datetime.timedelta(hours = config.SERVER_TZOFFSET))
+        begin = datetime.datetime(2020, 8, 24, 0, 0, 0, tzinfo = tz)
+        begin += datetime.timedelta(days = weekday)
+        begin += datetime.timedelta(hours = hour)
+        '''This is the timetable rendered as if it were %s on the server.
+        ''' % (begin.strftime(str('%Y-%m-%d %H:%M')))
+        page.end_text_area()
+        self.render_schedule(begin, minutes)
+        self.time_selector(begin)
+        page.trailer()
 
 
     @export
@@ -287,7 +305,7 @@ class frontend(Directory):
         has_join_button = [ ]
         for start in sorted(starts.keys()):
             items = starts[start]
-            row = [ time_entry(begin + datetime.timedelta(minutes = start)) ]
+            row = [ time_entry(begin + datetime.timedelta(minutes = start), start) ]
             for track in tracks:
                 #
                 # Start by cleaning out an open sessions that are no longer
@@ -469,13 +487,14 @@ class blank_entry(ttentry):
 # Times in the left column.
 #
 class time_entry(ttentry):
-    def __init__(self, time):
+    def __init__(self, time, offset):
         ttentry.__init__(self, 'timestamp')
         self.time = time
+        self.offset = offset
 
     def render [html] (self):
         '   <td valign="top"><b>'
-        if self.time > current_time():
+        if self.offset > 10: # Arbitrary
             offset_time(self.time).strftime(str("%H:%M"))
         else:
             '(now)'
@@ -560,3 +579,32 @@ def offset_time(dt):
     current = dt.tzinfo.utcoffset(dt)
     shift = current - datetime.timedelta(minutes = user_tz_offset())
     return dt - shift
+
+#
+# A kludgy time selector to be used before production.
+#
+weekdays = [ (6, 'Sunday'), (0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'),
+             (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday') ]
+
+class time_selector_widget:
+    def __init__(self, weekday, hour):
+        self.wday = SingleSelectWidget(name = 'weekday', value = weekday,
+                                       options = weekdays)
+        hours = [ (hour, '%d:00' % (hour)) for hour in range(24) ]
+        self.hour = SingleSelectWidget(name = 'hour', value = hour,
+                                       options = hours)
+
+    def render [html] (self):
+        '''<blockquote>
+           <form action="fake_time" method="post">
+           <table> <!-- dont ask -->
+           <tr><td>See schedule at</td><td>%s</td><td>on</td><td>%s.</td>
+               <td>%s</td></tr>
+           </table>
+           </form>
+           </blockquote>
+           ''' % (self.hour.render(), self.wday.render(),
+                  SubmitWidget("Go", "Go").render())
+
+    def parse(self):
+        return (int(self.wday.parse()), int(self.hour.parse()))
