@@ -29,7 +29,7 @@ class User:
 #
 ldap_search_base = 'dc=users,dc=2020,dc=linuxplumbersconf,dc=org'
 ldap_search_filter = '(cn=%s)'
-ldap_attrs = ['givenName', 'sn', 'labeledURI']
+ldap_attrs = ['givenName', 'sn', 'labeledURI', 'businessCategory']
 ldap_conn = None
 
 def ldap_connect():
@@ -56,7 +56,11 @@ def ldap_lookup(email):
     except (KeyError, IndexError):
         print('Screwy LDAP response: %s' % (results))
         return None
-    return User(id, email, name, False)
+    try:
+        roles = [ res.decode('utf8') for res in results['businessCategory'] ]
+    except (KeyError, IndexError):
+        return User(id, email, name, False)
+    return User(id, email, name, 'moderator' in roles)
 
 #
 # Tracking moderators outside of LDAP for now, that could change.  The file format
@@ -90,9 +94,8 @@ def load_mods(cdir):
     except FileNotFoundError:
         print('Unable to open "%s"' % (name))
 
-def setup(cdir):
+def setup():
     ldap_connect()
-    load_mods(cdir)
 
 def check_password(email, password):
     u = ldap_lookup(email)
