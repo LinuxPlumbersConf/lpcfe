@@ -22,7 +22,10 @@ class User:
         self.id = id
         self.email = email
         self.name = name
-        self.moderator = mod
+        self._moderator = mod
+
+    def is_moderator(self):
+        return self._moderator
 
 #
 # LDAP machinery.
