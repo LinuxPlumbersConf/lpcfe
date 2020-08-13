@@ -11,21 +11,15 @@ import config
 # We may eventually want some more flexibility here.
 #
 Welcome = '''Welcome to the Linux Plumbers Conference 2020 %s!
-<p>
-Please remember:
-<p>
-<ul>
-<li> The <a
-     href="https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy"
-     target="_blank">LPC
-     anti-harassment policy</a> applies to interaction in this room; please be
-     respectful.
-<li> This room is being recorded.
-<li> Please keep your microphone muted and your video off except when participating
-     in the discussion.
-</ul>
-<p>
-Thank you for being part of LPC 2020.
+<br><br>
+Please remember that the <a
+href="https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy"
+target="_blank">LPC
+anti-harassment policy</a> applies to interaction in this room, and that
+this room is being recorded.
+<br><br>
+Please keep your microphone muted and your video off except when participating
+in the discussion.
 '''
 
 #
