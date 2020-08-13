@@ -327,7 +327,10 @@ class frontend(Directory):
                     if (track not in has_join_button) and (start < 30):
                         join_button = True
                         has_join_button.append(track)
-                    row.append(session_entry(item, button = join_button))
+                    if item.is_break:
+                        row.append(break_entry(item))
+                    else:
+                        row.append(session_entry(item, button = join_button))
                     openitems[track] = item
                     item.rows = 1
                 #
@@ -426,6 +429,20 @@ class ttentry:
 
     def render [html] (self): # replace me
         return '   <td>%s</td>\n' % (self.title)
+
+#
+# Time for a break.  I could use a break.
+#
+class break_entry(ttentry):
+    def __init__(self, item):
+        ttentry.__init__(self, item.title)
+        self.item = item
+
+    def render [html] (self):
+        '''<td rowspan=%d valign="top">
+           <p class="contributiontitle">%s</p>
+           </td>
+        ''' % (self.item.rows, self.item.title)
 
 #
 # An actual event in the schedule.
