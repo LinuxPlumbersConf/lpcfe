@@ -135,7 +135,8 @@ def start_room(room):
                            logo = config.LOGO_URL,
                            logoutURL = config.SITE_URL,
                            maxParticipants = '250',
-                           muteOnStart = 'true')
+                           muteOnStart = 'true',
+                           record = 'true')
     # We should maybe return something rather than assuming it worked...
 
 def join_room_url(name, room, as_moderator):
