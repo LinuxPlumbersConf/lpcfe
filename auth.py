@@ -62,38 +62,6 @@ def ldap_lookup(email):
         return User(id, email, name, False)
     return User(id, email, name, 'moderator' in roles)
 
-#
-# Tracking moderators outside of LDAP for now, that could change.  The file format
-# is now
-#
-#	email:rooms
-#
-# if "rooms" is "*", the user has full admin access.
-#
-
-Mods = { }
-
-def load_lines(f):
-    for line in f.readlines():
-        if len(line.strip()) == 0 or line[0] == '#':
-            continue
-        sline = line.strip().split(':')
-        if len(sline) != 2:
-            print("Bad user line: '%s'" % (line[:-1]))
-            continue
-        u = ldap_lookup(sline[0])
-        if not u:
-            print('Unknown moderator %s' % (sline[0]))
-            continue
-        Mods[sline[0]] = sline[1]
-
-def load_mods(cdir):
-    try:
-        with open(cdir + '/moderators', 'r') as f:
-            load_lines(f)
-    except FileNotFoundError:
-        print('Unable to open "%s"' % (name))
-
 def setup():
     ldap_connect()
 
@@ -125,11 +93,6 @@ def validate_cookie(cookie):
     hash = make_hash(u)
     if hash != sc[1]:
         return None
-    try:
-        modinfo = Mods[u.email]
-    except KeyError:
-        return u # not a moderator
-    u.moderator = (modinfo == '*')
     return u
 
 def make_cookie(u):
