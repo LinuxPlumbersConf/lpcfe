@@ -458,6 +458,7 @@ class session_entry(ttentry):
             '<p class="contributiontitle">%s</p>' % (self.item.title)
         if self.item.presenters:
             '<p class="speakers">%s</p>\n' % (', '.join(self.item.presenters))
+        '<p class="tttrack">%s</p>\n' % (self.item.track)
         #
         # Room join button
         #

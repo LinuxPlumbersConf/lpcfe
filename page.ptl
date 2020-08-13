@@ -245,6 +245,9 @@ input.LeftMenuCtrl {
         width: 300px;
         height: 320px;
     }
+    p.tttrack {
+        display: none;
+    }
 }
 
 /*
@@ -354,6 +357,9 @@ input.LeftMenuCtrl {
     }
     div.SponsorClass {
         width: 100%;
+    }
+    p.tttrack {
+        display: inline;
     }
 }
 
