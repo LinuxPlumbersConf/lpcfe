@@ -8,6 +8,27 @@ from urllib.parse import quote_plus
 import config
 
 #
+# We may eventually want some more flexibility here.
+#
+Welcome = '''Welcome to the Linux Plumbers Conference 2020 %s!
+<p>
+Please remember:
+<p>
+<ul>
+<li> The <a
+     href="https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy"
+     target="_blank">LPC
+     anti-harassment policy</a> applies to interaction in this room; please be
+     respectful.
+<li> This room is being recorded.
+<li> Please keep your microphone muted and your video off except when participating
+     in the discussion.
+</ul>
+<p>
+Thank you for being part of LPC 2020.
+'''
+
+#
 # A simple class representing a room.
 #
 class Room:
@@ -136,7 +157,8 @@ def start_room(room):
                            logoutURL = config.SITE_URL,
                            maxParticipants = '250',
                            muteOnStart = 'true',
-                           record = 'true')
+                           record = 'true',
+                           welcome = Welcome % (room))
     # We should maybe return something rather than assuming it worked...
 
 def join_room_url(name, room, as_moderator):
