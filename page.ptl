@@ -368,7 +368,7 @@ div.lead-text {
 
 '''
 
-def header [html] (current, title, moderator = False, menu = True):
+def header [html] (current, title, admin = False, menu = True):
     '''<html>
        <head>
          <title>Linux Plumbers Conference 2020</title>
@@ -381,7 +381,7 @@ def header [html] (current, title, moderator = False, menu = True):
          <br>
        '''
     if menu:
-        left_menu(moderator, current)
+        left_menu(admin, current)
     '''<div class="lead-text">
        <h2>%s</h2>
        ''' % (title)

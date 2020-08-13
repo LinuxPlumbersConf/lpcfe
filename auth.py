@@ -18,14 +18,17 @@ secret = '1da177e4c3f41524e886b7f1b8a0c1fc7321cac2'
 #
 
 class User:
-    def __init__(self, id, email, name, mod):
+    def __init__(self, id, email, name, roles):
         self.id = id
         self.email = email
         self.name = name
-        self._moderator = mod
+        self.roles = roles
 
     def is_moderator(self):
-        return self._moderator
+        return 'moderator' in self.roles
+
+    def is_admin(self):
+        return 'admin' in self.roles
 
 #
 # LDAP machinery.
@@ -62,8 +65,8 @@ def ldap_lookup(email):
     try:
         roles = [ res.decode('utf8') for res in results['businessCategory'] ]
     except (KeyError, IndexError):
-        return User(id, email, name, False)
-    return User(id, email, name, 'moderator' in roles)
+        roles = [ ]
+    return User(id, email, name, roles)
 
 def setup():
     ldap_connect()

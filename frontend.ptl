@@ -31,11 +31,11 @@ class frontend(Directory):
             self.login_form()
 
     def front_page [html] (self, user):
-        page.header('/', 'Welcome %s!' % (user.name), user.is_moderator())
+        page.header('/', 'Welcome %s!' % (user.name), user.is_admin())
         self.main_text()
         page.end_text_area()
         self.render_schedule(current_time(), minutes)
-        if user.is_moderator():
+        if user.is_admin():
             self.time_selector(current_time())
         page.trailer()
 
@@ -137,7 +137,7 @@ class frontend(Directory):
     @export
     def status [html] (self):
         user = self.logged_in()
-        if (not user) or (not user.is_moderator()):
+        if (not user) or (not user.is_admin()):
             get_response().redirect(config.SITE_URL)
         page.header('/status', 'Server and room status', True)
         self.list_servers()
@@ -200,7 +200,8 @@ class frontend(Directory):
                 room_start_button(room)
                 '</td></tr>\n'
         '</table></blockquote>\n'
-        
+
+    # Note this isn't currently used
     @export
     def start_room(self):
         response = get_response()
@@ -373,7 +374,7 @@ class frontend(Directory):
         user = self.logged_in()
         if not user:
             return get_response().redirect(config.SITE_URL)
-        page.header('/hackrooms', 'LPC 2020 hackrooms', user.is_moderator())
+        page.header('/hackrooms', 'LPC 2020 hackrooms', user.is_admin())
         '''This page lists the LPC 2020 hackrooms — rooms that are open for
            informal meetings or just the desire to get together and talk for a
            bit.
