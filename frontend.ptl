@@ -2,6 +2,7 @@ from quixote.directory import Directory, export, subdir
 from quixote import get_request, get_response
 from quixote.form import *
 import datetime
+from datetime import timezone
 
 import auth, page, bbb, config, indico, timetable, times, buttons
 
@@ -57,10 +58,10 @@ class frontend(Directory):
         weekday, hour = time_selector_widget(0, 0).parse()
         page.header('/', 'LPC timetable at a fake time')
         tz = datetime.timezone(datetime.timedelta(hours = config.SERVER_TZOFFSET))
-        begin = datetime.datetime(2020, 8, 24, 0, 0, 0, tzinfo = tz)
+        begin = datetime.datetime(2020, 8, 24, 0, 0, 0, tzinfo = timezone.utc)
         begin += datetime.timedelta(days = weekday)
         begin += datetime.timedelta(hours = hour)
-        '''This is the timetable rendered as if it were %s on the server.
+        '''This is the timetable rendered as if it were %s UTC
         ''' % (begin.strftime(str('%Y-%m-%d %H:%M')))
         page.end_text_area()
         self.render_schedule(begin, minutes)
