@@ -1,0 +1,237 @@
+#
+# Code for rendering the LPC timetable.
+#
+from quixote import get_request
+import datetime
+import times, buttons
+
+def generate_rows(ttable, tracks, begin, minutes):
+    #
+    # Step 1; find all of our start times; those will become the
+    # rows of our schedule table.
+    #
+    starts = { }
+    for track in tracks:
+        for item in ttable[track]:
+            #
+            # When does this one start, in minutes since the
+            # beginning of our window?
+            #
+            offset = (item.begin - begin).total_seconds()
+            if offset < 0: # session begins before window
+                offset = 0
+            else:
+                offset //= 60
+            #
+            # Store all room events starting at this time.
+            #
+            try:
+                roominfo = starts[offset]
+            except KeyError:
+                starts[offset] = roominfo = { }
+            roominfo[track] = item
+    rowtimes = sorted(starts.keys())
+    #
+    # Now figure out what the contents of each row will be.  Our choices
+    # are:
+    #	- An entry begins here
+    #	- A "skip" - an entry continues and we need no entry
+    #	- Blank - nothing happening.
+    #
+    openitems = { }
+    firstrow = [ room_entry('') ]
+    firstrow.extend([ room_entry(track) for track in tracks ])
+    rows = [ firstrow ]
+    has_join_button = [ ]
+    for start in sorted(starts.keys()):
+        items = starts[start]
+        row = [ time_entry(begin + datetime.timedelta(minutes = start), start) ]
+        for track in tracks:
+            #
+            # Start by cleaning out an open sessions that are no longer
+            # open at this time.
+            # ("sorted" to avoid "dict changed during iteration" errors)
+            #
+            for opentrack in sorted(openitems.keys()):
+                item = openitems[opentrack]
+                if item.end <= (begin + datetime.timedelta(minutes = start)):
+                    del openitems[opentrack]
+            #
+            # We're starting a new session in this track at this
+            # time.
+            #
+            if track in items:
+                item = items[track]
+                join_button = False
+                if (track not in has_join_button) and (start < 30):
+                    join_button = True
+                    has_join_button.append(track)
+                if item.is_break:
+                    row.append(break_entry(item))
+                else:
+                    row.append(session_entry(item, button = join_button))
+                openitems[track] = item
+                item.rows = 1
+            #
+            # There is an ongoing session in this track that maybe
+            # has ended.
+            #
+            elif track in openitems:
+                openitems[track].rows += 1
+                row.append(skip_entry())
+            #
+            # Otherwise nothing happening at all.
+            #
+            else:
+                row.append(blank_entry())
+        rows.append(row)
+    return rows
+
+#
+# Actually generate the table.
+#
+def render_rows [html] (begin, minutes, rows):
+    '''<p>
+       <table class="tt">'''
+    nrow = 0
+    for row in rows:
+        if nrow == 0:
+            rowclass = 'class="tthdr"'
+        else:
+            rowclass = ''
+        '<tr %s>' % (rowclass)
+        for entry in row:
+            entry.render()
+        nrow += 1
+    '</table>\n'
+
+#
+# Simple classes for each of the times of timetable content.
+#
+class ttentry:
+    def __init__(self, title):
+        self.title = title
+
+    def render [html] (self): # replace me
+        return '   <td>%s</td>\n' % (self.title)
+
+#
+# Time for a break.  I could use a break.
+#
+class break_entry(ttentry):
+    def __init__(self, item):
+        ttentry.__init__(self, item.title)
+        self.item = item
+
+    def render [html] (self):
+        '''<td rowspan=%d valign="top">
+           <p class="contributiontitle">%s</p>
+           </td>
+        ''' % (self.item.rows, self.item.title)
+
+#
+# An actual event in the schedule.
+#
+class session_entry(ttentry):
+    def __init__(self, item, button = False):
+        ttentry.__init__(self, item.title)
+        self.item = item
+        self.button = button
+
+    def render [html] (self):
+        #
+        # Apply a background color if one is available.
+        #
+        bgcolor = ''
+        if self.item.track:
+            try:
+                bgcolor = 'bgcolor="%s"' % (track_colors[self.item.track])
+            except KeyError:
+                print('No color: ', self.item.track)
+        '<td rowspan=%d valign="top" %s>' % (self.item.rows, bgcolor)
+        #
+        # Render the title, as a link if we have a URL.
+        #
+        if self.item.url:
+            '''<p class="contributiontitle">
+               <a href="%s" title="%s">%s</a></p>
+               ''' % (self.item.url, self.item.desc, self.item.title)
+        else:
+            '<p class="contributiontitle">%s</p>' % (self.item.title)
+        if self.item.presenters:
+            '<p class="speakers">%s</p>\n' % (', '.join(self.item.presenters))
+        '<p class="tttrack">%s</p>\n' % (self.item.track)
+        #
+        # Room join button
+        #
+        if self.button:
+            buttons.room_join_button(self.item.room, 'Join session')
+        '</td>\n'
+
+#
+# We're not putting anything in this box (skipped due to rowspan=)
+#
+class skip_entry(ttentry):
+    def __init__(self):
+        ttentry.__init__(self, 'skip')
+
+    def render [html] (self):
+        ''
+
+#
+# Nothing to see here, move along.
+#
+class blank_entry(ttentry):
+    def __init__(self):
+        ttentry.__init__(self, 'blank')
+    def render [html] (self):
+        return '<td class="blank"></td>'
+
+#
+# Times in the left column.
+#
+class time_entry(ttentry):
+    def __init__(self, time, offset):
+        ttentry.__init__(self, 'timestamp')
+        self.time = time
+        self.offset = offset
+
+    def render [html] (self):
+        '   <td valign="top"><b>'
+        if self.offset > 10: # Arbitrary
+            times.offset_time(get_request(), self.time).strftime(str("%H:%M"))
+        else:
+            '(now)'
+        '</b></td>\n'
+
+#
+# Room names along the top.
+#
+class room_entry(ttentry):
+    def __init__(self, room):
+        ttentry.__init__(self, room)
+
+    def render [html] (self):
+        if self.title:
+            '<th>' + self.title + '</th>\n'
+        else:
+            '<td></td>\n'
+
+#
+# Crude track-to-color mapping
+#
+track_colors = { }
+def load_track_colors(cdir):
+    try:
+        with open(cdir + '/tracks', 'r') as f:
+            for line in f.readlines():
+                line = line.strip()
+                if line == '' or line[0] == '#':
+                    continue
+                sline = line.split(':')
+                if len(sline) != 2:
+                    print('Bad tracks line: %s' % (line))
+                else:
+                    track_colors[sline[0]] = sline[1]
+    except FileNotFoundError:
+        print('Unable to open tracks file')

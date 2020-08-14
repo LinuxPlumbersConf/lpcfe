@@ -6,7 +6,7 @@ from quixote.publish import Publisher
 from wsgiref.simple_server import make_server, WSGIServer
 from socketserver import ThreadingMixIn
 import argparse, threading
-import frontend, auth, bbb, indico, config
+import frontend, auth, bbb, indico, config, timetable
 
 def load_configs():
     cdir = options.config
@@ -14,7 +14,7 @@ def load_configs():
     auth.setup()
     bbb.load_config(cdir)
     indico.load_timetable()
-    frontend.load_track_colors(cdir)
+    timetable.load_track_colors(cdir)
 
 #
 # Our publisher class.  Much of what's here is dedicated to managing
