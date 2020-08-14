@@ -5,7 +5,7 @@ from quixote import get_request
 import datetime
 import times, buttons
 
-def generate_rows(ttable, tracks, begin, minutes):
+def generate_rows(ttable, tracks, begin):
     #
     # Step 1; find all of our start times; those will become the
     # rows of our schedule table.
@@ -90,7 +90,7 @@ def generate_rows(ttable, tracks, begin, minutes):
 #
 # Actually generate the table.
 #
-def render_rows [html] (begin, minutes, rows):
+def render_rows [html] (begin, rows):
     '''<p>
        <table class="tt">'''
     nrow = 0

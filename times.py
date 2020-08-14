@@ -4,6 +4,9 @@
 import datetime
 from datetime import timezone
 
+def current_time():
+    return datetime.datetime.now(tz = timezone.utc)
+
 def user_tz_offset(request):
     return -int(request.get_cookie('tzoffset', '0'))
 

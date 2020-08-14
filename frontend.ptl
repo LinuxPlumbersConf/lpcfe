@@ -6,16 +6,6 @@ import datetime
 import auth, page, bbb, config, indico, timetable, times, buttons
 
 #
-# Simulated times to start with.
-#
-def current_time():
-    now = datetime.datetime.now()
-    tz = datetime.timezone(datetime.timedelta(hours = config.SERVER_TZOFFSET))
-    begin = datetime.datetime(2020, 8, 24, now.hour, now.minute, 0, tzinfo = tz)
-    begin += datetime.timedelta(days = now.weekday() % 5)
-    return begin
-
-#
 # Show this many minutes of upcoming sessions.
 #
 minutes = 240
@@ -34,9 +24,9 @@ class frontend(Directory):
         page.header('/', 'Welcome %s!' % (user.name), user.is_admin())
         self.main_text()
         page.end_text_area()
-        self.render_schedule(current_time(), minutes)
+        self.render_schedule(times.current_time(), minutes)
         if user.is_admin():
-            self.time_selector(current_time())
+            self.time_selector(times.current_time())
         page.trailer()
 
     def main_text [html] (self):
@@ -44,13 +34,20 @@ class frontend(Directory):
            meeting rooms.  Look below for the list of what is happening
            currently.
            <p>
-           <b>NOTE</b>: This system is currently running on a simulated time that
-           passes repeatedly over the 2020 schedule.  The current time is %s.
-           Times displayed below
-           have been further offset to what we think is your time zone, which differs
-           from UTC by %d minutes.
-           ''' % (current_time().strftime(str('%Y-%m-%d %H:%M')),
-                  times.user_tz_offset(get_request()))
+           The timetable below is focused on current (or near-future) sessions.
+           Times are given in both UTC and our best guess as to your local time
+           (which appears to be offset from UTC by %d minutes).  Click on the
+           "join" button that will appear for any sessions that are currently
+           ongoing.
+           <p>
+           The full schedule is always available on the <a
+           href="https://linuxplumbersconf.org/event/7/timetable/?view=lpc">main
+           Linux Plumbers Conference</a> site.
+           <p>
+           Thank you for participating in LPC 2020; please do not hesitate to
+           contact us at <tt>contact@linuxplumbersconf.org</tt> should you have
+           any difficulties, questions, or comments.
+           ''' % (times.user_tz_offset(get_request()))
 
     def time_selector(self, when):
         return time_selector_widget(when.weekday(), when.hour).render()
@@ -250,6 +247,9 @@ class frontend(Directory):
     #
     def render_schedule [html] (self, begin, minutes):
         ttable = indico.get_timetable(begin, minutes)
+        #
+        # No timetable, figure out something to do.
+        #
         if len(ttable) == 0:
             '''<p>
                <b>NOTE</b>: there are no sessions underway at the current
@@ -259,13 +259,20 @@ class frontend(Directory):
             if not restart:
                 'In fact, the event appears to be over.\n'
                 return
-            '''The conference will restart at %s with the sessions
+            lrestart = times.offset_time(get_request(), restart)
+            '''The conference will restart at %s UTC (%s local) with the sessions
                shown below.
-               ''' % (times.offset_time(get_request(), restart).strftime(str('%Y-%m-%d %H:%M')))
+               ''' % (times.utc_time(restart).strftime(str('%Y-%m-%d %H:%M')),
+                      lrestart.strftime(str('%H:%M')))
             ttable = indico.get_timetable(restart, minutes)
+            #
+            # Hack: back up the "start" time by 30 minutes to ensure that
+            # the timetable code knows this isn't happening now.
+            #
+            begin = restart - datetime.timedelta(minutes = 30)
         tracks = sorted(ttable.keys())
-        rows = timetable.generate_rows(ttable, tracks, begin, minutes)
-        timetable.render_rows(begin, minutes, rows)
+        rows = timetable.generate_rows(ttable, tracks, begin)
+        timetable.render_rows(begin, rows)
 
 
     #
