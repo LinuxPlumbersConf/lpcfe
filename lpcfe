@@ -5,7 +5,7 @@ quixote.enable_ptl()
 from quixote.publish import Publisher
 from wsgiref.simple_server import make_server, WSGIServer
 from socketserver import ThreadingMixIn
-import argparse, threading
+import argparse, threading, time
 import frontend, auth, bbb, indico, config, timetable
 
 def load_configs():
@@ -16,6 +16,14 @@ def load_configs():
     indico.load_timetable()
     timetable.load_track_colors(cdir)
 
+#
+# A simple thread function to occasionally reload the timetable.
+#
+UpdatePeriod = 600 # ten minutes
+def UpdateThread():
+    while True:
+        time.sleep(UpdatePeriod)
+        indico.load_timetable()
 #
 # Our publisher class.  Much of what's here is dedicated to managing
 # the request object, which quixote stores globally - bad for threading.
@@ -49,6 +57,13 @@ parser.add_argument('-p', '--port', dest = 'port', default = 8080, type = int)
 options = parser.parse_args()
 
 load_configs()
-pub = wsgi_pub()
-wsgi_app = quixote.get_wsgi_app() # Magically tied to pub
-make_server('localhost', options.port, wsgi_app, ThreadingServer).serve_forever()
+updater = threading.Thread(target = UpdateThread, daemon = True)
+updater.start()
+
+try:
+    pub = wsgi_pub()
+    wsgi_app = quixote.get_wsgi_app() # Magically tied to pub
+    make_server('localhost', options.port, wsgi_app, ThreadingServer).serve_forever()
+except KeyboardInterrupt:
+    import sys
+    sys.exit(0)

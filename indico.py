@@ -9,8 +9,11 @@ import config
 #
 final_time = None
 
+Tracks = { }
 
 def load_timetable():
+    global Tracks
+
     url = '%s/export/timetable/%d.json?ak=%s&pretty=yes' % (config.INDICO_SERVER,
                                                             config.EVENT_ID,
                                                             config.INDICO_API_KEY)
@@ -18,13 +21,19 @@ def load_timetable():
     if r.status_code != 200:
         print('Bad status %d getting timetable' % (r.status_code))
         return
+    #
+    # We can be called to update the timetable, so start from the beginning.
+    # In a normal language we might be concerned about concurrent access to
+    # Tracks, but the GIL dictates that we'll have exclusive access to it
+    # for as long as we don't do I/O.
+    #
+    Tracks = { }
     decrypt_indico_json(r.json())
 
 #
 # Try to turn the massive blob of json we get back from Indico into some
 # sort of rational data structure.
 #
-Tracks = { }
 
 def decrypt_indico_json(j):
     days = j['results'][str(config.EVENT_ID)]
