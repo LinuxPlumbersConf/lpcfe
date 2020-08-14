@@ -199,7 +199,9 @@ class time_entry(ttentry):
     def render [html] (self):
         '   <td valign="top"><b>'
         if self.offset > 10: # Arbitrary
-            times.offset_time(get_request(), self.time).strftime(str("%H:%M"))
+            fmt = str("%H:%M")
+            times.offset_time(get_request(), self.time).strftime(fmt)
+            '<br>[%s&nbsp;UTC]' % (times.utc_time(self.time).strftime(fmt))
         else:
             '(now)'
         '</b></td>\n'
