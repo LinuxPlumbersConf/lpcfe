@@ -145,14 +145,15 @@ form { margin: 0px; }
     padding: 0px;
     margin-top: 0px;
 }
-#outer li a {
-    font-family:"Montserrat";
-}
 #outer li a:visited {
     color: #158ebb;
 }
 #outer li a {
+    display: block;
+    font-family:"Montserrat";
     color: #158ebb;
+    padding: 7px 12px;
+    font-size: 10pt;
 }
 #outer li.selected, #outer li a.selected {
     color: white;
@@ -166,7 +167,6 @@ form { margin: 0px; }
     display: block;
     color: #158ebb;
     text-align: left;
-    padding: 7px 12px;
 }
 
 div.SponsorClass:first-child h5 {
