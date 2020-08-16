@@ -3,6 +3,9 @@ from quixote import get_request, get_response
 from quixote.form import *
 import datetime
 from datetime import timezone
+from email import policy
+from email.message import EmailMessage
+import smtplib
 
 import auth, page, bbb, config, indico, timetable, times, buttons
 
@@ -105,7 +108,7 @@ class frontend(Directory):
         '<blockquote>\n'
         LoginForm(email = email).render('/login')
         '</blockquote>\n'
-        '''<h4>Having trouble?</h4>
+        '''<h3>Having trouble?</h3>
            <p>
            Please contact <tt>helpdesk@linuxplumbersconf.org</tt> for assistance
            accessing the conference site.
@@ -113,8 +116,15 @@ class frontend(Directory):
         page.trailer()
 
     @export
-    def login (self):
+    def login(self):
         email, password = LoginForm().parse()
+        #
+        # Perhaps what they really want is an ID reminder.
+        #
+        if get_request().get_field('reminder'):
+            if not email:
+                return self.login_form('Please supply an email address')
+            return self.id_reminder(email)
         if not (email and password):
             return self.login_form('Please fill in both fields', email = email)
         u = auth.check_password(email, password)
@@ -129,6 +139,17 @@ class frontend(Directory):
         response = get_response()
         response.set_cookie('session', cookie)
         return response.redirect(config.SITE_URL)
+
+    def id_reminder(self, email):
+        with open('/tmp/reminder_requests', 'a') as f:
+            when = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
+            f.write('Request: %s %s\n' % (when, email))
+        user = auth.ldap_lookup(email)
+        if user:
+            send_reminder(email, user.id)
+        return self.login_form('''If %s is a valid registration address, a
+        			  reminder mail has been sent.''' % (email))
+
 
     #
     # Moderator's server information page.
@@ -328,9 +349,16 @@ class LoginForm:
            %s
            %s
            %s
+           <hr>
+           To receive a reminder email containing your confirmation number,
+           please enter the email address you used to register above and
+           click here:
+           <p>
+           %s
            </form>
            ''' % (target, self.email.render(), self.pw.render(),
-                  SubmitWidget(name = 'login', value = 'Log in').render())
+                  SubmitWidget(name = 'login', value = 'Log in').render(),
+                  SubmitWidget(name = 'reminder', value = 'Send reminder').render())
 
     def parse(self):
         return (self.email.parse(), self.pw.parse())
@@ -379,3 +407,27 @@ class time_selector_widget:
 
     def parse(self):
         return (int(self.wday.parse()), int(self.hour.parse()))
+
+#
+# Send an email reminder.
+#
+EmailTemplate = '''
+You (hopefully) requested a reminder of your confirmation number for the
+2020 Linux Plumbers Conference.  That number is %s.
+
+Thanks for participating in LPC, we look forward to seeing you in the
+sessions!
+'''
+
+def send_reminder(email, id):
+    # Yes, you really do have to set the default explicitly
+    msg = EmailMessage(policy = policy.default)
+    msg.set_content(EmailTemplate % (id))
+    msg.set_charset('utf-8')
+    msg['To'] = email
+    msg['From'] = config.EMAIL_FROM
+    msg['Subject'] = 'LPC 2020 confirmation number reminder'
+    msg['Date'] = datetime.datetime.now()
+    server = smtplib.SMTP(config.SMTP_SERVER, port = 587)
+    server.send_message(msg, from_addr = config.EMAIL_FROM)
+    server.quit()
