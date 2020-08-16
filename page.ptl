@@ -379,6 +379,8 @@ def header [html] (current, title, admin = False, menu = True):
        <head>
          <title>Linux Plumbers Conference 2020</title>
          <link rel="stylesheet" type="text/css" href="/stylesheet">
+         <link rel="shortcut icon"
+               href="https://www.linuxplumbersconf.org/blog/2020/style/favicon.ico" />
        </head>
        <body>
          <div class="titlebox">
