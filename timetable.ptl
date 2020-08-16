@@ -160,7 +160,8 @@ class session_entry(ttentry):
             '<p class="contributiontitle">%s</p>' % (self.item.title)
         if self.item.presenters:
             '<p class="speakers">%s</p>\n' % (', '.join(self.item.presenters))
-        '<p class="tttrack">%s</p>\n' % (self.item.track)
+        '<p class="tttrack">%s %s</p>\n' % (self.item.track,
+                                            track_extra[self.item.track])
         #
         # Room join button
         #
@@ -207,23 +208,25 @@ class time_entry(ttentry):
         '</b></td>\n'
 
 #
-# Room names along the top.
+# Track names along the top.
 #
 class room_entry(ttentry):
     def __init__(self, room):
         ttentry.__init__(self, room)
 
     def render [html] (self):
+        stuff = ''
         if self.title:
-            '<th>' + self.title + '</th>\n'
-        else:
-            '<td></td>\n'
+            stuff += self.title + ' ' + track_extra[self.title]
+        '<th>%s</th>\n' % (stuff)
 
 #
 # Crude track-to-color mapping
 #
 track_colors = { }
-def load_track_colors(cdir):
+track_extra = { }
+
+def load_tracks(cdir):
     try:
         with open(cdir + '/tracks', 'r') as f:
             for line in f.readlines():
@@ -231,9 +234,13 @@ def load_track_colors(cdir):
                 if line == '' or line[0] == '#':
                     continue
                 sline = line.split(':')
-                if len(sline) != 2:
+                if len(sline) not in [2, 3]:
                     print('Bad tracks line: %s' % (line))
+                    continue
+                track_colors[sline[0]] = sline[1]
+                if len(sline) == 3:
+                    track_extra[sline[0]] = sline[2]
                 else:
-                    track_colors[sline[0]] = sline[1]
+                    track_extra[sline[0]] = ''
     except FileNotFoundError:
         print('Unable to open tracks file')
