@@ -145,7 +145,7 @@ class session_entry(ttentry):
         bgcolor = ''
         if self.item.track:
             try:
-                bgcolor = 'bgcolor="%s"' % (track_colors[self.item.track])
+                bgcolor = 'style="background-color:%s99;"' % (track_colors[self.item.track])
             except KeyError:
                 print('No color: ', self.item.track)
         '<td rowspan=%d valign="top" %s>' % (self.item.rows, bgcolor)
