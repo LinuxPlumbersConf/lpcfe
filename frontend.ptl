@@ -110,7 +110,7 @@ class frontend(Directory):
         '</blockquote>\n'
         '''<h3>Having trouble?</h3>
            <p>
-           Please contact <tt>contact@linuxplumbersconf.org</tt> for assistance
+           Please email <tt>contact@linuxplumbersconf.org</tt> for assistance
            accessing the conference site.
            '''
         page.trailer()
