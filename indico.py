@@ -10,9 +10,10 @@ import config
 final_time = None
 
 Tracks = { }
+NewTracks = { }
 
 def load_timetable():
-    global Tracks
+    global Tracks, NewTracks
 
     url = '%s/export/timetable/%d.json?ak=%s&pretty=yes' % (config.INDICO_SERVER,
                                                             config.EVENT_ID,
@@ -22,13 +23,12 @@ def load_timetable():
         print('Bad status %d getting timetable' % (r.status_code))
         return
     #
-    # We can be called to update the timetable, so start from the beginning.
-    # In a normal language we might be concerned about concurrent access to
-    # Tracks, but the GIL dictates that we'll have exclusive access to it
-    # for as long as we don't do I/O.
+    # The timetable is loaded into NewTracks, then assigned over at the end,
+    # just in case some other thread is trying to access it.
     #
-    Tracks = { }
+    NewTracks = { }
     decrypt_indico_json(r.json())
+    Tracks = NewTracks
 
 #
 # Try to turn the massive blob of json we get back from Indico into some
@@ -52,9 +52,9 @@ def add_talk(session, talk):
 
     item = sched_item(talk, session)
     try:
-        Tracks[session].append(item)
+        NewTracks[session].append(item)
     except KeyError:
-        Tracks[session] = [item]
+        NewTracks[session] = [item]
     if (final_time is None) or (item.end > final_time):
         final_time = item.end
 
