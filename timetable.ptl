@@ -161,7 +161,7 @@ class session_entry(ttentry):
         if self.item.presenters:
             '<p class="speakers">%s</p>\n' % (', '.join(self.item.presenters))
         '<p class="tttrack">%s %s</p>\n' % (self.item.track,
-                                            track_extra[self.item.track])
+                                            track_extra.get(self.item.track, ''))
         #
         # Room join button
         #
@@ -217,7 +217,7 @@ class room_entry(ttentry):
     def render [html] (self):
         stuff = ''
         if self.title:
-            stuff += self.title + ' ' + track_extra[self.title]
+            stuff += self.title + ' ' + track_extra.get(self.title, '')
         '<th>%s</th>\n' % (stuff)
 
 #
