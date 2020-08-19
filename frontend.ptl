@@ -6,6 +6,7 @@ from datetime import timezone
 from email import policy
 from email.message import EmailMessage
 import smtplib
+import re
 
 import auth, page, bbb, config, indico, timetable, times, buttons
 
@@ -115,9 +116,18 @@ class frontend(Directory):
            '''
         page.trailer()
 
+    # A really crude email-address checker that splits out a +foo part.
+    email_addr = re.compile(r'(\w[^@+]+)(\+\w+)?@(.+\..+)')
     @export
     def login(self):
         email, password = LoginForm().parse()
+        #
+        # Check and fix up the email address.
+        #
+        m = self.email_addr.match(email)
+        if not m:
+            return self.login_form('Please supply a valid email address')
+        email = m.group(1) + '@' + m.group(3) # drop +foo
         #
         # Perhaps what they really want is an ID reminder.
         #
