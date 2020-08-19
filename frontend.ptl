@@ -60,7 +60,7 @@ class frontend(Directory):
     @export
     def fake_time [html] (self):
         weekday, hour = time_selector_widget(0, 0).parse()
-        page.header('/', 'LPC timetable at a fake time')
+        page.header('/', 'LPC timetable at a fake time', admin = True)
         tz = datetime.timezone(datetime.timedelta(hours = config.SERVER_TZOFFSET))
         begin = datetime.datetime(2020, 8, 24, 0, 0, 0, tzinfo = timezone.utc)
         begin += datetime.timedelta(days = weekday)
@@ -289,8 +289,9 @@ class frontend(Directory):
                '''
             restart = indico.find_restart_time(begin)
             if not restart:
-                'In fact, the event appears to be over.\n'
-                return
+                return '''<p>
+                	  <b>NOTE</b>: the event is over — see you next year!
+                          '''
             lrestart = times.offset_time(get_request(), restart)
             '''The conference will restart at %s UTC (%s local) with the sessions
                shown below.
