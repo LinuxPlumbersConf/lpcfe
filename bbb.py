@@ -2,7 +2,7 @@
 # Encapsulate our dealings with BBB
 #
 import hashlib, requests
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, ReadTimeout
 from xml.etree import ElementTree
 from urllib.parse import quote_plus
 import config
@@ -181,8 +181,8 @@ def run_request(server, command, **args):
     url = make_request(server, command, **args)
     # print('\n', url)
     try:
-        r = requests.get(url, timeout = 5.0)
-    except ConnectionError:
+        r = requests.get(url, timeout = 10.0)
+    except (ConnectionError, ReadTimeout):
         return None
     # print(r.text)
     return ElementTree.fromstring(r.text)
