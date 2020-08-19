@@ -63,7 +63,7 @@ def generate_rows(ttable, tracks, begin):
             if track in items:
                 item = items[track]
                 join_button = False
-                if (track not in has_join_button) and (start < 30):
+                if (track not in has_join_button) and (start <= 60):
                     join_button = True
                     has_join_button.append(track)
                 if item.is_break:
