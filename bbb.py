@@ -137,7 +137,7 @@ def room_status(room):
     return ret
 
 def all_rooms(type = None):
-    ret = sorted(rooms.keys())
+    ret = sorted(rooms.keys(), key = lambda r: rooms[r].type + r )
     if type:
         ret = [ room for room in ret if rooms[room].type == type ]
     return ret
