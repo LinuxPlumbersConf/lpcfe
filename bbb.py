@@ -149,6 +149,7 @@ def start_room(room):
                            meetingID = room,
                            attendeePW = ATT_PW,
                            moderatorPW = MOD_PW,
+                           breakoutRoomsEnabled = "false",
                            logo = config.LOGO_URL,
                            logoutURL = config.SITE_URL,
                            maxParticipants = '250',
