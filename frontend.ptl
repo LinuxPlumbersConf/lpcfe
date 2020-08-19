@@ -299,10 +299,10 @@ class frontend(Directory):
                       lrestart.strftime(str('%H:%M')))
             ttable = indico.get_timetable(restart, minutes)
             #
-            # Hack: back up the "start" time by 30 minutes to ensure that
+            # Hack: back up the "start" time by 61 minutes to ensure that
             # the timetable code knows this isn't happening now.
             #
-            begin = restart - datetime.timedelta(minutes = 30)
+            begin = restart - datetime.timedelta(minutes = 61)
         tracks = sorted(ttable.keys())
         rows = timetable.generate_rows(ttable, tracks, begin)
         timetable.render_rows(begin, rows)
