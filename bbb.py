@@ -117,6 +117,8 @@ def room_status(room):
         return ret
     ret['type'] = rooms[room].type
     response = run_request(server, 'getMeetingInfo', meetingID = room)
+    if not response:
+        return ret
     status = response.findtext('running')
     if (not status) or (status != 'true'):
         return ret
@@ -183,6 +185,8 @@ def run_request(server, command, **args):
     try:
         r = requests.get(url, timeout = 10.0)
     except (ConnectionError, ReadTimeout):
+        return None
+    if r.status_code != 200:
         return None
     # print(r.text)
     return ElementTree.fromstring(r.text)
