@@ -155,6 +155,8 @@ def start_room(room):
                            maxParticipants = '250',
                            muteOnStart = 'true',
                            record = 'true',
+                           autoStartRecording = 'true',
+                           allowStartStopRecording = 'false',
                            welcome = Welcome % (room))
     # We should maybe return something rather than assuming it worked...
 
