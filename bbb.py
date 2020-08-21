@@ -144,6 +144,20 @@ def all_rooms(type = None):
 
 # 
 def start_room(room):
+    #
+    # Policy: for most rooms, we turn on recording unconditionally and
+    # don't let anybody turn it off.  "Private" rooms, though, don't
+    # record by default and allow control.
+    #
+    if rooms[room].type != 'private':
+        autostart = 'true'
+        allowstop = 'false'
+    else:
+        autostart = 'false'
+        allowstop = 'true'
+    #
+    # Fire it up.
+    #
     server = rooms[room].server
     response = run_request(server, 'create', name = room,
                            meetingID = room,
@@ -155,8 +169,8 @@ def start_room(room):
                            maxParticipants = '250',
                            muteOnStart = 'true',
                            record = 'true',
-                           autoStartRecording = 'true',
-                           allowStartStopRecording = 'false',
+                           autoStartRecording = autostart,
+                           allowStartStopRecording = allowstop,
                            welcome = Welcome % (room))
     # We should maybe return something rather than assuming it worked...
 
