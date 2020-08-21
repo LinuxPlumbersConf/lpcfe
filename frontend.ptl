@@ -117,7 +117,7 @@ class frontend(Directory):
         page.trailer()
 
     # A really crude email-address checker that splits out a +foo part.
-    email_addr = re.compile(r'(\w[^@+]+)(\+\w+)?@(.+\..+)')
+    email_addr = re.compile(r'(\w[^@+]*)(\+\w+)?@(.+\..+)')
     @export
     def login(self):
         email, password = LoginForm().parse()
