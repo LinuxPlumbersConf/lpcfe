@@ -1,7 +1,7 @@
 #
 # Encapsulate our dealings with BBB
 #
-import hashlib, requests
+import hashlib, requests, datetime
 from requests.exceptions import ConnectionError, ReadTimeout
 from xml.etree import ElementTree
 from urllib.parse import quote_plus
@@ -181,6 +181,34 @@ def join_room_url(name, room, as_moderator):
     return make_request(rooms[room].server, 'join', meetingID = room,
                         fullName = name,
                         password = pw)
+
+#
+# Recordings.
+#
+class bbb_recording:
+    def __init__(self, id, meeting, start, len, url):
+        self.id = id
+        self.meeting = meeting
+        self.start = start
+        self.length = len
+        self.url = url
+
+def recordings(server):
+    response = run_request(server, 'getRecordings')
+    recs = [ ]
+    for rec in response.findall('recordings/recording'):
+        id = rec.findtext('recordID')
+        meeting = rec.findtext('meetingID')
+        start = int(rec.findtext('startTime')[:-3])
+        end = int(rec.findtext('endTime')[:-3])
+        dtstart = datetime.datetime.fromtimestamp(start)
+        len = end - start
+        url = None
+        for pb in rec.findall('playback/format'):
+            if pb.findtext('type') == 'presentation':
+                url = pb.findtext('url')
+        recs.append(bbb_recording(id, meeting, dtstart, len, url))
+    return recs
 
 #
 # Low-level BBB request machinery.
