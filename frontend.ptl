@@ -231,6 +231,28 @@ class frontend(Directory):
                 '</td></tr>\n'
         '</table></blockquote>\n'
 
+    #
+    # A special staff room.
+    #
+    @export
+    def staff_room(self):
+        room = 'Staff room'
+        user = self.logged_in()
+        #
+        # Let them in even if they are not admin, so we can invite
+        # somebody there if need be.
+        #
+        if not user:
+            return get_response().redirect(config.SITE_URL)
+        status = bbb.room_status(room)
+        if status['server'] == '???':
+            return get_response().redirect(config.SITE_URL)
+        # Duplicated code, ugh
+        if not status['running']:
+            bbb.start_room(room)
+        url = bbb.join_room_url(user.name, room, True)
+        return get_response().redirect(url)
+
     # Note this isn't currently used
     @export
     def start_room(self):

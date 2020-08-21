@@ -425,7 +425,9 @@ menu_items = [
     ("/logout", 'Log out') ]
 
 priv_menu_items = [
-    ('/status', 'Server/room status') ]
+    ('/status', 'Server/room status'),
+    ('/staff_room', 'Private staff room'),
+    ]
 
 def render_menu_item [html] (item, current):
     sel = ''
