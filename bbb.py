@@ -186,7 +186,7 @@ def run_request(server, command, **args):
     url = make_request(server, command, **args)
     # print('\n', url)
     try:
-        r = requests.get(url, timeout = 10.0)
+        r = requests.get(url, timeout = 5.0)
     except (ConnectionError, ReadTimeout):
         return None
     if r.status_code != 200:
