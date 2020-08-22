@@ -174,11 +174,18 @@ def start_room(room):
                            welcome = Welcome % (room))
     # We should maybe return something rather than assuming it worked...
 
-def join_room_url(name, room, as_moderator):
+def join_room_url(name, room, as_moderator, as_admin = False):
     pw = ATT_PW
     if as_moderator:
         pw = MOD_PW
-    return make_request(rooms[room].server, 'join', meetingID = room,
+    if as_admin:
+        d = {'userdata-bbb_custom_style_url':
+             'https://bbb0.2020.linuxplumbersconf.org/lpc-admin.css' }
+    else:
+        d = {'userdata-bbb_custom_style_url':
+             'https://bbb0.2020.linuxplumbersconf.org/lpc.css' }
+    return make_request(rooms[room].server, 'join', dargs = d,
+                        meetingID = room,
                         fullName = name,
                         password = pw)
 
@@ -213,7 +220,9 @@ def recordings(server):
 #
 # Low-level BBB request machinery.
 #
-def make_request(dest, command, **args):
+def make_request(dest, command, dargs = None, **args):
+    if dargs:
+        args.update(dargs)
     secret = servers[dest]
     aargs = '&'.join([ '%s=%s' % (arg, quote_plus(args[arg])) for arg in args ])
     # aargs = quote_plus(aargs)
