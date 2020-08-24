@@ -178,9 +178,9 @@ def join_room_url(name, room, as_moderator, as_admin = False):
     pw = ATT_PW
     if as_moderator:
         pw = MOD_PW
-    if as_admin:
+    if as_moderator and not as_admin:
         d = {'userdata-bbb_custom_style_url':
-             'https://bbb0.2020.linuxplumbersconf.org/lpc-admin.css' }
+             'https://bbb0.2020.linuxplumbersconf.org/lpc-moderator.css' }
     else:
         d = {'userdata-bbb_custom_style_url':
              'https://bbb0.2020.linuxplumbersconf.org/lpc.css' }
