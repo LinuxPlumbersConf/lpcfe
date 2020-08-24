@@ -124,7 +124,7 @@ class frontend(Directory):
         #
         # Check and fix up the email address.
         #
-        m = self.email_addr.match(email)
+        m = email and self.email_addr.match(email)
         if not m:
             return self.login_form('Please supply a valid email address')
         email = m.group(1) + '@' + m.group(3) # drop +foo
