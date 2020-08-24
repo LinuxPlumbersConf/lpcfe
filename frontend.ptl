@@ -13,7 +13,7 @@ import auth, page, bbb, config, indico, timetable, times, buttons
 #
 # Show this many minutes of upcoming sessions.
 #
-minutes = 240
+minutes = 360
 
 class frontend(Directory):
 
