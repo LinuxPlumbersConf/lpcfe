@@ -182,6 +182,7 @@ class frontend(Directory):
            <table class="OddEven">
            <tr><th>Server</th><th>status</th><th>Rooms</th><th>People</th></tr>
            '''
+        total_people = total_rooms = 0
         for server in bbb.all_servers():
             meetings = bbb.status(server)
             if meetings is None:
@@ -193,6 +194,10 @@ class frontend(Directory):
                 npeople += int(m['people'])
             '<tr><td>%s</td><td>UP</td><td>%d</td><td>%d</td></tr>\n' % \
                         (server, nrooms, npeople)
+            total_rooms += nrooms
+            total_people += npeople
+        '<tr><td>TOTAL</td><td></td><td>%d</td><td>%d</td></tr>\n' % (total_rooms,
+                                                                      total_people)
         '</table></blockquote>\n'
     #
     # Room management
