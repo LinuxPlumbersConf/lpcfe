@@ -1,6 +1,7 @@
 import hashlib
 import ldap
 import config
+import threading
 #
 # Cheesy authentication stuff.
 #
@@ -37,6 +38,7 @@ ldap_search_base = 'dc=users,dc=2020,dc=linuxplumbersconf,dc=org'
 ldap_search_filter = '(cn=%s)'
 ldap_attrs = ['givenName', 'sn', 'labeledURI', 'businessCategory']
 ldap_conn = None
+ldap_lock = threading.Lock()
 
 def ldap_connect():
     global ldap_conn
@@ -44,6 +46,10 @@ def ldap_connect():
     ldap_conn.simple_bind_s(config.LDAP_USER, config.LDAP_PW)
 
 def ldap_lookup(email):
+    with ldap_lock:
+        return do_ldap_lookup(email)
+
+def do_ldap_lookup(email):
     #
     # Query the LDAP server.
     #
