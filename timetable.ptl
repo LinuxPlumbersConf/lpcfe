@@ -7,6 +7,10 @@ import times, buttons
 
 def generate_rows(ttable, tracks, begin):
     #
+    # Roll back the time to the beginning of the minute.
+    #
+    begin = begin.replace(second = 0)
+    #
     # Step 1; find all of our start times; those will become the
     # rows of our schedule table.
     #
