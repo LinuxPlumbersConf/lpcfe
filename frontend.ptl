@@ -278,6 +278,8 @@ class frontend(Directory):
         if not user:
             return response.redirect(config.SITE_URL) # No fast ones here
         room = HiddenWidget('room', '').parse()
+        if not bbb.valid_room(room):
+            return response.redirect(config.SITE_URL) # No fast ones here
         status = bbb.room_status(room)
         #
         # Policy: let any user start a room if they have access to

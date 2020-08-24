@@ -136,6 +136,9 @@ def room_status(room):
     ret['participants'] = ', '.join(sorted(parts))
     return ret
 
+def valid_room(room):
+    return room in rooms
+
 def all_rooms(type = None):
     ret = sorted(rooms.keys(), key = lambda r: rooms[r].type + r )
     if type:
