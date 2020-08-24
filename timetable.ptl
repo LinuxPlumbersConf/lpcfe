@@ -18,7 +18,7 @@ def generate_rows(ttable, tracks, begin):
             # beginning of our window?
             #
             offset = (item.begin - begin).total_seconds()
-            if offset < 0: # session begins before window
+            if offset < 180: # session begins before window
                 offset = 0
             else:
                 offset //= 60
@@ -200,7 +200,7 @@ class time_entry(ttentry):
 
     def render [html] (self):
         '   <td valign="top"><b>'
-        if self.offset > 10: # Arbitrary
+        if self.offset > 2: # Arbitrary
             fmt = str("%H:%M")
             times.offset_time(get_request(), self.time).strftime(fmt)
             '<br>[%s&nbsp;UTC]' % (times.utc_time(self.time).strftime(fmt))
