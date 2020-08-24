@@ -4,6 +4,8 @@ Description=The LPC BBB front-end system
 [Service]
 User=corbet
 ExecStart=/usr/local/bin/lpcfe -c home/corbet/lpcfe-config
+Restart=on-failure
+RestartSec=2s
 
 [Install]
 WantedBy=multi-user.target
