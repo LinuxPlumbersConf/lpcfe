@@ -9,7 +9,7 @@ def generate_rows(ttable, tracks, begin):
     #
     # Roll back the time to the beginning of the minute.
     #
-    begin = begin.replace(second = 0)
+    begin = begin.replace(second = 0, microsecond = 0)
     #
     # Step 1; find all of our start times; those will become the
     # rows of our schedule table.
@@ -22,6 +22,7 @@ def generate_rows(ttable, tracks, begin):
             # beginning of our window?
             #
             offset = (item.begin - begin).total_seconds()
+            print(begin, item.begin, offset)
             if offset < 180: # session begins before window
                 offset = 0
             else:
