@@ -22,7 +22,6 @@ def generate_rows(ttable, tracks, begin):
             # beginning of our window?
             #
             offset = (item.begin - begin).total_seconds()
-            print(begin, item.begin, offset)
             if offset < 180: # session begins before window
                 offset = 0
             else:
