@@ -1,3 +1,10 @@
+#
+# The quick-n-dirty LPC BBB frontend system
+#   Copyright 2020 Jonathan Corbet <corbet@lwn.net>
+#   Copyright 2020 Guy Lunardi <guy@linux.com>
+# Redistributable under the terms of the GNU General Public License,
+# version 2 or greater
+#
 import hashlib
 import ldap
 import config
