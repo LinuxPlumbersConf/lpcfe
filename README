@@ -1,0 +1,14 @@
+This is "lpcfe", the front-end system used to host the 2020 edition of the
+Linux Plumbers Conference.  It is released just in case it is useful to
+somebody, but it is very much written to satisfy the needs of a single,
+one-week conference and is not presented as a general solution.
+
+About the only dependency here is the Quixote web framework.  This code
+needs *version 3.0*, though; it will not work with 3.1.  If you are running
+Python 3.7 or later, you will also need to cherry-pick commit 525eaff from
+the master branch, and 4631446 is recommended as well.
+
+Please let don't hesitate to contact me if you have any questions.
+
+Jonathan Corbet
+corbet@lwn.net
