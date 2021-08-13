@@ -375,7 +375,7 @@ div.lead-text {
     margin: 6px;
 }
 
-#loginemail, #logincode {
+#loginemail, #logincode, #guestname {
    height: 2.5rem;
 }
 
@@ -423,6 +423,7 @@ def CSS [html] ():
 #
 menu_items = [
     ('/', 'Timetable'),
+    ('/hackrooms', 'LPC 2020 hackrooms'),
     ('https://chat.2020.linuxplumbersconf.org/home', 'Chat area'),
     ("https://linuxplumbersconf.org/", 'Main LPC site'),
     ("https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy",
@@ -433,7 +434,6 @@ menu_items = [
 priv_menu_items = [
     ('/status', 'Server/room status'),
     ('/staff_room', 'Private staff room'),
-    ('/hackrooms', 'LPC 2020 hackrooms'),
     ]
 
 def render_menu_item [html] (item, current):

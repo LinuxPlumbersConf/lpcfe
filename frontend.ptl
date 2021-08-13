@@ -121,6 +121,17 @@ class frontend(Directory):
            Please email <tt>contact@linuxplumbersconf.org</tt> for assistance
            accessing the conference site.
            '''
+        #
+        # Are we feeling open today?
+        #
+        if config.GUEST_ALLOWED:
+            '''<h3>Log in as a guest</h3>
+               <p>
+               To log in without an existing account, please enter your full
+               name in the blank below.  This is the name that will identify
+               you in the conference rooms.
+            '''
+            GuestForm().render()
         page.trailer()
 
     # A really crude email-address checker that splits out a +foo part.
@@ -167,6 +178,18 @@ class frontend(Directory):
         return self.login_form('''If %s is a valid registration address, a
         			  reminder mail has been sent.''' % (email))
 
+    @export
+    def guest_login(self):
+        if not config.GUEST_ALLOWED:
+            return self.login_form('Guest logins disabled, just what are '
+                                   'you doing here, anyway??')
+        name = GuestForm().parse()
+        if not name:
+            return self.login_form('Guest login requires a name')
+        cookie = auth.make_guest_cookie(name)
+        response = get_response()
+        response.set_cookie('session', cookie)
+        return response.redirect(config.SITE_URL)
 
     #
     # Moderator's server information page.
@@ -442,6 +465,21 @@ class LoginForm:
 
     def parse(self):
         return (self.email.parse(), self.pw.parse())
+
+class GuestForm:
+    def __init__(self):
+        self.name = StringWidget(name="name", size = 30, value = '',
+                                  id="guestname", placeholder="Full name")
+
+    def render [html] (self):
+        '''<blockquote>
+           <form action="guest_login" method="post">%s%s</form>
+           </blockquote>''' % (self.name.render(),
+                               SubmitWidget(name='login',
+                                            value = 'Log in as guest').render())
+
+    def parse(self):
+        return self.name.parse()
 
 #
 # Let's see if we can magically get their timezone offset

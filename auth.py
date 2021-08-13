@@ -38,6 +38,9 @@ class User:
     def is_admin(self):
         return 'admin' in self.roles
 
+class GuestUser(User):
+    def __init__(self, name):
+        User.__init__(self, 'guest', 'guest', name, [])
 #
 # flat-file auth stuff.  This works with three files located in the
 # configuration directory:
@@ -72,7 +75,6 @@ def ff_load():
     ff_load_file(config.CONFIG_DIR + '/admins', ['admin', 'moderator'])
     ff_load_file(config.CONFIG_DIR + '/moderators', ['moderator'])
     ff_load_file(config.CONFIG_DIR + '/users', [])
-    print(FF_users)
 
 def ff_lookup(email):
     return FF_users.get(email, None)
@@ -152,6 +154,11 @@ def validate_cookie(cookie):
     if len(sc) != 2:
         return None
     #
+    # Is this a guest login?
+    #
+    if config.GUEST_ALLOWED and (sc[1] == '$$GUEST'):
+        return GuestUser(sc[0])
+    #
     # This goes to the LDAP server for every hit.  Probably not a
     # terrible thing but we could consider some sort of caching.
     #
@@ -165,3 +172,6 @@ def validate_cookie(cookie):
 
 def make_cookie(u):
     return u.email + ':' + make_hash(u)
+
+def make_guest_cookie(name):
+    return name + ':' + '$$GUEST'
