@@ -392,7 +392,7 @@ def header [html] (current, title, admin = False, menu = True):
        </head>
        <body>
          <div class="titlebox">
-            <h1 class="title">Linux Plumbers Conference 2020</h1>
+            <h1 class="title">Linux Plumbers Conference 2021</h1>
          </div>
          <br>
        '''
@@ -424,7 +424,7 @@ def CSS [html] ():
 #
 menu_items = [
     ('/', 'Timetable'),
-    ('/hackrooms', 'LPC 2020 hackrooms'),
+    ('/hackrooms', 'LPC 2021 hackrooms'),
     ('https://chat.2020.linuxplumbersconf.org/home', 'Chat area'),
     ("https://linuxplumbersconf.org/", 'Main LPC site'),
     ("https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy",
