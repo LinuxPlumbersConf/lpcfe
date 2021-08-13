@@ -39,6 +39,44 @@ class User:
         return 'admin' in self.roles
 
 #
+# flat-file auth stuff.  This works with three files located in the
+# configuration directory:
+#
+#  admins	users with admin access (includes moderation)
+#  moderators	users with mod access
+#  users	plain boring users
+#
+# Each file is just a set of simple lines:
+#
+#  email password full-name
+#
+# If somebody puts a space into a password life will not be happy.
+#
+FF_users = { }
+
+def ff_load_file(file, roles):
+    ret = { }
+    with open(file, 'r') as data:
+        for line in data.readlines():
+            line = line.strip()
+            if (line == '') or (line[0] == '#'):
+                continue
+            sline = line.split()
+            if len(sline) < 3:
+                print('Funky line in %s: "%s"' % (file, line))
+                continue
+            u = User(sline[1], sline[0], ' '.join(sline[2:]), roles)
+            FF_users[sline[0]] = u
+
+def ff_load():
+    ff_load_file(config.CONFIG_DIR + '/admins', ['admin', 'moderator'])
+    ff_load_file(config.CONFIG_DIR + '/moderators', ['moderator'])
+    ff_load_file(config.CONFIG_DIR + '/users', [])
+    print(FF_users)
+
+def ff_lookup(email):
+    return FF_users.get(email, None)
+#
 # LDAP machinery.
 #
 ldap_search_base = 'dc=users,dc=2020,dc=linuxplumbersconf,dc=org'
@@ -81,11 +119,22 @@ def do_ldap_lookup(email):
         roles = [ ]
     return User(id, email, name, roles)
 
+def lookup(email):
+    if config.AUTH_MODE == 'flat':
+        return ff_lookup(email)
+    return ldap_lookup(email)
+
+#
+# Externally visible interface here.
+
 def setup():
-    ldap_connect()
+    if config.AUTH_MODE == 'flat':
+        ff_load()
+    else:
+        ldap_connect()
 
 def check_password(email, password):
-    u = ldap_lookup(email)
+    u = lookup(email)
     if not u:
         return False
     if password == u.id:
@@ -106,7 +155,7 @@ def validate_cookie(cookie):
     # This goes to the LDAP server for every hit.  Probably not a
     # terrible thing but we could consider some sort of caching.
     #
-    u = ldap_lookup(sc[0])
+    u = lookup(sc[0])
     if not u:
         return None
     hash = make_hash(u)
