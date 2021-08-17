@@ -7,6 +7,7 @@
 #
 from quixote.directory import Directory, export, subdir
 from quixote import get_request, get_response
+from quixote.html import htmltext
 from quixote.form import *
 import datetime
 from datetime import timezone
@@ -102,10 +103,23 @@ class frontend(Directory):
             return None
         return auth.validate_cookie(cookie)
 
+    def display_greeting [html] (self):
+        try:
+            greeting = config.GREETING_FILE
+        except NameError:
+            return
+        if greeting:
+            try:
+                with open(greeting, str('r')) as f:
+                    htmltext(f.read())
+            except FileNotFoundError:
+                pass
+
     def login_form [html] (self, message = None, email = ''):
-        page.header('/', 'Please log in to continue', menu = False)
+        page.header('/', 'Welcome to the Linux Plumbers Conference', menu = False)
         insert_tz_js()
-        '''Please login with the email address you used to register to LPC 2020.
+        self.display_greeting()
+        '''<p>Please login with the email address you used to register to LPC 2020.
            You need to enter your Registration Confirmation Number. That
            information is found in your confirmation email titled
            "Registration Confirmed - Linux Plumbers Conference 2020".
