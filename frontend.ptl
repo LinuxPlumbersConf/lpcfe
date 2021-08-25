@@ -220,10 +220,30 @@ class frontend(Directory):
         if (not user) or (not user.is_admin()):
             get_response().redirect(config.SITE_URL)
         page.header('/status', 'Server and room status', True)
+        self.gm_button()
         self.list_servers()
         page.end_text_area()
         self.list_rooms()
         page.trailer()
+
+    def gm_button [html] (self):
+        '<form action="toggle_guest">\n'
+        '<b>Guest mode</b>: '
+        if config.GUEST_ALLOWED:
+            'ENABLED '
+            SubmitWidget(name='guestmode', value = 'Disable').render()
+        else:
+            'DISABLED '
+            SubmitWidget(name='guestmode', value = 'Enable').render()
+        '</form><p>'
+
+    @export
+    def toggle_guest(self):
+        user = self.logged_in()
+        if (not user) or (not user.is_admin()):
+            return get_response().redirect(config.SITE_URL)
+        config.GUEST_ALLOWED = not config.GUEST_ALLOWED
+        return self.status()
 
     def list_servers [html] (self):
         '<h4>Server status</h4>'
