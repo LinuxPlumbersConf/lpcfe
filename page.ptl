@@ -471,7 +471,11 @@ def sponsor_box [html] ():
        <div class="SponsorBox"><div id="sponsors-from-blog">
        <h5>Thank you to our sponsors!</h5>
 <h5>Diamond Sponsor</h5>
-<p><a href="http://www.facebook.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/facebook1.svg" alt="" /></a></p>
+<p>
+<center>
+<a href="http://www.facebook.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/facebook1.svg" alt="" /></a>
+</center>
+</p>
 </div>
 <div class="SponsorClass">
 <h5>Platinum Sponsor</h5>
