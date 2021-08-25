@@ -23,6 +23,8 @@ import auth, page, bbb, config, indico, timetable, times, buttons
 #
 minutes = 360
 
+cookie_name = 'lpc_session'
+
 class frontend(Directory):
 
     @export(name='')
@@ -84,7 +86,7 @@ class frontend(Directory):
     @export
     def logout(self):
         response = get_response()
-        response.expire_cookie('session')
+        response.expire_cookie('lpc_session')
         return response.redirect(config.SITE_URL)
 
     @export
@@ -98,7 +100,7 @@ class frontend(Directory):
     #
     def logged_in(self):
         request = get_request()
-        cookie = request.get_cookie('session')
+        cookie = request.get_cookie('lpc_session')
         if not cookie:
             return None
         return auth.validate_cookie(cookie)
@@ -183,7 +185,7 @@ class frontend(Directory):
         #
         cookie = auth.make_cookie(u)
         response = get_response()
-        response.set_cookie('session', cookie)
+        response.set_cookie('lpc_session', cookie)
         return response.redirect(config.SITE_URL)
 
     def id_reminder(self, email):
@@ -206,7 +208,7 @@ class frontend(Directory):
             return self.login_form('Guest login requires a name')
         cookie = auth.make_guest_cookie(name)
         response = get_response()
-        response.set_cookie('session', cookie)
+        response.set_cookie('lpc_session', cookie)
         return response.redirect(config.SITE_URL)
 
     #
