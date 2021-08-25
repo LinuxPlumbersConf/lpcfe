@@ -435,7 +435,7 @@ def CSS [html] ():
 menu_items = [
     ('/', 'Timetable'),
     ('/hackrooms', 'LPC 2021 hackrooms'),
-    ('https://chat.2020.linuxplumbersconf.org/home', 'Chat area'),
+#    ('https://chat.2020.linuxplumbersconf.org/home', 'Chat area'),
     ("https://linuxplumbersconf.org/", 'Main LPC site'),
     ("https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy",
      'Anti-harrassment policy'),
