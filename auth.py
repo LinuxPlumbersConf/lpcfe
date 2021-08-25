@@ -9,6 +9,7 @@ import hashlib
 import ldap
 import config
 import threading
+import base64
 #
 # Cheesy authentication stuff.
 #
@@ -150,6 +151,7 @@ def make_hash(u):
     return hashlib.sha1((u.email + secret).encode('utf8')).hexdigest()
 
 def validate_cookie(cookie):
+    cookie = decode_cookie(cookie)
     sc = cookie.split(':')
     if len(sc) != 2:
         return None
@@ -171,7 +173,16 @@ def validate_cookie(cookie):
     return u
 
 def make_cookie(u):
-    return u.email + ':' + make_hash(u)
+    return encode_cookie(u.email + ':' + make_hash(u))
 
 def make_guest_cookie(name):
-    return name + ':' + '$$GUEST'
+    return encode_cookie(name + ':' + '$$GUEST')
+
+#
+# This mess is required to get cookies back unmangled from Firefox.
+#
+def encode_cookie(cookie):
+    return base64.b64encode(cookie.encode('utf8')).decode('ascii')
+
+def decode_cookie(cookie):
+    return base64.b64decode(cookie).decode('utf8')
