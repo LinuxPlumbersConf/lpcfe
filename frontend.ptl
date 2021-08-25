@@ -119,6 +119,17 @@ class frontend(Directory):
         page.header('/', 'Welcome to the Linux Plumbers Conference', menu = False)
         insert_tz_js()
         self.display_greeting()
+        #
+        # Are we feeling open today?
+        #
+        if config.GUEST_ALLOWED:
+            '''<h3>Log in as a guest</h3>
+               <p>
+               To log in without an existing account, please enter your full
+               name in the blank below.  This is the name that will identify
+               you in the conference rooms.
+            '''
+            GuestForm().render()
 #        '''<p>Please login with the email address you used to register to LPC 2021.
 #           You need to enter your Registration Confirmation Number. That
 #           information is found in your confirmation email titled
@@ -139,17 +150,6 @@ class frontend(Directory):
            Please email <tt>contact@linuxplumbersconf.org</tt> for assistance
            accessing the conference site.
            '''
-        #
-        # Are we feeling open today?
-        #
-        if config.GUEST_ALLOWED:
-            '''<h3>Log in as a guest</h3>
-               <p>
-               To log in without an existing account, please enter your full
-               name in the blank below.  This is the name that will identify
-               you in the conference rooms.
-            '''
-            GuestForm().render()
         page.trailer()
 
     # A really crude email-address checker that splits out a +foo part.
