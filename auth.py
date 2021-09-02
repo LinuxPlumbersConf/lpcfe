@@ -82,7 +82,7 @@ def ff_lookup(email):
 #
 # LDAP machinery.
 #
-ldap_search_base = 'dc=users,dc=2020,dc=linuxplumbersconf,dc=org'
+ldap_search_base = 'dc=users,dc=lpc,dc=events'
 ldap_search_filter = '(cn=%s)'
 ldap_attrs = ['givenName', 'sn', 'labeledURI', 'businessCategory']
 ldap_conn = None
