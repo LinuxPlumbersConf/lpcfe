@@ -102,7 +102,10 @@ def do_ldap_lookup(email):
     # Query the LDAP server.
     #
     ss = ldap_search_filter % (email)
-    results = ldap_conn.search_s(ldap_search_base, ldap.SCOPE_ONELEVEL, ss, ldap_attrs)
+    try:
+        results = ldap_conn.search_s(ldap_search_base, ldap.SCOPE_ONELEVEL, ss, ldap_attrs)
+    except ldap.NO_SUCH_OBJECT:
+        return None
     if not results:
         return None
     #
