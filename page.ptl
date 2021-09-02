@@ -8,6 +8,7 @@
 #
 # Try to capture overall stylistic elements here.
 #
+import config
 
 Stylesheet = '''
 @font-face {
@@ -395,17 +396,17 @@ div.lead-text {
 def header [html] (current, title, admin = False, menu = True):
     '''<html>
        <head>
-         <title>Linux Plumbers Conference 2021</title>
+         <title>%s</title>
          <link rel="stylesheet" type="text/css" href="/stylesheet">
          <link rel="shortcut icon"
                href="https://www.linuxplumbersconf.org/blog/2020/style/favicon.ico" />
        </head>
        <body>
          <div class="titlebox">
-            <h1 class="title">Linux Plumbers Conference 2021</h1>
+            <h1 class="title">%s</h1>
          </div>
          <br>
-       '''
+       ''' % (config.EVENT, config.EVENT)
     if menu:
         left_menu(admin, current)
     '''<div class="lead-text">
@@ -434,7 +435,7 @@ def CSS [html] ():
 #
 menu_items = [
     ('/', 'Timetable'),
-    ('/hackrooms', 'LPC 2021 hackrooms'),
+    ('/hackrooms', 'Hackrooms'),
 #    ('https://chat.2020.linuxplumbersconf.org/home', 'Chat area'),
     ("https://linuxplumbersconf.org/", 'Main LPC site'),
     ("https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy",

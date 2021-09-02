@@ -9,7 +9,10 @@
 # Poor-hacker's configuration file
 #
 
-config_vars = { }
+#
+# Default values for variables.
+#
+EVENT = 'Linux Plumbers Conference'
 
 def load_config(cdir):
     global CONFIG_DIR
