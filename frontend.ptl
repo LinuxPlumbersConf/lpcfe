@@ -188,7 +188,7 @@ class frontend(Directory):
         with open('/tmp/reminder_requests', 'a') as f:
             when = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
             f.write('Request: %s %s\n' % (when, email))
-        user = auth.ldap_lookup(email)
+        user = auth.lookup(email)
         if user:
             send_reminder(email, user.id)
         return self.login_form('''If %s is a valid registration address, a
