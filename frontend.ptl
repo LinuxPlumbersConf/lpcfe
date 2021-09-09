@@ -132,16 +132,12 @@ class frontend(Directory):
                you in the conference rooms.
             '''
             GuestForm().render()
-#        '''<p>Please login with the email address you used to register to LPC 2021.
-#           You need to enter your Registration Confirmation Number. That
-#           information is found in your confirmation email titled
-#           "Registration Confirmed - Linux Plumbers Conference 2021".
-#           <p>
-#           '''
-        '''<h3>LPC staff only</h3>
+        '''<p>Please login with the email address you used to register to LPC 2021.
+           You need to enter your Registration Confirmation Number. That
+           information is found in your confirmation email titled
+           "Registration Confirmed - Linux Plumbers Conference 2021".
            <p>
-           Log in using the form below.
-           <p>'''
+           '''
         if message:
             '<b>' + message + '</b><p>\n'
         '<blockquote>\n'
@@ -488,15 +484,6 @@ class LoginForm:
                                  placeholder="Registration Confirmation Number")
 
     def render [html] (self, target):
-        '''<form action=%s method="post">
-           %s
-           %s
-           %s
-           </form>
-           ''' % (target, self.email.render(), self.pw.render(),
-                  SubmitWidget(name = 'login', value = 'Log in').render())
-
-    def REAL_render [html] (self, target):
         '''<form action=%s method="post">
            %s
            %s
