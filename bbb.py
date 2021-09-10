@@ -62,6 +62,7 @@ def load_servers(cdir):
     except FileNotFoundError:
         print('Unable to open servers file')
 
+Room_types = [ 'session', 'hack', 'private' ]
 
 def load_rooms(cdir):
     try:
@@ -71,17 +72,17 @@ def load_rooms(cdir):
                 if line == '' or line[0] == '#':
                     continue
                 sline = line.split(':')
-                if len(sline) == 2: # backward compatibility already!
-                    type = 'session'
-                elif len(sline) == 3:
-                    type = sline[2]
-                else:
+                if len(sline) != 3:
                     print('Bad rooms line: "%s"' % line)
                     continue
-                if sline[1] not in servers:
-                    print('Room %s on bad server %s' % (sline[0], sline[1]))
+                server = sline[1]
+                type = sline[2]
+                if type not in Room_types:
+                    print(f'Bad type ({type}) for room {sline[0]}')
+                elif server not in servers:
+                    print('Room %s on bad server %s' % (sline[0], server))
                 else:
-                    add_room(sline[0], sline[1], type)
+                    add_room(sline[0], server, type)
     except FileNotFoundError:
         print('Unable to open rooms file')
 
