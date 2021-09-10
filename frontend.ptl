@@ -72,7 +72,7 @@ class frontend(Directory):
         weekday, hour = time_selector_widget(0, 0).parse()
         page.header('/', 'LPC timetable at a fake time', admin = True)
         tz = datetime.timezone(datetime.timedelta(hours = config.SERVER_TZOFFSET))
-        begin = datetime.datetime(2020, 8, 24, 0, 0, 0, tzinfo = timezone.utc)
+        begin = datetime.datetime(2021, 9, 20, 0, 0, 0, tzinfo = timezone.utc)
         begin += datetime.timedelta(days = weekday)
         begin += datetime.timedelta(hours = hour)
         '''This is the timetable rendered as if it were %s UTC
