@@ -17,7 +17,7 @@ import config
 #
 # We may eventually want some more flexibility here.
 #
-Welcome = '''Welcome to the Linux Plumbers Conference 2020 %s!
+Welcome = '''Welcome to the Linux Plumbers Conference 2021 %s!
 <br><br>
 Please remember that the <a
 href="https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy"
