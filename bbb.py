@@ -33,13 +33,14 @@ in the discussion.
 # A simple class representing a room.
 #
 class Room:
-    def __init__(self, name, server, type):
+    def __init__(self, name, server, type, matrix):
         self.name = name
         self.server = server
         self.type = type
+        self.matrix = matrix
 
-def add_room(name, server, type):
-    rooms[name] = Room(name, server, type)
+def add_room(name, server, type, matrix):
+    rooms[name] = Room(name, server, type, matrix)
 
 servers = { }  # Just maps name to secret
 rooms = { }    # Rooms we know about.
@@ -72,7 +73,10 @@ def load_rooms(cdir):
                 if line == '' or line[0] == '#':
                     continue
                 sline = line.split(':')
-                if len(sline) != 3:
+                matrix = 'default' # what should this really be?
+                if len(sline) == 4:
+                    matrix = sline[3]
+                elif len(sline) != 3:
                     print('Bad rooms line: "%s"' % line)
                     continue
                 server = sline[1]
@@ -82,7 +86,7 @@ def load_rooms(cdir):
                 elif server not in servers:
                     print('Room %s on bad server %s' % (sline[0], server))
                 else:
-                    add_room(sline[0], server, type)
+                    add_room(sline[0], server, type, matrix)
     except FileNotFoundError:
         print('Unable to open rooms file')
 
@@ -177,6 +181,7 @@ def start_room(room):
                            breakoutRoomsEnabled = "false",
                            logo = config.LOGO_URL,
                            logoutURL = config.SITE_URL,
+                           matrixRoomId = rooms[room].matrix,
                            maxParticipants = '250',
                            muteOnStart = 'true',
                            record = 'true',
