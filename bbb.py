@@ -181,7 +181,7 @@ def start_room(room):
                            breakoutRoomsEnabled = "false",
                            logo = config.LOGO_URL,
                            logoutURL = config.SITE_URL,
-                           matrixRoomId = rooms[room].matrix,
+                           meta_matrixroomid = rooms[room].matrix,
                            maxParticipants = '250',
                            muteOnStart = 'true',
                            record = 'true',
