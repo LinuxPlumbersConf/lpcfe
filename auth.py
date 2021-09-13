@@ -70,7 +70,7 @@ def ff_load_file(file, roles):
                 print('Funky line in %s: "%s"' % (file, line))
                 continue
             u = User(sline[1], sline[0], ' '.join(sline[2:]), roles)
-            FF_users[sline[0]] = u
+            FF_users[sline[0].lower()] = u
 
 def ff_load():
     ff_load_file(config.CONFIG_DIR + '/admins', ['admin', 'moderator'])
@@ -78,7 +78,7 @@ def ff_load():
     ff_load_file(config.CONFIG_DIR + '/users', [])
 
 def ff_lookup(email):
-    return FF_users.get(email, None)
+    return FF_users.get(email.lower(), None)
 #
 # LDAP machinery.
 #
