@@ -13,6 +13,7 @@
 # Default values for variables.
 #
 EVENT = 'Linux Plumbers Conference'
+DEFAULT_CHATROOM = 'default' # Certainly not what you want.
 
 def load_config(cdir):
     global CONFIG_DIR

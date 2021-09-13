@@ -73,9 +73,9 @@ def load_rooms(cdir):
                 if line == '' or line[0] == '#':
                     continue
                 sline = line.split(':')
-                matrix = 'default' # what should this really be?
+                matrix = config.DEFAULT_CHATROOM
                 if len(sline) == 4:
-                    matrix = sline[3]
+                    matrix = sline[3] or matrix
                 elif len(sline) != 3:
                     print('Bad rooms line: "%s"' % line)
                     continue
