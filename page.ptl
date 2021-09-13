@@ -262,7 +262,7 @@ input.LeftMenuCtrl {
     }
     div.SponsorClass {
         width: 300px;
-        height: 320px;
+        height: 120px;
     }
     p.tttrack {
         display: none;
@@ -474,21 +474,44 @@ def sponsor_box [html] ():
 <h5>Diamond Sponsor</h5>
 <p>
 <center>
-<a href="http://www.facebook.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/facebook1.svg" alt="" /></a>
+<a href="http://www.facebook.com">
+    <img class="SponsorImg alignleft"
+         style="width: 200px; padding-bottom:20px;"
+          src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/facebook1.svg"
+          alt="" /></a>
 </center>
 </p>
-</div>
-<div class="SponsorClass">
+
+<center>
+
 <h5>Platinum Sponsor</h5>
-<p><a href="https://www.ibm.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/IBM.svg" alt="" /></a></p>
+<p>
+<a href="https://www.ibm.com">
+    <img class="SponsorImg alignleft"
+         style="width: 100px; padding-bottom:20px;"
+         src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/IBM.svg"
+         alt="" /></a></p>
+
+</center>
+    <p>
+<div class="SponsorClass">
+<h5>Gold Sponsors</h5>
+<p><a href="https://www.arm.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt="" /></a>
+<a href="https://www.microsoft.com">
+    <img class="SponsorImg alignleft"
+         style="width: 100px;"
+         src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/08/microsoft.svg"
+         alt="" /></a></p>
+
 </div>
 <div class="SponsorClass">
-<h5>Gold Sponsor</h5>
-<p><a href="https://www.arm.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt="" /></a></p>
-</div>
-<div class="SponsorClass">
-<h5>Silver Sponsor</h5>
-<p><a href="https://www.redhat.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/07/RedHat.svg" alt="" /></a></p>
+<h5>Silver Sponsors</h5>
+<p><a href="https://www.redhat.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/07/RedHat.svg" alt="" /></a>
+<a href="https://www.nexflix.com">
+    <img class="SponsorImg alignleft"
+         style="width: 100px;"
+         src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/08/netflix.svg"
+         alt="" /></a></p>
 </div>
 <div class="SponsorClass">
 <h5>Speaker Gift Sponsor</h5>
