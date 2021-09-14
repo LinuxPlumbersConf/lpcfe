@@ -204,7 +204,6 @@ div.SponsorBox {
     border: 1px;
     border-style: solid;
     border-color: #ccc;
-    float: left;
 }
 
 div.SponsorClass br {
@@ -227,7 +226,7 @@ div.SponsorClass h5 {
     div.SponsorClass {
 	margin: 0;
 	text-align: center;
-        float: left;
+        /* float: left; */
     }
     div.SponsorClass img {
         width: 120px;
@@ -479,21 +478,19 @@ def sponsor_box [html] ():
          style="width: 200px; padding-bottom:20px;"
           src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/facebook1.svg"
           alt="" /></a>
-</center>
 </p>
 
-<center>
 
 <h5>Platinum Sponsor</h5>
 <p>
 <a href="https://www.ibm.com">
     <img class="SponsorImg alignleft"
-         style="width: 100px; padding-bottom:20px;"
-         src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/IBM.svg"
+         style="width: 130px; padding-bottom:20px;"
+         src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/09/ibm-horizontal-color-2.svg"
          alt="" /></a></p>
 
-</center>
     <p>
+
 <div class="SponsorClass">
 <h5>Gold Sponsors</h5>
 <p><a href="https://www.arm.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt="" /></a>
@@ -502,8 +499,8 @@ def sponsor_box [html] ():
          style="width: 100px;"
          src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/08/microsoft.svg"
          alt="" /></a></p>
-
 </div>
+
 <div class="SponsorClass">
 <h5>Silver Sponsors</h5>
 <p><a href="https://www.redhat.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/07/RedHat.svg" alt="" /></a>
@@ -521,6 +518,7 @@ def sponsor_box [html] ():
 <h5>T-Shirt Sponsor</h5>
 <p><a href="https://www.vmware.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/vmware2.svg" alt="" /></a></p>
 </div>
+</center>
        </div>
        </div>
        '''
