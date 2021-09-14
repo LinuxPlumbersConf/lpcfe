@@ -123,12 +123,6 @@ def do_ldap_lookup(email):
         roles = [ res.decode('utf8') for res in results['businessCategory'] ]
     except (KeyError, IndexError):
         roles = [ ]
-    #
-    # Jon's backdoor until the registration database gets updated; TAKE THIS
-    # OUT when it's no longer needed.
-    #
-    if email == 'corbet@lwn.net':
-        roles = [ 'admin', 'moderator', 'badass' ]
     return User(id, email, name, roles)
 
 def lookup(email):
