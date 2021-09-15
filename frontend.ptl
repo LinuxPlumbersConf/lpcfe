@@ -56,13 +56,13 @@ class frontend(Directory):
            ongoing.
            <p>
            The full schedule is always available on the <a
-           href="https://linuxplumbersconf.org/event/7/timetable/?view=lpc">main
+           href="https://linuxplumbersconf.org/event/%d/timetable/?view=lpc">main
            Linux Plumbers Conference</a> site.
            <p>
            Thank you for participating in LPC 2021; please do not hesitate to
            contact us at <tt>contact@linuxplumbersconf.org</tt> should you have
            any difficulties, questions, or comments.
-           ''' % (config.EVENT, times.user_tz_offset(get_request()))
+           ''' % (config.EVENT, times.user_tz_offset(get_request()), config.EVENT_ID)
 
     def time_selector(self, when):
         return time_selector_widget(when.weekday(), when.hour).render()
