@@ -158,7 +158,9 @@ def all_rooms(type = None):
     return ret
 
 # 
-def start_room(room):
+# Start a room, attached to the given matrix room if provided.
+#
+def start_room(room, matrix = ''):
     #
     # Policy: for most rooms, we turn on recording unconditionally and
     # don't let anybody turn it off.  "Private" rooms, though, don't
@@ -171,6 +173,11 @@ def start_room(room):
         autostart = 'false'
         allowstop = 'true'
     #
+    # Provided matrix room overrides the room-level assignment.
+    #
+    if not matrix:
+        matrix = rooms[room].matrix
+    #
     # Fire it up.
     #
     server = rooms[room].server
@@ -181,7 +188,7 @@ def start_room(room):
                            breakoutRoomsEnabled = "false",
                            logo = config.LOGO_URL,
                            logoutURL = config.SITE_URL,
-                           meta_matrixroomid = rooms[room].matrix,
+                           meta_matrixroomid = matrix,
                            maxParticipants = '250',
                            muteOnStart = 'true',
                            record = 'true',

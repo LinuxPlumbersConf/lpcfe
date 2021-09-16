@@ -130,3 +130,16 @@ def find_restart_time(begin):
             if (talk.begin > begin) and (talk.begin < earliest):
                 earliest = talk.begin
     return earliest
+
+#
+# Which track is in the given room now (or soon)?
+#
+def track_in_room(room, time, lead = 60):
+    end = time + datetime.timedelta(minutes = lead)
+    for track in Tracks:
+        for item in Tracks[track]:
+            if (item.room == room) and \
+               ((time <= item.begin < end) or (time < item.end < end) or \
+               (item.begin < time and item.end > end)):
+                return track
+    return None

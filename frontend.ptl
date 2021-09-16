@@ -324,19 +324,6 @@ class frontend(Directory):
         url = bbb.join_room_url(user.name, room, True, as_admin = user.is_admin())
         return get_response().redirect(url)
 
-    # Note this isn't currently used
-    @export
-    def start_room(self):
-        response = get_response()
-        user = self.logged_in()
-        if (not user) or (not user.is_moderator()):
-            return response.redirect(config.SITE_URL)
-        room = HiddenWidget('room', '').parse()
-        bbb.start_room(room)
-        url = bbb.join_room_url(user.name, room, user.is_moderator(),
-                                as_admin = user.is_admin())
-        return response.redirect(url)
-
     @export
     def join_room(self):
         response = get_response()
@@ -352,12 +339,17 @@ class frontend(Directory):
         # a "join" button.
         #
         if not status['running']:
-            bbb.start_room(room)
-#            return self.room_closed(room)
+            bbb.start_room(room, matrix = self.get_matrix(room))
         url = bbb.join_room_url(user.name, room, user.is_moderator(),
                                 as_admin = user.is_admin())
         return response.redirect(url)
 
+    def get_matrix(self, room):
+        # Should really limit this to session rooms
+        track = indico.track_in_room(room, times.current_time())
+        if track:
+            return timetable.matrix_room(track)
+        return ''
     #
     # This is not currently used.
     #
