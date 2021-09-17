@@ -117,7 +117,7 @@ class frontend(Directory):
             except FileNotFoundError:
                 pass
 
-    def login_form [html] (self, message = None, email = ''):
+    def login_form [html] (self, message = None, email = '', target = ''):
         page.header('/', 'Welcome to %s' % (config.EVENT), menu = False)
         insert_tz_js()
         self.display_greeting()
@@ -141,7 +141,7 @@ class frontend(Directory):
         if message:
             '<b>' + message + '</b><p>\n'
         '<blockquote>\n'
-        LoginForm(email = email).render('/login')
+        LoginForm(email = email, target = target).render('/login')
         '</blockquote>\n'
         '''<h3>Having trouble?</h3>
            <p>
@@ -154,13 +154,15 @@ class frontend(Directory):
     email_addr = re.compile(r'(\w[^@+]*)(\+\w+)?@(.+\..+)')
     @export
     def login(self):
-        email, password = LoginForm().parse()
+        lf = LoginForm()
+        email, password = lf.parse()
+        target = lf.target()
         #
         # Check and fix up the email address.
         #
         m = email and self.email_addr.match(email)
         if not m:
-            return self.login_form('Please supply a valid email address')
+            return self.login_form('Please supply a valid email address', target = target)
         email = m.group(1) + '@' + m.group(3) # drop +foo
         #
         # Perhaps what they really want is an ID reminder.
@@ -170,11 +172,11 @@ class frontend(Directory):
                 return self.login_form('Please supply an email address')
             return self.id_reminder(email)
         if not (email and password):
-            return self.login_form('Please fill in both fields', email = email)
+            return self.login_form('Please fill in both fields', email = email, target = target)
         u = auth.check_password(email, password)
         if not u:
             return self.login_form('Unknown email or invalid password',
-                                   email = email)
+                                   email = email, target = target)
         #
         # OK, they've convinced us that they are for real.  Let's fix
         # them up with a session cookie and give them the real page.
@@ -182,7 +184,7 @@ class frontend(Directory):
         cookie = auth.make_cookie(u)
         response = get_response()
         response.set_cookie('lpc_session', cookie)
-        return response.redirect(config.SITE_URL)
+        return response.redirect(config.SITE_URL + target)
 
     def id_reminder(self, email):
         with open('/tmp/reminder_requests', 'a') as f:
@@ -307,14 +309,21 @@ class frontend(Directory):
     #
     @export
     def staff_room(self):
-        room = 'Staff room'
+        return self.special_room('Staff room')
+
+    @export
+    def maintainers(self):
+        return self.special_room('Maintainers summit')
+
+    def special_room(self, room):
         user = self.logged_in()
         #
         # Let them in even if they are not admin, so we can invite
         # somebody there if need be.
         #
         if not user:
-            return get_response().redirect(config.SITE_URL)
+            return self.login_form('Please log in to access this room',
+                                   target = get_request().environ['REQUEST_URI'][1:])
         status = bbb.room_status(room)
         if status['server'] == '???':
             return get_response().redirect(config.SITE_URL)
@@ -469,17 +478,18 @@ class frontend(Directory):
 # The login form
 #
 class LoginForm:
-    def __init__(self, email = ''):
+    def __init__(self, email = '', target = ''):
         self.email = StringWidget(name="email", size = 30, value = email,
                                   id="loginemail", placeholder="Email address")
         self.pw = PasswordWidget(name = 'Password', size = 30, id="logincode",
                                  placeholder="Registration Confirmation Number")
+        self._target = HiddenWidget(name = 'target', value = target)
 
     def render [html] (self, target):
         '''<form action=%s method="post">
            %s
            %s
-           %s
+           %s %s
            <hr>
            To receive a reminder email containing your confirmation number,
            please enter the email address you used to register above and
@@ -489,10 +499,14 @@ class LoginForm:
            </form>
            ''' % (target, self.email.render(), self.pw.render(),
                   SubmitWidget(name = 'login', value = 'Log in').render(),
+                  self._target.render(),
                   SubmitWidget(name = 'reminder', value = 'Send reminder').render())
 
     def parse(self):
         return (self.email.parse(), self.pw.parse())
+
+    def target(self):
+        return self._target.parse() or ''
 
 class GuestForm:
     def __init__(self):
