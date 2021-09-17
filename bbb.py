@@ -203,10 +203,9 @@ def join_room_url(name, room, as_moderator, as_admin = False):
         pw = MOD_PW
     if as_moderator and not as_admin:
         d = {'userdata-bbb_custom_style_url':
-             'https://bbb0.2020.linuxplumbersconf.org/lpc-moderator.css' }
+             'https://bbb2.lpc.events/lpc-moderator.css' }
     else:
-        d = {'userdata-bbb_custom_style_url':
-             'https://bbb0.2020.linuxplumbersconf.org/lpc.css' }
+        d = { }
     return make_request(rooms[room].server, 'join', dargs = d,
                         meetingID = room,
                         fullName = name,
