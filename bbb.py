@@ -214,7 +214,8 @@ def join_room_url(name, room, as_moderator, as_admin = False):
 # Recordings.
 #
 class bbb_recording:
-    def __init__(self, id, meeting, start, len, url):
+    def __init__(self, server, id, meeting, start, len, url):
+        self.server = server
         self.id = id
         self.meeting = meeting
         self.start = start
@@ -235,7 +236,7 @@ def recordings(server):
         for pb in rec.findall('playback/format'):
             if pb.findtext('type') == 'presentation':
                 url = pb.findtext('url')
-        recs.append(bbb_recording(id, meeting, dtstart, len, url))
+        recs.append(bbb_recording(server, id, meeting, dtstart, len, url))
     return recs
 
 #

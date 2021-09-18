@@ -452,15 +452,15 @@ class frontend(Directory):
             return get_response().redirect(config.SITE_URL)
         page.header('/recordings', 'Available recordings', user.is_admin())
         '''<table class="OddEven">
-           <tr><th>Room</th><th>Start</th><th>Length</th><th>View</th></tr>
+           <tr><th>Server</th><th>Room</th><th>Start</th><th>Length</th><th>View</th></tr>
            '''
         recs = [ ]
         for server in bbb.all_servers():
             recs += bbb.recordings(server)
         for rec in sorted(recs, key = lambda r: r.start):
-            '''<tr><td>%s</td><td>%s</td><td align="right">%s</td>
+            '''<tr><td>%s</td><td>%s</td><td>%s</td><td align="right">%s</td>
                    <td><a href="%s">View</a></td></tr>
-                   ''' % (rec.meeting,
+                   ''' % (rec.server.split(str('.'))[0], rec.meeting,
                           rec.start.strftime(str('%Y-%m-%d %H:%M')),
                           self.format_len(rec.length),
                           rec.url)
