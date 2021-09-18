@@ -202,8 +202,7 @@ def join_room_url(name, room, as_moderator, as_admin = False):
     if as_moderator:
         pw = MOD_PW
     if as_moderator and not as_admin:
-        d = {'userdata-bbb_custom_style_url':
-             'https://bbb2.lpc.events/lpc-moderator.css' }
+        d = {'userdata-bbb_custom_style_url': '%sbbb_css' % (config.SITE_URL)}
     else:
         d = { }
     return make_request(rooms[room].server, 'join', dargs = d,

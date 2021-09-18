@@ -474,6 +474,16 @@ class frontend(Directory):
         if length > 60:
             ret += '%02d:' % ((length/60) % 60)
         return ret + '%02d' % (length % 60)
+
+    #
+    # Yet another hack: this serves out the special CSS that we inject into
+    # BBB to hide the "end meeting" button for moderators.
+    #
+    @export
+    def bbb_css(self):
+        get_response().set_content_type('text/css')
+        return 'li[aria-labelledby="dropdown-item-label-47"] { display: none; }\n'
+
 #
 # The login form
 #
