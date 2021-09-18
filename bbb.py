@@ -197,14 +197,15 @@ def start_room(room, matrix = ''):
                            welcome = Welcome % (room))
     # We should maybe return something rather than assuming it worked...
 
-def join_room_url(name, room, as_moderator, as_admin = False):
+def join_room_url(name, room, user):
     pw = ATT_PW
-    if as_moderator:
+    if user.is_moderator():
         pw = MOD_PW
-    if as_moderator and not as_admin:
-        d = {'userdata-bbb_custom_style_url': '%sbbb_css' % (config.SITE_URL)}
-    else:
-        d = { }
+    d = { 'userdata-mail': user.email,
+          'userdata-regcode': user.id }
+    if user.is_moderator() and not user.is_admin():
+        d['userdata-bbb_custom_style_url'] = ('%sbbb_css' % (config.SITE_URL))
+    print(d)
     return make_request(rooms[room].server, 'join', dargs = d,
                         meetingID = room,
                         fullName = name,
