@@ -205,7 +205,6 @@ def join_room_url(name, room, user):
           'userdata-regcode': user.id }
     if user.is_moderator() and not user.is_admin():
         d['userdata-bbb_custom_style_url'] = ('%sbbb_css' % (config.SITE_URL))
-    print(d)
     return make_request(rooms[room].server, 'join', dargs = d,
                         meetingID = room,
                         fullName = name,
