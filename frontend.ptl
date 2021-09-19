@@ -582,7 +582,12 @@ class time_selector_widget:
 #
 EmailTemplate = '''
 You (hopefully) requested a reminder of your confirmation number for 
-%s.  That number is %s.
+%s.  Your login credentials are:
+
+  Email address:     %s
+  Registration code: %s
+
+You may enter these at %s to join the conference.
 
 Thanks for participating in LPC, we look forward to seeing you in the
 sessions!
@@ -591,7 +596,7 @@ sessions!
 def send_reminder(email, id):
     # Yes, you really do have to set the default explicitly
     msg = EmailMessage(policy = policy.default)
-    msg.set_content(EmailTemplate % (config.EVENT, id))
+    msg.set_content(EmailTemplate % (config.EVENT, email, id, config.SITE_URL))
     msg.set_charset('utf-8')
     msg['To'] = email
     msg['From'] = config.EMAIL_FROM
