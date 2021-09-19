@@ -236,7 +236,8 @@ def recordings(server):
         for pb in rec.findall('playback/format'):
             if pb.findtext('type') == 'presentation':
                 url = pb.findtext('url')
-        recs.append(bbb_recording(server, id, meeting, dtstart, len, url))
+        if url:
+            recs.append(bbb_recording(server, id, meeting, dtstart, len, url))
     return recs
 
 #
