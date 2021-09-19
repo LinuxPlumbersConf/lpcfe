@@ -330,7 +330,7 @@ class frontend(Directory):
         # Duplicated code, ugh
         if not status['running']:
             bbb.start_room(room)
-        url = bbb.join_room_url(user.name, room, True, as_admin = user.is_admin())
+        url = bbb.join_room_url(user.name, room, user)
         return get_response().redirect(url)
 
     @export
