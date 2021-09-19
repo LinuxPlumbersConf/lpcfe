@@ -11,8 +11,13 @@
 import datetime
 from datetime import timezone
 
-def current_time():
+def real_current_time():
     return datetime.datetime.now(tz = timezone.utc)
+
+def fake_current_time():
+    return datetime.datetime(2021, 9, 21, 13, 30, 0, tzinfo = timezone.utc)
+
+current_time = real_current_time
 
 def user_tz_offset(request):
     return -int(request.get_cookie('tzoffset', '0'))
