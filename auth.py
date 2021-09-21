@@ -133,11 +133,17 @@ def lookup(email):
 #
 # Externally visible interface here.
 
+Logfile = None
+
 def setup():
+    global Logfile
+    
     if config.AUTH_MODE == 'flat':
         ff_load()
     else:
         ldap_connect()
+    if config.LOGFILE:
+        Logfile = open(config.LOGFILE, 'a')
 
 def check_password(email, password):
     u = lookup(email)
@@ -173,6 +179,9 @@ def validate_cookie(cookie):
     hash = make_hash(u)
     if hash != sc[1]:
         return None
+    if Logfile:
+        Logfile.write('%s\n' % (u.name))
+        Logfile.flush()
     return u
 
 def make_cookie(u):
