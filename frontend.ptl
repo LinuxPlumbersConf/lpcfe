@@ -37,6 +37,10 @@ class frontend(Directory):
 
     def front_page [html] (self, user):
         page.header('/', 'Welcome %s!' % (user.name), user.is_admin())
+        # Always notice timezone changes across page refreshes. Without
+        # this, if the timezone wasn't set at user login, or the user
+        # changes their timezone later, it will not be updated for display.
+        insert_tz_js()
         self.main_text()
         page.end_text_area()
         self.render_schedule(times.current_time(), minutes)
