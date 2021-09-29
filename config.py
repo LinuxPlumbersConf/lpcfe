@@ -15,6 +15,7 @@
 EVENT = 'Linux Plumbers Conference'
 DEFAULT_CHATROOM = 'default' # Certainly not what you want.
 LOGFILE = None
+AUTH_SECRET = '1da177e4c3f41524e886b7f1b8a0c1fc7321cac2'
 
 def load_config(cdir):
     global CONFIG_DIR

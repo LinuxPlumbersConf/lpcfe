@@ -14,18 +14,6 @@ import base64
 # Cheesy authentication stuff.
 #
 
-#
-# Speaking of cheesy, here's the cookie scheme.  We start with a super
-# duper secret:
-#
-secret = '1da177e4c3f41524e886b7f1b8a0c1fc7321cac2'
-#
-# Then, when we log somebody in, we append the secret to their email,
-# take a hash of the whole thing, then make a cookie value with the
-# email and the hash.  That lets us validate logins without having to
-# maintain a session database.
-#
-
 class User:
     def __init__(self, id, email, name, roles):
         self.id = id
@@ -156,8 +144,17 @@ def check_password(email, password):
 #
 # Session cookie management.
 #
+# Speaking of cheesy, here's the cookie scheme.  We start with a super
+# duper secret (config.AUTH_SECRET).
+#
+# Then, when we log somebody in, we append the secret to their email,
+# take a hash of the whole thing, then make a cookie value with the
+# email and the hash.  That lets us validate logins without having to
+# maintain a session database.
+#
+#
 def make_hash(u):
-    return hashlib.sha1((u.email + secret).encode('utf8')).hexdigest()
+    return hashlib.sha1((u.email + config.AUTH_SECRET).encode('utf8')).hexdigest()
 
 def validate_cookie(cookie):
     cookie = decode_cookie(cookie)
