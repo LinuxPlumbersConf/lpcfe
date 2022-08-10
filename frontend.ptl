@@ -55,9 +55,10 @@ class frontend(Directory):
            <p>
            The timetable below is focused on current (or near-future) sessions.
            Times are given in both UTC and our best guess as to your local time
-           (which appears to be offset from UTC by %d minutes).  Click on the
-           "join" button that will appear for any sessions that are currently
-           ongoing.
+           (which appears to be offset from UTC by %d minutes).
+           <p>
+           Click on the "join" button that will appear for any sessions that
+           are currently ongoing.
            <p>
            The full schedule is always available on the <a
            href="https://lpc.events/event/%d/timetable/?view=lpc">main
@@ -384,7 +385,7 @@ class frontend(Directory):
         # No timetable, figure out something to do.
         #
         if len(ttable) == 0:
-            '''<p>
+            '''<p class="note">
                <b>NOTE</b>: there are no sessions underway at the current
                time.
                '''

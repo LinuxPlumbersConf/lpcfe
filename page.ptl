@@ -408,8 +408,11 @@ input.LeftMenuCtrl {
 }
 
 div.lead-text {
-    max-width: 55em;
     margin: 6px;
+}
+
+p.note {
+    margin-left: 1em;
 }
 
 #loginemail, #logincode, #guestname {
