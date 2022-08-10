@@ -300,8 +300,8 @@ input.LeftMenuCtrl {
 @media screen and (max-width: 767px) {
     div.conf_leftMenu {
 	position: absolute;
-	top: 150px;
-	right: 1em;
+	top: 50px;
+	right: 10px;
 	z-index: 20;
     }
     label.LeftMenuCtrl:after {
@@ -310,10 +310,10 @@ input.LeftMenuCtrl {
 
     label.LeftMenuCtrl {
 	position: absolute;
-	top: 130px;
-	right: 5px;
+	top: 10px;
+	right: 10px;
 	font-size: xx-large;
-	color: black;
+	color: white;
     }
     
     input[type=checkbox]:checked ~ label.LeftMenuCtrl:after {
