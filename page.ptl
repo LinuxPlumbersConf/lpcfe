@@ -11,26 +11,50 @@
 import config
 
 Stylesheet = '''
+/*
+    LPC 2022 stylesheet for lpcfe
+*/
+
+/* Since we are using an image for the banner, limiting the max width across all screens */
+body {
+    max-width: 1920px;
+}
+
+/* latin-ext */
 @font-face {
-  font-family: 'Montserrat';
+  font-family: 'Quicksand';
   font-style: normal;
   font-weight: 400;
-  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v12/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2) format('woff2');
+  src: url(https://fonts.gstatic.com/s/quicksand/v29/6xKtdSZaM9iE8KbpRA_hJVQNcOM.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/quicksand/v29/6xKtdSZaM9iE8KbpRA_hK1QN.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 700;
+  src: url(https://fonts.gstatic.com/s/quicksand/v29/6xKtdSZaM9iE8KbpRA_hJVQNcOM.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 700;
+  src: url(https://fonts.gstatic.com/s/quicksand/v29/6xKtdSZaM9iE8KbpRA_hK1QN.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-@font-face {
-    font-family: "Big John";
-    src: url("//db.onlinewebfonts.com/t/65512fc0c1cc10babc352afa2959c05a.eot");
-    src: url("//db.onlinewebfonts.com/t/65512fc0c1cc10babc352afa2959c05a.eot?#iefix") format("embedded-opentype"),
-    url("//db.onlinewebfonts.com/t/65512fc0c1cc10babc352afa2959c05a.woff2") format("woff2"),
-    url("//db.onlinewebfonts.com/t/65512fc0c1cc10babc352afa2959c05a.woff") format("woff"),
-    url("//db.onlinewebfonts.com/t/65512fc0c1cc10babc352afa2959c05a.ttf") format("truetype"),
-    url("//db.onlinewebfonts.com/t/65512fc0c1cc10babc352afa2959c05a.svg#Big John") format("svg"); } 
-
-
 * {
-    font-family: "Montserrat";
+    font-family: "Quicksand";
 }
 
 body {
@@ -80,12 +104,12 @@ h1.title {
 }
 
 a, .fake-link, .ui-widget-content a {
-    color: #000021;
+    color: #e88617;
     text-decoration: none;
 }
 
 a:hover, .fake-link:hover, .ui-widget-content a:hover {
-    color: #865899;
+    color: #aa6618;
 }
 
 .contributiontitle {
@@ -144,7 +168,7 @@ form { margin: 0px; }
 /* Left menu, from LPC */
 .conf_leftMenu {
     float: left;
-    font-family: "Montserrat";
+    font-family: "Quicksand";
     font-size: 12px;
     margin: 0px 1em 0px 1em;
     width: 200px;
@@ -161,27 +185,37 @@ form { margin: 0px; }
     margin-top: 0px;
 }
 #outer li a:visited {
-    color: #158ebb;
+    color: black;
 }
 #outer li a {
     display: block;
-    font-family:"Montserrat";
-    color: #158ebb;
+    font-family:"Quicksand";
+    color: black;
     padding: 7px 12px;
     font-size: 10pt;
 }
 #outer li.selected, #outer li a.selected {
     color: white;
-    background: #4e94af;
+    background: #e88617;
+}
+
+#outer {
+    border: 0;
+}
+
+#outer li a {
+    font-family: "Quicksand";
+    font-size: 1.3em;
 }
 
 #outer li a:hover {
-    background: #e0e0e0;
+    background-color: #f0b068;
+    color: white;
 }
-#outer li {
-    display: block;
-    color: #158ebb;
-    text-align: left;
+
+#outer li a:not(.no-link):hover {
+    background: #f0b068;
+    color: white;
 }
 
 div.SponsorClass:first-child h5 {
