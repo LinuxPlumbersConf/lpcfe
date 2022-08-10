@@ -40,28 +40,24 @@ body {
 
 .titlebox {
     color: white;
-    min-height: 100px;
-    background: transparent url(https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/06/LPC2021_bannerFINAL.svg);
-    background-size: auto 100%;
+    background: transparent url(https://lpc.events/blog/2022/wp-content/uploads/2022/08/lpcfe2022-banner.svg);
+    min-height: 90px;
+    height: 19vh;
+    max-height: 256px;
+    background-size: cover;
 }
 
 div.title {
     width: 100%;
-    height: 100px;
-    margin: 0 auto;
-    vertical-align: middle;
+    margin: 0;
+    min-height: 90px;
+    height: 19vh;
+    max-height: 256px;
 }
 
 h1.title {
-    vertical-align: text-top;
-    color: white;
-    background-color: transparent;
-    font-size: 18pt;
-    font-family: "Big John";
-    text-transform: uppercase;
-    display: inline-block;
-    padding: 0pt 12pt 4pt 155pt;
-    word-spacing: 10000px;
+    display: none;
+    visbility: hidden;
 }
 
 .room, input[type=submit] {
@@ -463,67 +459,48 @@ def left_menu [html] (privileged, current):
     '</ul></div>\n'
 
 def sponsor_box [html] ():
-    '''<br clear="all">
-       <div class="SponsorBox"><div id="sponsors-from-blog">
-       <h5>Thank you to our sponsors!</h5>
+    '''
+<br clear="all">
+<br clear="all">
+<div class="SponsorClass">
 <h5>Diamond Sponsor</h5>
-<p>
-<center>
-<a href="http://www.facebook.com">
-    <img class="SponsorImg alignleft"
-         style="width: 200px; padding-bottom:20px;"
-          src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/facebook1.svg"
-          alt="" /></a>
-</p>
-
-
-<h5>Platinum Sponsor</h5>
-<p>
-<a href="https://www.ibm.com">
-    <img class="SponsorImg alignleft"
-         style="width: 130px; padding-bottom:20px;"
-         src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/09/ibm-horizontal-color-2.svg"
-         alt="" /></a></p>
-
-    <p>
-
+<p><a href="https://www.facebook.com"><img class="SponsorImg alignleft" style="width: 110px; max-width: 110px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/02/meta-logo-primary_standardsize.svg" alt=""></a></p>
+</div>
+<div class="SponsorClass">
+<h5>Platinum Sponsors</h5>
+<p><a href="https://opensource.google"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2019/wp-content/uploads/2019/08/google.svg" alt=""></a><br>
+<a href="https://www.ibm.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/03/IBM.svg" alt=""></a><br>
+<a href="https://www.westerndigital.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/03/WesternDigital_Logo_web_.svg" alt=""></a><br>
+<a href="https://www.intel.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/04/Intel.svg" alt=""></a></p>
+</div>
 <div class="SponsorClass">
 <h5>Gold Sponsors</h5>
-<p><a href="https://www.arm.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt="" /></a>
-<a href="https://www.microsoft.com">
-    <img class="SponsorImg alignleft"
-         style="width: 100px;"
-         src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/08/microsoft.svg"
-         alt="" /></a></p>
+<p><a href="https://www.arm.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt=""></a><br>
+<a href="https://www.digitalocean.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/DigitalOcean_Logo.svg" alt=""></a><br>
+<a href="https://www.efficios.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/efficios-logo28.svg" alt=""></a></p>
 </div>
-
 <div class="SponsorClass">
 <h5>Silver Sponsors</h5>
-<p>
-    <a href="https://www.redhat.com">
-    <img class="SponsorImg alignleft" style="width: 100px;"
-         src="https://linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/07/RedHat.svg"
-         alt="" /></a>
-<a href="https://www.nexflix.com">
-    <img class="SponsorImg alignleft"
-         style="width: 100px;"
-         src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/08/netflix.svg"
-         alt="" /></a>
-<a href="https://www.amazon.com">
-    <img class="SponsorImg alignleft"
-         style="width: 100px;"
-         src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/09/amazon-web-services-spn.svg"
-         alt="" /></a></p>
+<p><a href="https://www.cisco.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/03/cisco_logo.svg" alt=""></a><br>
+<a href="https://www.nvidia.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/05/NVIDIA-01.svg" alt=""></a><br>
+<a href="https://www.linaro.org"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/07/linaro-stacked-color.svg" alt=""></a><br>
+<a href="https://aws.amazon.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/07/amazon-web-services-logo.svg" alt=""></a><br>
+<a href="https://www.redhat.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/08/Red-Hat-Logo-new-_7_.svg" alt=""></a></p>
 </div>
 <div class="SponsorClass">
 <h5>Speaker Gift Sponsor</h5>
-<p><a href="https://www.collabora.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2019/wp-content/uploads/2019/03/Collabora-logo-new-Feb2017.svg" alt="" /></a></p>
+<p><a href="https://opensource.google"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2019/wp-content/uploads/2019/08/google.svg" alt=""></a></p>
 </div>
 <div class="SponsorClass">
-<h5>T-Shirt Sponsor</h5>
-<p><a href="https://www.vmware.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://linuxplumbersconf.org/blog/2021/wp-content/uploads/2021/04/vmware2.svg" alt="" /></a></p>
+<h5>Catchbox Sponsor</h5>
+<p><a href="https://www.collabora.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/03/Collabora-logo-new-Mar2022.svg" alt=""></a></p>
 </div>
-</center>
-       </div>
-       </div>
-       '''
+<div class="SponsorClass">
+<h5>Video Recording Sponsor</h5>
+<p><a href="https://baylibre.com/"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/logo_baylibre_rvb__2_.svg" alt=""></a></p>
+</div>
+<div class="SponsorClass">
+<h5>Conference Services Provided by</h5>
+<p><a href="https://www.linuxfoundation.org"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/2021/wp-content/uploads/2021/09/LF_logo_Pantone.svg" alt=""></a></p>
+</div>
+    '''
