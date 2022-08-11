@@ -81,6 +81,12 @@ h1.title {
     visbility: hidden;
 }
 
+.grayheader {
+    background-color: #d1d1d1;
+    border: 0;
+    padding: 0.5em;
+}
+
 .room, input[type=submit] {
     padding: 6px;
     margin: 6px;
@@ -137,8 +143,6 @@ table.OddEven td { padding: 3px; }
 table.tt {
     border: #777;
     padding: 2px;
-    border-style: solid;
-    border-width: 2px;
     font-family: sans-serif;
 }
 
@@ -150,6 +154,8 @@ table.tt td {
     border-width: 1px;
     border-style: solid;
     border-color: white;
+    border-radius: 8px;
+    padding: 8px;
 }
 
 table.tt tr:hover td {
@@ -174,6 +180,7 @@ form { margin: 0px; }
     margin: 0px 1em 0px 0px;
     width: 226px;
     vertical-align: top;
+    background-color: #f6f6f6;
 }
 #outer {
     border: 1px solid #ccc;
@@ -284,6 +291,7 @@ input.LeftMenuCtrl {
         min-width: 142px;
         width: 13.4vw;
         max-width: 256px;
+        min-height: 280px;
     }
 
     li.LeftMenuCtrl {
@@ -422,7 +430,11 @@ div.lead-text {
 }
 
 p.note {
-    margin-left: 1em;
+    margin: 1em 1em 0 1em;
+    border-radius: 8px;
+    background-color: bisque;
+    color: black;
+    padding: 8px;
 }
 
 #loginemail, #logincode, #guestname {
@@ -442,6 +454,12 @@ def header [html] (current, title, admin = False, menu = True):
        <body>
          <div class="titlebox">
             <h1 class="title">%s</h1>
+         </div>
+         <div class="grayheader">
+           <div class="datePlace">
+             <div class="date" style="float: left;">12–14 Sep 2022</div>
+             <div class="timezone" style="/* margin: 0.2em; */">&nbsp;TODO: add timezone info</div>
+           </div>
          </div>
        ''' % (config.EVENT, config.EVENT)
     if menu:
