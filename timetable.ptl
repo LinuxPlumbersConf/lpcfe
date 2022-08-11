@@ -210,14 +210,18 @@ class time_entry(ttentry):
         self.offset = offset
 
     def render [html] (self):
-        '   <td valign="top"><b>'
+        '   <td valign="top">'
         if self.offset > 2: # Arbitrary
+            '<p class="local-time">'
             fmt = str("%H:%M")
             times.offset_time(get_request(), self.time).strftime(fmt)
-            '<br>[%s&nbsp;UTC]' % (times.utc_time(self.time).strftime(fmt))
+            '&nbsp;Local</p>'
+            # '<br>%s&nbsp;Dublin' % (times.utc_time(self.time).strftime(fmt))
+            '<p class="indico-time">%s&nbsp;Dublin' % (self.time.strftime(fmt))
+            '</p>'
         else:
             '(now)'
-        '</b></td>\n'
+        '</td>\n'
 
 #
 # Track names along the top.

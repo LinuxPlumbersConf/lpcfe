@@ -87,6 +87,15 @@ h1.title {
     padding: 0.5em;
 }
 
+.date {
+    float: left;
+    margin-right: 0.2em;
+}
+
+.timezone {
+    color: #777;
+}
+
 .room, input[type=submit] {
     padding: 6px;
     margin: 6px;
@@ -291,7 +300,8 @@ input.LeftMenuCtrl {
         min-width: 142px;
         width: 13.4vw;
         max-width: 256px;
-        min-height: 280px;
+        min-height: 320px;
+        margin-bottom: 1em;
     }
 
     li.LeftMenuCtrl {
@@ -419,6 +429,16 @@ input.LeftMenuCtrl {
     }
 }
 
+p.local-time {
+    margin: 0.1em;
+    font-weight: 600;
+}
+
+p.indico-time {
+    margin: 0.1em;
+    color: #777;
+}
+
 h2 {
     font-size: 1.8em;
     font-weight: 400;
@@ -430,7 +450,7 @@ div.lead-text {
 }
 
 p.note {
-    margin: 1em 1em 0 1em;
+    margin: 0 1em 0 1em;
     border-radius: 8px;
     background-color: bisque;
     color: black;
@@ -457,8 +477,8 @@ def header [html] (current, title, admin = False, menu = True):
          </div>
          <div class="grayheader">
            <div class="datePlace">
-             <div class="date" style="float: left;">12–14 Sep 2022</div>
-             <div class="timezone" style="/* margin: 0.2em; */">&nbsp;TODO: add timezone info</div>
+             <div class="date">12–14 Sep 2022</div>
+             <div class="timezone">&nbsp;Europe/Dublin and local time</div>
            </div>
          </div>
        ''' % (config.EVENT, config.EVENT)

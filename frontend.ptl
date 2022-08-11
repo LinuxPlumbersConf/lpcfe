@@ -54,8 +54,9 @@ class frontend(Directory):
            currently.
            <p>
            The timetable below is focused on current (or near-future) sessions.
-           Times are given in both UTC and our best guess as to your local time
-           (which appears to be offset from UTC by %d minutes).
+           <p>
+           Times are given in both Europe/Dublin time and our best guess as to your local time
+           which appears to be %s (UTC %d mins).
            <p>
            Click on the "join" button that will appear for any sessions that
            are currently ongoing.
@@ -67,7 +68,7 @@ class frontend(Directory):
            Thank you for participating in LPC 2022; please do not hesitate to
            contact us at <tt>contact@linuxplumbersconf.org</tt> should you have
            any difficulties, questions, or comments.
-           ''' % (config.EVENT, times.user_tz_offset(get_request()), config.EVENT_ID)
+           ''' % (config.EVENT, times.user_tz(get_request()), times.user_tz_offset(get_request()), config.EVENT_ID)
 
     def time_selector(self, when):
         return time_selector_widget(when.weekday(), when.hour).render()
@@ -545,7 +546,9 @@ def insert_tz_js [html] ():
        <!--
        function setTZCookie() {
            off = new Date().getTimezoneOffset();
+           tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
            document.cookie = "tzoffset=" + off + "; SameSite=strict;";
+           document.cookie = "tz=" + tz + "; SameSite=strict;";
        }
        window.onload = setTZCookie;
        // -->

@@ -22,6 +22,9 @@ current_time = real_current_time
 def user_tz_offset(request):
     return -int(request.get_cookie('tzoffset', '0'))
 
+def user_tz(request):
+    return (request.get_cookie('tz', '0'))
+
 #
 # Shift a datetime from its current zone to our current offset.
 #
