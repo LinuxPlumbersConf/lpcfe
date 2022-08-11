@@ -88,7 +88,7 @@ h1.title {
     font-weight: 600;
     text-decoration: none;
     text-align: center;
-    background-color: #865899;
+    background-color: #e88617;
     color: #FFFFFF;
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #333333;
@@ -101,7 +101,7 @@ h1.title {
 }
 
 a, .fake-link, .ui-widget-content a {
-    color: #865899;
+    color: #e88617;
     text-decoration: none;
 }
 
@@ -197,7 +197,7 @@ form { margin: 0px; }
 }
 #outer li.selected, #outer li a.selected {
     color: white;
-    background: #865899;
+    background: #e88617;
 }
 
 #outer {
@@ -437,7 +437,7 @@ def header [html] (current, title, admin = False, menu = True):
          <title>%s</title>
          <link rel="stylesheet" type="text/css" href="/stylesheet">
          <link rel="shortcut icon"
-               href="https://www.linuxplumbersconf.org/blog/2020/style/favicon.ico" />
+               href="https://lpc.events/blog/2022/style/lpcfe.ico" />
        </head>
        <body>
          <div class="titlebox">
