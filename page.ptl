@@ -53,13 +53,10 @@ body {
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-* {
-    font-family: "Quicksand";
-}
-
 body {
     margin: 0px;
     font-size: 1em;
+    font-family: "Quicksand";
 }
 
 .titlebox {
@@ -138,10 +135,11 @@ table.OddEven td { padding: 3px; }
 
 /* Schedule table */
 table.tt {
-    border: black;
+    border: #777;
     padding: 2px;
-    border-style: groove;
-    border-width: 3px;
+    border-style: solid;
+    border-width: 2px;
+    font-family: sans-serif;
 }
 
 table.tt tr:hover {
@@ -163,6 +161,9 @@ table.tt tr:hover td.blank {
     background-color: white;
 }
 
+table.tt a { color: black; }
+table.tt a:hover { color: #777; }
+
 form { margin: 0px; }
 
 /* Left menu, from LPC */
@@ -170,8 +171,8 @@ form { margin: 0px; }
     float: left;
     font-family: "Quicksand";
     font-size: 12px;
-    margin: 0px 1em 0px 1em;
-    width: 200px;
+    margin: 0px 1em 0px 0px;
+    width: 226px;
     vertical-align: top;
 }
 #outer {
@@ -280,6 +281,9 @@ input.LeftMenuCtrl {
 
     input[type=checkbox]:checked ~ div.conf_leftMenu {
 	display: block;
+        min-width: 142px;
+        width: 13.4vw;
+        max-width: 256px;
     }
 
     li.LeftMenuCtrl {
@@ -407,8 +411,14 @@ input.LeftMenuCtrl {
     }
 }
 
+h2 {
+    font-size: 1.8em;
+    font-weight: 400;
+    color: #3e7101;
+}
+
 div.lead-text {
-    margin: 6px;
+    margin: 1em;
 }
 
 p.note {
@@ -433,7 +443,6 @@ def header [html] (current, title, admin = False, menu = True):
          <div class="titlebox">
             <h1 class="title">%s</h1>
          </div>
-         <br>
        ''' % (config.EVENT, config.EVENT)
     if menu:
         left_menu(admin, current)
