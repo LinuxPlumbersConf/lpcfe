@@ -101,7 +101,7 @@ h1.title {
 }
 
 a, .fake-link, .ui-widget-content a {
-    color: #e88617;
+    color: #865899;
     text-decoration: none;
 }
 
@@ -197,7 +197,7 @@ form { margin: 0px; }
 }
 #outer li.selected, #outer li a.selected {
     color: white;
-    background: #e88617;
+    background: #865899;
 }
 
 #outer {
