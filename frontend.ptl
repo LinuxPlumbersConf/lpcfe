@@ -559,8 +559,7 @@ def insert_tz_js [html] ():
 #
 # A kludgy time selector to be used before production.
 #
-weekdays = [ (6, 'Sunday'), (0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'),
-             (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday') ]
+weekdays = [ (0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday') ]
 
 class time_selector_widget:
     def __init__(self, weekday, hour):
@@ -574,8 +573,8 @@ class time_selector_widget:
         '''<blockquote>
            <form action="fake_time" method="post">
            <table> <!-- dont ask -->
-           <tr><td>See schedule at</td><td>%s</td><td>on</td><td>%s.</td>
-               <td>%s</td></tr>
+           <tr><td>See schedule [UTC] at</td><td>%s</td><td>on</td><td>%s</td>
+           <td>%s</td></tr>
            </table>
            </form>
            </blockquote>
