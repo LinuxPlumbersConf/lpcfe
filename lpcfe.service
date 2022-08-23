@@ -2,8 +2,9 @@
 Description=The LPC BBB front-end system
 
 [Service]
-User=corbet
-ExecStart=/usr/local/bin/lpcfe -c home/corbet/lpcfe-config
+User=lpcfe
+WorkingDirectory=/home/lpcfe/lpcfe
+ExecStart=/home/lpcfe/lpcfe/lpcfe -c /home/lpcfe/lpcfe-config
 Restart=on-failure
 RestartSec=2s
 
