@@ -584,6 +584,14 @@ def sponsor_box [html] ():
 <p><a href="https://baylibre.com/"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/logo_baylibre_rvb__2_.svg" alt=""></a></p>
 </div>
 <div class="SponsorClass">
+<h5>Livestream Sponsor</h5>
+<p><a href="https://ebpf.foundation/"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/08/ebpf-simplified-color-horz.svg" alt="" /></a></p>
+</div>
+<div class="SponsorClass">
+<h5>T-Shirt Sponsor</h5>
+<p><a href="https://www.jumptrading.com/"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/08/jump-trading.svg" alt="" /></a></p>
+</div>
+<div class="SponsorClass">
 <h5>Conference Services Provided by</h5>
 <p><a href="https://www.linuxfoundation.org"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/2021/wp-content/uploads/2021/09/LF_logo_Pantone.svg" alt=""></a></p>
 </div>
