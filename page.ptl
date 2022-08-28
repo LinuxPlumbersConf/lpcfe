@@ -555,13 +555,15 @@ def sponsor_box [html] ():
 <p><a href="https://opensource.google"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2019/wp-content/uploads/2019/08/google.svg" alt=""></a><br>
 <a href="https://www.ibm.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/03/IBM.svg" alt=""></a><br>
 <a href="https://www.westerndigital.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/03/WesternDigital_Logo_web_.svg" alt=""></a><br>
-<a href="https://www.intel.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/04/Intel.svg" alt=""></a></p>
+<a href="https://www.intel.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/04/Intel.svg" alt=""></a><br>
+<a href="https://www.netapp.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/08/NetApp_Logo.svg" alt="" /></a></p>
 </div>
 <div class="SponsorClass">
 <h5>Gold Sponsors</h5>
 <p><a href="https://www.arm.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt=""></a><br>
 <a href="https://www.digitalocean.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/DigitalOcean_Logo.svg" alt=""></a><br>
-<a href="https://www.efficios.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/efficios-logo28.svg" alt=""></a></p>
+<a href="https://www.efficios.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/efficios-logo28.svg" alt=""></a><br>
+<a href="https://www.microsoft.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/08/microsoft-horizontal-color.svg" alt="" /></a></p>
 </div>
 <div class="SponsorClass">
 <h5>Silver Sponsors</h5>
