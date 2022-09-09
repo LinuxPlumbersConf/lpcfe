@@ -610,5 +610,8 @@ def send_reminder(email, id):
     msg['Subject'] = 'LPC 2022 confirmation number reminder'
     msg['Date'] = datetime.datetime.now()
     server = smtplib.SMTP(config.SMTP_SERVER, port = 587)
+    server.ehlo()
+    server.starttls()
+    server.login(config.SMTP_LOGIN, config.SMTP_PASSWORD)
     server.send_message(msg, from_addr = config.EMAIL_FROM)
     server.quit()
