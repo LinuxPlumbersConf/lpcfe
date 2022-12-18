@@ -10,6 +10,8 @@
 #
 import datetime
 from datetime import timezone
+import pytz
+import config
 
 def real_current_time():
     return datetime.datetime.now(tz = timezone.utc)
@@ -35,3 +37,6 @@ def offset_time(request, dt):
 
 def utc_time(dt):
     return dt.astimezone(timezone.utc)
+
+def venue_time(dt):
+    return dt.astimezone(pytz.timezone(config.VENUE_TZ))

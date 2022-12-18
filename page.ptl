@@ -478,10 +478,10 @@ def header [html] (current, title, admin = False, menu = True):
          <div class="grayheader">
            <div class="datePlace">
              <div class="date">12–14 Sep 2022</div>
-             <div class="timezone">&nbsp;Europe/Dublin and local time</div>
+             <div class="timezone">&nbsp;%s and local time</div>
            </div>
          </div>
-       ''' % (config.EVENT, config.EVENT)
+       ''' % (config.EVENT, config.EVENT, config.VENUE_TZ)
     if menu:
         left_menu(admin, current)
     '''<div class="lead-text">

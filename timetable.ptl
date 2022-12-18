@@ -11,6 +11,7 @@
 from quixote import get_request
 import datetime
 import times, buttons
+import config
 
 def generate_rows(ttable, tracks, begin):
     #
@@ -216,8 +217,8 @@ class time_entry(ttentry):
             fmt = str("%H:%M")
             times.offset_time(get_request(), self.time).strftime(fmt)
             '&nbsp;Local</p>'
-            # '<br>%s&nbsp;Dublin' % (times.utc_time(self.time).strftime(fmt))
-            '<p class="indico-time">%s&nbsp;Dublin' % (self.time.strftime(fmt))
+            '<p class="indico-time"><br>%s&nbsp;%s' % (times.venue_time(self.time).strftime(fmt), config.VENUE_LOCATION)
+            #'<p class="indico-time">%s&nbsp;Dublin' % (self.time.strftime(fmt))
             '</p>'
         else:
             '(now)'
