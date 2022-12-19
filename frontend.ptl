@@ -36,7 +36,7 @@ class frontend(Directory):
             self.login_form()
 
     def front_page [html] (self, user):
-        page.header('/', 'Welcome %s!' % (user.name), user.is_admin())
+        page.header('/', h'Welcome %s!' % (user.name), user.is_admin())
         # Always notice timezone changes across page refreshes. Without
         # this, if the timezone wasn't set at user login, or the user
         # changes their timezone later, it will not be updated for display.
@@ -49,7 +49,7 @@ class frontend(Directory):
         page.trailer()
 
     def main_text [html] (self):
-        '''This is the entry portal for the %s
+        h'''This is the entry portal for the %s
            meeting rooms.  Look below for the list of what is happening
            currently.
            <p>
@@ -81,8 +81,8 @@ class frontend(Directory):
         begin = datetime.datetime(2022, 9, 12, 0, 0, 0, tzinfo = timezone.utc)
         begin += datetime.timedelta(days = weekday)
         begin += datetime.timedelta(hours = hour)
-        '''This is the timetable rendered as if it were %s UTC
-        ''' % (begin.strftime(str('%Y-%m-%d %H:%M')))
+        h'''This is the timetable rendered as if it were %s UTC
+        ''' % (begin.strftime(str(h'%Y-%m-%d %H:%M')))
         page.end_text_area()
         self.render_schedule(begin, minutes)
         self.time_selector(begin)
@@ -124,32 +124,32 @@ class frontend(Directory):
                 pass
 
     def login_form [html] (self, message = None, email = '', target = ''):
-        page.header('/', 'Welcome to %s' % (config.EVENT), menu = False)
+        page.header('/', h'Welcome to %s' % (config.EVENT), menu = False)
         insert_tz_js()
         self.display_greeting()
         #
         # Are we feeling open today?
         #
         if config.GUEST_ALLOWED:
-            '''<h3>Log in as a guest</h3>
+            h'''<h3>Log in as a guest</h3>
                <p>
                To log in without an existing account, please enter your full
                name in the blank below.  This is the name that will identify
                you in the conference rooms.
             '''
             GuestForm().render()
-        '''<p>Please login with the email address you used to register to LPC 2022.
+        h'''<p>Please login with the email address you used to register to LPC 2022.
            You need to enter your Registration Confirmation Number. That
            information is found in your confirmation email titled
            "Registration Confirmed - Linux Plumbers Conference 2022".
            <p>
            '''
         if message:
-            '<b>' + message + '</b><p>\n'
-        '<blockquote>\n'
+            h'<b>' + message + h'</b><p>\n'
+        h'<blockquote>\n'
         LoginForm(email = email, target = target).render('/login')
-        '</blockquote>\n'
-        '''<h3>Having trouble?</h3>
+        h'</blockquote>\n'
+        h'''<h3>Having trouble?</h3>
            <p>
            Please email <tt>contact@linuxplumbersconf.org</tt> for assistance
            accessing the conference site.
@@ -231,15 +231,15 @@ class frontend(Directory):
         page.trailer()
 
     def gm_button [html] (self):
-        '<form action="toggle_guest">\n'
-        '<b>Guest mode</b>: '
+        h'<form action="toggle_guest">\n'
+        h'<b>Guest mode</b>: '
         if config.GUEST_ALLOWED:
             'ENABLED '
             SubmitWidget(name='guestmode', value = 'Disable').render()
         else:
             'DISABLED '
             SubmitWidget(name='guestmode', value = 'Enable').render()
-        '</form><p>'
+        h'</form><p>'
 
     @export
     def toggle_guest(self):
@@ -250,9 +250,9 @@ class frontend(Directory):
         return self.status()
 
     def list_servers [html] (self):
-        '<h4>Server status</h4>'
-        '<dl>\n'
-        '''<blockquote>
+        h'<h4>Server status</h4>'
+        h'<dl>\n'
+        h'''<blockquote>
            <table class="OddEven">
            <tr><th>Server</th><th>status</th><th>Rooms</th><th>People</th></tr>
            '''
@@ -260,24 +260,24 @@ class frontend(Directory):
         for server in bbb.all_servers():
             meetings = bbb.status(server)
             if meetings is None:
-                '<tr><td>%s</td><td>DOWN</td><td></td><td></td></tr>\n' % (server)
+                h'<tr><td>%s</td><td>DOWN</td><td></td><td></td></tr>\n' % (server)
                 continue
             nrooms = len(meetings)
             npeople = 0
             for m in meetings:
                 npeople += int(m['people'])
-            '<tr><td>%s</td><td>UP</td><td>%d</td><td>%d</td></tr>\n' % \
+            h'<tr><td>%s</td><td>UP</td><td>%d</td><td>%d</td></tr>\n' %\
                         (server, nrooms, npeople)
             total_rooms += nrooms
             total_people += npeople
-        '<tr><td>TOTAL</td><td></td><td>%d</td><td>%d</td></tr>\n' % (total_rooms,
+        h'<tr><td>TOTAL</td><td></td><td>%d</td><td>%d</td></tr>\n' % (total_rooms,
                                                                       total_people)
-        '</table></blockquote>\n'
+        h'</table></blockquote>\n'
     #
     # Room management
     #
     def list_rooms [html] (self):
-        '''<h4>Room status</h4>
+        h'''<h4>Room status</h4>
            <p>
            <blockquote>
            <table class="OddEven">
@@ -293,22 +293,22 @@ class frontend(Directory):
            '''
         for room in bbb.all_rooms():
             status = bbb.room_status(room)
-            '<tr><td>%s</td><td>%s</td><td>%s</td>' % (room, status['server'],
+            h'<tr><td>%s</td><td>%s</td><td>%s</td>' % (room, status['server'],
                                                        status['type'])
             if status['running']:
-                '''<td>RUNNING</td>
+                h'''<td>RUNNING</td>
                    <td align=right>%s</td><td align=right>%s</td>
                    <td align=right>%s</td>
                    <td>%s</td><td>''' % (status['people'], status['listeners'],
                                          status['video'], status['moderators'])
                 buttons.room_join_button(room)
-                '</td></tr>\n'
+                h'</td></tr>\n'
             else:
-                '''<td>CLOSED</td>
+                h'''<td>CLOSED</td>
                    <td></td><td></td><td></td><td></td><td>'''
                 buttons.room_start_button(room)
-                '</td></tr>\n'
-        '</table></blockquote>\n'
+                h'</td></tr>\n'
+        h'</table></blockquote>\n'
 
     #
     # A special staff room.
@@ -369,14 +369,14 @@ class frontend(Directory):
     #
     def room_closed [html] (self, room):
         page.header('/', 'Room closed', False)
-        '''The room you are trying to join has not yet been opened for
+        h'''The room you are trying to join has not yet been opened for
            general access.  Please accept our apologies for the inconvenience
            and retry shortly.
            <p>
            <blockquote>
            '''
         buttons.room_join_button(room, button_text = 'Retry room ' + room)
-        '</blockquote>\n'
+        h'</blockquote>\n'
     #
     # A first shot at rendering a schedule.
     #
@@ -386,20 +386,20 @@ class frontend(Directory):
         # No timetable, figure out something to do.
         #
         if len(ttable) == 0:
-            '''<p class="note">
+            h'''<p class="note">
                <b>NOTE</b>: there are no sessions underway at the current
                time.
                '''
             restart = indico.find_restart_time(begin)
             if not restart:
-                return '''<p>
+                return h'''<p>
                 	  <b>NOTE</b>: the event is over — see you next year!
                           '''
             lrestart = times.offset_time(get_request(), restart)
-            '''The conference will restart at %s UTC (%s local) with the sessions
+            h'''The conference will restart at %s UTC (%s local) with the sessions
                shown below.
-               ''' % (times.utc_time(restart).strftime(str('%Y-%m-%d %H:%M')),
-                      lrestart.strftime(str('%H:%M')))
+               ''' % (times.utc_time(restart).strftime(str(h'%Y-%m-%d %H:%M')),
+                      lrestart.strftime(str(h'%H:%M')))
             ttable = indico.get_timetable(restart, minutes)
             #
             # Hack: back up the "start" time by 61 minutes to ensure that
@@ -423,7 +423,7 @@ class frontend(Directory):
         if not user:
             return get_response().redirect(config.SITE_URL)
         page.header('/hackrooms', 'LPC 2022 hackrooms', user.is_admin())
-        '''This page lists the LPC 2022 hackrooms — rooms that are open for
+        h'''This page lists the LPC 2022 hackrooms — rooms that are open for
            informal meetings or just the desire to get together and talk for a
            bit.
            <p>
@@ -431,7 +431,7 @@ class frontend(Directory):
            and that your presence in these rooms will be visible on this page.
            '''
         page.end_text_area()
-        '''<p>
+        h'''<p>
            <blockquote>
            <table>
            <tr><th></th><th>Room</th><th>Participants</th></tr>
@@ -442,9 +442,9 @@ class frontend(Directory):
                 people = status['participants']
             else:
                 people = '(empty)'
-            '<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n' % (buttons.room_join_button(room),
+            h'<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n' % (buttons.room_join_button(room),
                                                               room, people)
-        '</table></blockquote>\n'
+        h'</table></blockquote>\n'
         page.trailer()
 
     #
@@ -456,20 +456,20 @@ class frontend(Directory):
         if not user:
             return get_response().redirect(config.SITE_URL)
         page.header('/recordings', 'Available recordings', user.is_admin())
-        '''<table class="OddEven">
+        h'''<table class="OddEven">
            <tr><th>Server</th><th>Room</th><th>Start</th><th>Length</th><th>View</th></tr>
            '''
         recs = [ ]
         for server in bbb.all_servers():
             recs += bbb.recordings(server)
         for rec in sorted(recs, key = lambda r: r.start):
-            '''<tr><td>%s</td><td>%s</td><td>%s</td><td align="right">%s</td>
+            h'''<tr><td>%s</td><td>%s</td><td>%s</td><td align="right">%s</td>
                    <td><a href="%s">View</a></td></tr>
                    ''' % (rec.server.split(str('.'))[0], rec.meeting,
-                          rec.start.strftime(str('%Y-%m-%d %H:%M')),
+                          rec.start.strftime(str(h'%Y-%m-%d %H:%M')),
                           self.format_len(rec.length),
                           rec.url)
-        '</table>\n'
+        h'</table>\n'
         page.trailer()
 
     def format_len(self, length):
@@ -501,7 +501,7 @@ class LoginForm:
         self._target = HiddenWidget(name = 'target', value = target)
 
     def render [html] (self, target):
-        '''<form action=%s method="post">
+        h'''<form action=%s method="post">
            %s
            %s
            %s %s
@@ -529,7 +529,7 @@ class GuestForm:
                                   id="guestname", placeholder="Full name")
 
     def render [html] (self):
-        '''<blockquote>
+        h'''<blockquote>
            <form action="guest_login" method="post">%s%s</form>
            </blockquote>''' % (self.name.render(),
                                SubmitWidget(name='login',
@@ -542,14 +542,14 @@ class GuestForm:
 # Let's see if we can magically get their timezone offset
 #
 def insert_tz_js [html] ():
-    '''<script type="text/javascript">
+    h'''<script type="text/javascript">
        <!--
-       function setTZCookie() {
+       function setTZCookie() {{
            off = new Date().getTimezoneOffset();
            tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
            document.cookie = "tzoffset=" + off + "; SameSite=strict;";
            document.cookie = "tz=" + tz + "; SameSite=strict;";
-       }
+       }}
        window.onload = setTZCookie;
        // -->
        </script>
@@ -570,7 +570,7 @@ class time_selector_widget:
                                        options = hours)
 
     def render [html] (self):
-        '''<blockquote>
+        h'''<blockquote>
            <form action="fake_time" method="post">
            <table> <!-- dont ask -->
            <tr><td>See schedule [UTC] at</td><td>%s</td><td>on</td><td>%s</td>

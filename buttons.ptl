@@ -11,14 +11,14 @@
 # Note we go to join_room() regardless of the button...
 #
 def room_join_button [html] (room, button_text = 'Join room'):
-    '''<form action="join_room" method="post">
+    h'''<form action="join_room" method="post">
        <input type="hidden" name="room" value="%s">
        <input type="submit" name="join" class="room"
         title="Join room" value="%s">
        </form>''' % (room, button_text)
 
 def room_start_button [html] (room):
-    '''<form action="join_room" method="post">
+    h'''<form action="join_room" method="post">
        <input type="hidden" name="room" value="%s">
        <input type="submit" name="join" class="room"
         value="Start room">

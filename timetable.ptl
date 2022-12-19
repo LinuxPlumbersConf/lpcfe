@@ -75,7 +75,7 @@ def generate_rows(ttable, tracks, begin):
             if track in items:
                 item = items[track]
                 join_button = False
-                if (track not in has_join_button) and (start <= 60) and \
+                if (track not in has_join_button) and (start <= 60) and\
                    (not item.is_break):
                     join_button = True
                     has_join_button.append(track)
@@ -104,19 +104,19 @@ def generate_rows(ttable, tracks, begin):
 # Actually generate the table.
 #
 def render_rows [html] (begin, rows):
-    '''<p>
+    h'''<p>
        <table class="tt">'''
     nrow = 0
     for row in rows:
         if nrow == 0:
-            rowclass = 'class="tthdr"'
+            rowclass = h'class="tthdr"'
         else:
             rowclass = ''
-        '<tr %s>' % (rowclass)
+        h'<tr %s>' % (rowclass)
         for entry in row:
             entry.render()
         nrow += 1
-    '</table>\n'
+    h'</table>\n'
 
 #
 # Simple classes for each of the times of timetable content.
@@ -126,7 +126,7 @@ class ttentry:
         self.title = title
 
     def render [html] (self): # replace me
-        return '   <td>%s</td>\n' % (self.title)
+        return h'   <td>%s</td>\n' % (self.title)
 
 #
 # Time for a break.  I could use a break.
@@ -137,7 +137,7 @@ class break_entry(ttentry):
         self.item = item
 
     def render [html] (self):
-        '''<td rowspan=%d valign="top">
+        h'''<td rowspan=%d valign="top">
            <p class="contributiontitle">%s</p>
            </td>
         ''' % (self.item.rows, self.item.title)
@@ -158,29 +158,29 @@ class session_entry(ttentry):
         bgcolor = ''
         if self.item.track:
             try:
-                bgcolor = 'style="background-color:%s99;"' % (track_colors[self.item.track])
+                bgcolor = h'style="background-color:%s99;"' % (track_colors[self.item.track])
             except KeyError:
                 print('No color: ', self.item.track)
-        '<td rowspan=%d valign="top" %s>' % (self.item.rows, bgcolor)
+        h'<td rowspan=%d valign="top" %s>' % (self.item.rows, bgcolor)
         #
         # Render the title, as a link if we have a URL.
         #
         if self.item.url:
-            '''<p class="contributiontitle">
+            h'''<p class="contributiontitle">
                <a href="%s" title="%s">%s</a></p>
                ''' % (self.item.url, self.item.desc, self.item.title)
         else:
-            '<p class="contributiontitle">%s</p>' % (self.item.title)
+            h'<p class="contributiontitle">%s</p>' % (self.item.title)
         if self.item.presenters:
-            '<p class="speakers">%s</p>\n' % (', '.join(self.item.presenters))
-        '<p class="tttrack">%s %s</p>\n' % (self.item.track,
+            h'<p class="speakers">%s</p>\n' % (h', '.join(self.item.presenters))
+        h'<p class="tttrack">%s %s</p>\n' % (self.item.track,
                                             track_extra.get(self.item.track, ''))
         #
         # Room join button
         #
         if self.button:
             buttons.room_join_button(self.item.room, 'Join session')
-        '</td>\n'
+        h'</td>\n'
 
 #
 # We're not putting anything in this box (skipped due to rowspan=)
@@ -199,7 +199,7 @@ class blank_entry(ttentry):
     def __init__(self):
         ttentry.__init__(self, 'blank')
     def render [html] (self):
-        return '<td class="blank"></td>'
+        return h'<td class="blank"></td>'
 
 #
 # Times in the left column.
@@ -211,18 +211,18 @@ class time_entry(ttentry):
         self.offset = offset
 
     def render [html] (self):
-        '   <td valign="top">'
+        h'   <td valign="top">'
         if self.offset > 2: # Arbitrary
-            '<p class="local-time">'
-            fmt = str("%H:%M")
+            h'<p class="local-time">'
+            fmt = str(h"%H:%M")
             times.offset_time(get_request(), self.time).strftime(fmt)
-            '&nbsp;Local</p>'
-            '<p class="indico-time"><br>%s&nbsp;%s' % (times.venue_time(self.time).strftime(fmt), config.VENUE_LOCATION)
+            h'&nbsp;Local</p>'
+            h'<p class="indico-time"><br>%s&nbsp;%s' % (times.venue_time(self.time).strftime(fmt), config.VENUE_LOCATION)
             #'<p class="indico-time">%s&nbsp;Dublin' % (self.time.strftime(fmt))
-            '</p>'
+            h'</p>'
         else:
             '(now)'
-        '</td>\n'
+        h'</td>\n'
 
 #
 # Track names along the top.
@@ -235,7 +235,7 @@ class room_entry(ttentry):
         stuff = ''
         if self.title:
             stuff += self.title + ' ' + track_extra.get(self.title, '')
-        '<th>%s</th>\n' % (stuff)
+        h'<th>%s</th>\n' % (stuff)
 
 #
 # Crude track-to-color mapping

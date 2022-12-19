@@ -251,9 +251,9 @@ def make_request(dest, command, dargs = None, **args):
     # aargs = quote_plus(aargs)
     hash = hashlib.sha1((command + aargs + secret).encode('utf8')).hexdigest()
     if len(args) > 0:
-        return 'https://' + dest + '/bigbluebutton/api/' + command + '?' + \
+        return 'https://' + dest + '/bigbluebutton/api/' + command + '?' +\
                aargs + '&checksum=' + hash
-    return 'https://' + dest + '/bigbluebutton/api/' + command + \
+    return 'https://' + dest + '/bigbluebutton/api/' + command +\
            '?checksum=' + hash
 
 def run_request(server, command, **args):

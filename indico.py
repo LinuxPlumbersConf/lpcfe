@@ -109,7 +109,7 @@ def get_timetable(begin, minutes, in_progress = 10):
     for track in Tracks.keys():
         items = [ ]
         for item in Tracks[track]:
-            if (begin <= item.begin < end) or (ip_end < item.end < end) or \
+            if (begin <= item.begin < end) or (ip_end < item.end < end) or\
                (item.begin < begin and item.end > end):
                 items.append(copy.copy(item))
         if items:
@@ -138,8 +138,8 @@ def track_in_room(room, time, lead = 60):
     end = time + datetime.timedelta(minutes = lead)
     for track in Tracks:
         for item in Tracks[track]:
-            if (item.room == room) and \
-               ((time <= item.begin < end) or (time < item.end < end) or \
+            if (item.room == room) and\
+               ((time <= item.begin < end) or (time < item.end < end) or\
                (item.begin < time and item.end > end)):
                 return track
     return None

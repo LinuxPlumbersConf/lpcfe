@@ -464,7 +464,7 @@ p.note {
 '''
 
 def header [html] (current, title, admin = False, menu = True):
-    '''<html>
+    h'''<html>
        <head>
          <title>%s</title>
          <link rel="stylesheet" type="text/css" href="/stylesheet">
@@ -484,7 +484,7 @@ def header [html] (current, title, admin = False, menu = True):
        ''' % (config.EVENT, config.EVENT, config.VENUE_TZ)
     if menu:
         left_menu(admin, current)
-    '''<div class="lead-text">
+    h'''<div class="lead-text">
        <h2>%s</h2>
        ''' % (title)
 
@@ -493,14 +493,14 @@ def end_text_area [html] ():
     # The new <div> doesn't do much other than give something for the
     # </div> in trailer() to close.
     #
-    '''</div>
+    h'''</div>
        <br clear="all">
        <div class="below-menu">'''
 
 def trailer [html] ():
-    '</div>\n'
+    h'</div>\n'
     sponsor_box()
-    '</body></html>'
+    h'</body></html>'
        
 def CSS [html] ():
     return Stylesheet
@@ -526,11 +526,11 @@ priv_menu_items = [
 def render_menu_item [html] (item, current):
     sel = ''
     if item[0] == current:
-        sel = ' class="selected"'
-    '<li%s> <a href="%s"%s>%s</a>\n' % (sel, item[0], sel, item[1])
+        sel = h' class="selected"'
+    h'<li%s> <a href="%s"%s>%s</a>\n' % (sel, item[0], sel, item[1])
 
 def left_menu [html] (privileged, current):
-    '''<input type="checkbox" checked class="LeftMenuCtrl" id="LeftMenuCtrl">
+    h'''<input type="checkbox" checked class="LeftMenuCtrl" id="LeftMenuCtrl">
        <label class="LeftMenuCtrl" for="LeftMenuCtrl"></label>
        <div class="conf_leftMenu">
        <ul id="outer">
@@ -540,10 +540,10 @@ def left_menu [html] (privileged, current):
             render_menu_item(item, current)
     for item in menu_items:
         render_menu_item(item, current)
-    '</ul></div>\n'
+    h'</ul></div>\n'
 
 def sponsor_box [html] ():
-    '''
+    h'''
 <br clear="all">
 <br clear="all">
 <div class="SponsorClass">
