@@ -469,7 +469,7 @@ def header [html] (current, title, admin = False, menu = True):
          <title>%s</title>
          <link rel="stylesheet" type="text/css" href="/stylesheet">
          <link rel="shortcut icon"
-               href="https://lpc.events/blog/2022/style/lpcfe.ico" />
+               href="https://lpc.events/images/indico.ico" />
        </head>
        <body>
          <div class="titlebox">
@@ -477,7 +477,7 @@ def header [html] (current, title, admin = False, menu = True):
          </div>
          <div class="grayheader">
            <div class="datePlace">
-             <div class="date">12–14 Sep 2022</div>
+             <div class="date">13–15 Nov 2023</div>
              <div class="timezone">&nbsp;%s and local time</div>
            </div>
          </div>
@@ -513,9 +513,9 @@ menu_items = [
     ('/hackrooms', 'Hackrooms'),
 #    ('https://chat.2020.linuxplumbersconf.org/home', 'Chat area'),
     ("https://lpc.events/", 'Main LPC site'),
-    ("https://lpc.events/event/16/page/183-anti-harassment-policy",
+    ("https://lpc.events/event/17/page/214-anti-harassment-policy",
      'Anti-harrassment policy'),
-    ("https://lpc.events/event/16/page/184-contact", 'Contact'),
+    ("https://lpc.events/event/17/page/215-contact", 'Contact'),
     ("/logout", 'Log out') ]
 
 priv_menu_items = [

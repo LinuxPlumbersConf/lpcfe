@@ -65,7 +65,7 @@ class frontend(Directory):
            href="https://lpc.events/event/%d/timetable/?view=lpc">main
            Linux Plumbers Conference</a> site.
            <p>
-           Thank you for participating in LPC 2022; please do not hesitate to
+           Thank you for participating in LPC 2023; please do not hesitate to
            contact us at <tt>contact@linuxplumbersconf.org</tt> should you have
            any difficulties, questions, or comments.
            ''' % (config.EVENT, config.VENUE_TZ, times.user_tz(get_request()), times.user_tz_offset(get_request()), config.EVENT_ID)
@@ -78,7 +78,7 @@ class frontend(Directory):
         weekday, hour = time_selector_widget(0, 0).parse()
         page.header('/', 'LPC timetable at a fake time', admin = True)
         tz = datetime.timezone(datetime.timedelta(hours = config.SERVER_TZOFFSET))
-        begin = datetime.datetime(2022, 9, 12, 0, 0, 0, tzinfo = timezone.utc)
+        begin = datetime.datetime(2023, 11, 13, 0, 0, 0, tzinfo = timezone.utc)
         begin += datetime.timedelta(days = weekday)
         begin += datetime.timedelta(hours = hour)
         h'''This is the timetable rendered as if it were %s UTC
@@ -138,10 +138,10 @@ class frontend(Directory):
                you in the conference rooms.
             '''
             GuestForm().render()
-        h'''<p>Please login with the email address you used to register to LPC 2022.
+        h'''<p>Please login with the email address you used to register to LPC 2023.
            You need to enter your Registration Confirmation Number. That
            information is found in your confirmation email titled
-           "Registration Confirmed - Linux Plumbers Conference 2022".
+           "Registration Confirmed - Linux Plumbers Conference 2023".
            <p>
            '''
         if message:
@@ -422,8 +422,8 @@ class frontend(Directory):
         user = self.logged_in()
         if not user:
             return get_response().redirect(config.SITE_URL)
-        page.header('/hackrooms', 'LPC 2022 hackrooms', user.is_admin())
-        h'''This page lists the LPC 2022 hackrooms — rooms that are open for
+        page.header('/hackrooms', 'LPC 2023 hackrooms', user.is_admin())
+        h'''This page lists the LPC 2023 hackrooms — rooms that are open for
            informal meetings or just the desire to get together and talk for a
            bit.
            <p>
@@ -607,7 +607,7 @@ def send_reminder(email, id):
     msg.set_charset('utf-8')
     msg['To'] = email
     msg['From'] = config.EMAIL_FROM
-    msg['Subject'] = 'LPC 2022 confirmation number reminder'
+    msg['Subject'] = 'LPC 2023 confirmation number reminder'
     msg['Date'] = datetime.datetime.now()
     server = smtplib.SMTP(config.SMTP_SERVER, port = 587)
     server.ehlo()
