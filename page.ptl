@@ -61,9 +61,9 @@ body {
 
 .titlebox {
     color: white;
-    background: transparent url(https://lpc.events/blog/2022/wp-content/uploads/2022/08/lpcfe2022-banner.svg);
+    background: transparent url(https://lpc.events/event/17/images/305-lpc23_banner_title.png);
     min-height: 90px;
-    height: 19vh;
+    height: 40vh;
     max-height: 256px;
     background-size: cover;
 }
@@ -103,7 +103,7 @@ h1.title {
     font-weight: 600;
     text-decoration: none;
     text-align: center;
-    background-color: #e88617;
+    background-color: #c16260;
     color: #FFFFFF;
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #333333;
@@ -116,7 +116,7 @@ h1.title {
 }
 
 a, .fake-link, .ui-widget-content a {
-    color: #e88617;
+    color: #c16260;
     text-decoration: none;
 }
 
@@ -139,7 +139,7 @@ a:hover, .fake-link:hover, .ui-widget-content a:hover {
 table.OddEven {
     border-collapse: separate;
 }
-table.OddEven tr:nth-child(even) { 
+table.OddEven tr:nth-child(even) {
     background-color: white;
 }
 table.OddEven tr:nth-child(odd) {
@@ -213,7 +213,7 @@ form { margin: 0px; }
 }
 #outer li.selected, #outer li a.selected {
     color: white;
-    background: #e88617;
+    background: #c16260;
 }
 
 #outer {
@@ -226,12 +226,12 @@ form { margin: 0px; }
 }
 
 #outer li a:hover {
-    background-color: #f0b068;
+    background-color: #d79795;
     color: white;
 }
 
 #outer li a:not(.no-link):hover {
-    background: #f0b068;
+    background: #d79795;
     color: white;
 }
 
@@ -337,7 +337,7 @@ input.LeftMenuCtrl {
 	font-size: xx-large;
 	color: white;
     }
-    
+
     input[type=checkbox]:checked ~ label.LeftMenuCtrl:after {
 	content: "☰";
     }
@@ -356,7 +356,7 @@ input.LeftMenuCtrl {
 	width: 68px;  /* Has to be px, not % */
 	margin: 10px;
     }
-    .confTitle {    
+    .confTitle {
 	height: 90px;
 	line-height: 90px;
     }
@@ -442,7 +442,7 @@ p.indico-time {
 h2 {
     font-size: 1.8em;
     font-weight: 400;
-    color: #3e7101;
+    color: #6a8a25;
 }
 
 div.lead-text {
@@ -501,7 +501,7 @@ def trailer [html] ():
     h'</div>\n'
     sponsor_box()
     h'</body></html>'
-       
+
 def CSS [html] ():
     return Stylesheet
 
