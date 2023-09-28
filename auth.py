@@ -22,6 +22,8 @@ class User:
         self.roles = roles
 
     def is_moderator(self):
+        if self.is_admin():
+            return 'moderator'
         return 'moderator' in self.roles
 
     def is_admin(self):
