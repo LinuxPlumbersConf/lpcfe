@@ -10,6 +10,9 @@ import ldap
 import config
 import threading
 import base64
+
+import ldap.ldapobject, ldapurl
+
 #
 # Cheesy authentication stuff.
 #
@@ -78,9 +81,15 @@ ldap_attrs = ['givenName', 'sn', 'labeledURI', 'businessCategory']
 ldap_conn = None
 ldap_lock = threading.Lock()
 
+def ldap_initialize(server):
+    ldap_url = ldapurl.LDAPUrl(server)
+
+    return ldap.ldapobject.ReconnectLDAPObject(ldap_url.initializeUrl())
+
 def ldap_connect():
     global ldap_conn
-    ldap_conn = ldap.initialize(config.LDAP_SERVER)
+    ldap_conn = ldap_initialize(config.LDAP_SERVER)
+    print(type(ldap_conn))
     ldap_conn.simple_bind_s(config.LDAP_USER, config.LDAP_PW)
 
 def ldap_lookup(email):
