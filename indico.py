@@ -90,6 +90,8 @@ class sched_item:
         self.room = item['room']
         self.desc = item['description'].replace('\n', ' ')
         self.track = track
+        self.bgcolor = item['color']
+        self.color = item['textColor']
         try:
             self.url = config.INDICO_SERVER + item['url']
         except KeyError:

@@ -153,22 +153,19 @@ class session_entry(ttentry):
 
     def render [html] (self):
         #
-        # Apply a background color if one is available.
+        # Use colors defined by indico
         #
-        bgcolor = ''
-        if self.item.track:
-            try:
-                bgcolor = h'style="background-color:%s99;"' % (track_colors[self.item.track])
-            except KeyError:
-                print('No color: ', self.item.track)
-        h'<td rowspan=%d valign="top" %s>' % (self.item.rows, bgcolor)
+        bgcolor = self.item.bgcolor
+        color = self.item.color
+        h'<td rowspan=%d valign="top" bgcolor=%s style="color: %s">' % (self.item.rows, bgcolor[1:], color)
+
         #
         # Render the title, as a link if we have a URL.
         #
         if self.item.url:
             h'''<p class="contributiontitle">
-               <a href="%s" title="%s">%s</a></p>
-               ''' % (self.item.url, self.item.desc, self.item.title)
+               <a style="color: %s" href="%s" title="%s">%s</a></p>
+               ''' % (color, self.item.url, self.item.desc, self.item.title)
         else:
             h'<p class="contributiontitle">%s</p>' % (self.item.title)
         if self.item.presenters:

@@ -131,7 +131,6 @@ a:hover, .fake-link:hover, .ui-widget-content a:hover {
 }
 
 .speakers {
-    color: #000021;
     line-height: 1.1em;
 }
 
@@ -176,7 +175,6 @@ table.tt tr:hover td.blank {
     background-color: white;
 }
 
-table.tt a { color: black; }
 table.tt a:hover { color: #777; }
 
 form { margin: 0px; }
