@@ -588,7 +588,7 @@ class time_selector_widget:
 # Send an email reminder.
 #
 EmailTemplate = '''
-You (hopefully) requested a reminder of your confirmation number for 
+You (hopefully) requested a reminder of your confirmation number for
 %s.  Your login credentials are:
 
   Email address:     %s
