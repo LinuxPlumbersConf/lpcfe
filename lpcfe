@@ -13,6 +13,7 @@ def load_configs():
     config.load_config(cdir)
     auth.setup()
     bbb.load_config(cdir)
+    indico.load_sessions(cdir)
     indico.load_timetable()
     timetable.load_tracks(cdir)
 

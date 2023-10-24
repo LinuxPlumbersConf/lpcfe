@@ -16,12 +16,42 @@ import config
 #
 final_time = None
 
-Tracks = { }
-NewTracks = { }
+class Session:
+    def __init__(self, slot_id, title, room, matrix, extra):
+        self.slot_id = slot_id
+        self.title = title
+        self.room = room
+        self.matrix = matrix
+        self.extra = extra
+        self.talks = []
+
+Sessions = {}
+
+def load_sessions(cdir):
+    try:
+        with open(cdir + '/sessions', 'r') as f:
+            for line in f.readlines():
+                line = line.strip()
+                if line == '' or line[0] == '#':
+                    continue
+                sline = line.split(':')
+                if len(sline) not in [3, 4, 5]:
+                    print('Bad tracks line: %s' % (line))
+                    continue
+                slotId = int(sline[0])
+                title = sline[1]
+                room = sline[2]
+                matrix = ''
+                extra = ''
+                if len(sline) >= 4:
+                    matrix = sline[3]
+                if len(sline) == 5:
+                    extra = sline[4]
+                Sessions[slotId] = Session(slotId, title, room, matrix, extra)
+    except FileNotFoundError:
+        print('Unable to open tracks file')
 
 def load_timetable():
-    global Tracks, NewTracks
-
     url = '%s/export/timetable/%d.json?ak=%s&pretty=yes' % (config.INDICO_SERVER,
                                                             config.EVENT_ID,
                                                             config.INDICO_API_KEY)
@@ -29,13 +59,7 @@ def load_timetable():
     if r.status_code != 200:
         print('Bad status %d getting timetable' % (r.status_code))
         return
-    #
-    # The timetable is loaded into NewTracks, then assigned over at the end,
-    # just in case some other thread is trying to access it.
-    #
-    NewTracks = { }
     decrypt_indico_json(r.json())
-    Tracks = NewTracks
 
 #
 # Try to turn the massive blob of json we get back from Indico into some
@@ -54,24 +78,35 @@ def decrypt_indico_json(j):
             else:
                 print('Unknown entry', item['id'], item['entryType'])
 
-def add_talk(session, talk):
+def add_talk(talks, session, talk):
     global final_time
 
     item = sched_item(talk, session)
-    try:
-        NewTracks[session].append(item)
-    except KeyError:
-        NewTracks[session] = [item]
+    talks.append(item)
     if (final_time is None) or (item.end > final_time):
         final_time = item.end
 
 def decrypt_session(session):
+    global Sessions
+
     title = session['title']
+    slot_id = session['sessionSlotId']
+
+    if not Sessions.get(slot_id):
+        print('New session ', title, ' appeared?')
+        return
+
+    #
+    # The talks is loaded into an empty list, then assigned over at the end,
+    # just in case some other thread is trying to access it.
+    #
+    talks = []
     for entry in session['entries'].values():
         if entry['entryType'] not in ['Break', 'Contribution']:
             print('Funky session entry', title, entry['title'], entry['entryType'])
         else:
-            add_talk(title, entry)
+            add_talk(talks, title, entry)
+    Sessions[slot_id].talks = talks
 
 #
 # Let's try to simplify the representation of a schedule item
@@ -108,14 +143,15 @@ def get_timetable(begin, minutes, in_progress = 10):
     end = begin + datetime.timedelta(minutes = minutes)
     ip_end = begin + datetime.timedelta(minutes = in_progress)
     ret = { }
-    for track in Tracks.keys():
+    for track in Sessions.keys():
         items = [ ]
-        for item in Tracks[track]:
+        title = Sessions[track].title
+        for item in Sessions[track].talks:
             if (begin <= item.begin < end) or (ip_end < item.end < end) or\
                (item.begin < begin and item.end > end):
                 items.append(copy.copy(item))
         if items:
-            ret[track] = items
+            ret[title] = items
     return ret
 
 #
@@ -127,8 +163,8 @@ def find_restart_time(begin):
     if begin > final_time:
         return None
     earliest = final_time
-    for track in Tracks.keys():
-        for talk in Tracks[track]:
+    for track in Sessions.keys():
+        for talk in Sessions[track].talks:
             if (talk.begin > begin) and (talk.begin < earliest):
                 earliest = talk.begin
     return earliest
@@ -138,8 +174,8 @@ def find_restart_time(begin):
 #
 def track_in_room(room, time, lead = 60):
     end = time + datetime.timedelta(minutes = lead)
-    for track in Tracks:
-        for item in Tracks[track]:
+    for track in Sessions:
+        for item in Sessions[track].talks:
             if (item.room == room) and\
                ((time <= item.begin < end) or (time < item.end < end) or\
                (item.begin < time and item.end > end)):
