@@ -35,8 +35,12 @@ class frontend(Directory):
         else:
             self.login_form()
 
+    def page_header[html] (self, current, title, admin = False, menu = True):
+        times.fake_time_reset()
+        page.header(current, title, admin, menu)
+
     def front_page [html] (self, user):
-        page.header('/', h'Welcome %s!' % (user.name), user.is_admin())
+        self.page_header('/', h'Welcome %s!' % (user.name), user.is_admin())
         # Always notice timezone changes across page refreshes. Without
         # this, if the timezone wasn't set at user login, or the user
         # changes their timezone later, it will not be updated for display.
@@ -76,11 +80,12 @@ class frontend(Directory):
     @export
     def fake_time [html] (self):
         weekday, hour = time_selector_widget(0, 0).parse()
-        page.header('/', 'LPC timetable at a fake time', admin = True)
+        self.page_header('/', 'LPC timetable at a fake time', admin = True)
         tz = datetime.timezone(datetime.timedelta(hours = config.SERVER_TZOFFSET))
         begin = datetime.datetime(2023, 11, 13, 0, 0, 0, tzinfo = timezone.utc)
         begin += datetime.timedelta(days = weekday)
         begin += datetime.timedelta(hours = hour)
+        times.fake_time_set(begin)
         h'''This is the timetable rendered as if it were %s UTC
         ''' % (begin.strftime(str(h'%Y-%m-%d %H:%M')))
         page.end_text_area()
@@ -124,7 +129,7 @@ class frontend(Directory):
                 pass
 
     def login_form [html] (self, message = None, email = '', target = ''):
-        page.header('/', h'Welcome to %s' % (config.EVENT), menu = False)
+        self.page_header('/', h'Welcome to %s' % (config.EVENT), menu = False)
         insert_tz_js()
         self.display_greeting()
         #
@@ -223,7 +228,7 @@ class frontend(Directory):
         user = self.logged_in()
         if (not user) or (not user.is_admin()):
             get_response().redirect(config.SITE_URL)
-        page.header('/status', 'Server and room status', True)
+        self.page_header('/status', 'Server and room status', True)
         self.gm_button()
         self.list_servers()
         page.end_text_area()
@@ -368,7 +373,7 @@ class frontend(Directory):
     # This is not currently used.
     #
     def room_closed [html] (self, room):
-        page.header('/', 'Room closed', False)
+        self.page_header('/', 'Room closed', False)
         h'''The room you are trying to join has not yet been opened for
            general access.  Please accept our apologies for the inconvenience
            and retry shortly.
@@ -422,7 +427,7 @@ class frontend(Directory):
         user = self.logged_in()
         if not user:
             return get_response().redirect(config.SITE_URL)
-        page.header('/hackrooms', 'LPC 2023 hackrooms', user.is_admin())
+        self.page_header('/hackrooms', 'LPC 2023 hackrooms', user.is_admin())
         h'''This page lists the LPC 2023 hackrooms — rooms that are open for
            informal meetings or just the desire to get together and talk for a
            bit.
@@ -455,7 +460,7 @@ class frontend(Directory):
         user = self.logged_in()
         if not user:
             return get_response().redirect(config.SITE_URL)
-        page.header('/recordings', 'Available recordings', user.is_admin())
+        self.page_header('/recordings', 'Available recordings', user.is_admin())
         h'''<table class="OddEven">
            <tr><th>Server</th><th>Room</th><th>Start</th><th>Length</th><th>View</th></tr>
            '''

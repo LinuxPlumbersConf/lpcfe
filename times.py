@@ -13,11 +13,24 @@ from datetime import timezone
 import pytz
 import config
 
+fake_time = datetime.datetime(2023, 11, 13, 14, 30, 0, tzinfo = timezone.utc)
+
+def fake_time_set(time):
+    global current_time, fake_time
+
+    fake_time = time
+    current_time = fake_current_time
+
+def fake_time_reset():
+    global current_time
+
+    current_time = real_current_time
+
 def real_current_time():
     return datetime.datetime.now(tz = timezone.utc)
 
 def fake_current_time():
-    return datetime.datetime(2022, 9, 12, 13, 30, 0, tzinfo = timezone.utc)
+    return fake_time
 
 current_time = real_current_time
 
