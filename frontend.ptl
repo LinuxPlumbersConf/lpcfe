@@ -365,10 +365,7 @@ class frontend(Directory):
 
     def get_matrix(self, room):
         # Should really limit this to session rooms
-        track = indico.track_in_room(room, times.current_time())
-        if track:
-            return timetable.matrix_room(track)
-        return ''
+        return indico.matrix_room(room, times.current_time())
     #
     # This is not currently used.
     #
@@ -411,7 +408,7 @@ class frontend(Directory):
             # the timetable code knows this isn't happening now.
             #
             begin = restart - datetime.timedelta(minutes = 61)
-        tracks = sorted(ttable.keys())
+        tracks = ttable.keys()
         rows = timetable.generate_rows(ttable, tracks, begin)
         timetable.render_rows(begin, rows)
 

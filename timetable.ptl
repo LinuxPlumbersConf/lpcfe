@@ -12,6 +12,7 @@ from quixote import get_request
 import datetime
 import times, buttons
 import config
+import indico
 
 def generate_rows(ttable, tracks, begin):
     #
@@ -52,7 +53,7 @@ def generate_rows(ttable, tracks, begin):
     #
     openitems = { }
     firstrow = [ room_entry('') ]
-    firstrow.extend([ room_entry(track) for track in tracks ])
+    firstrow.extend([ create_room_entry(track) for track in tracks ])
     rows = [ firstrow ]
     has_join_button = [ ]
     for start in sorted(starts.keys()):
@@ -171,7 +172,7 @@ class session_entry(ttentry):
         if self.item.presenters:
             h'<p class="speakers">%s</p>\n' % (h', '.join(self.item.presenters))
         h'<p class="tttrack">%s %s</p>\n' % (self.item.track,
-                                            track_extra.get(self.item.track, ''))
+                                            indico.session_extra(self.item.slot_id))
         #
         # Room join button
         #
@@ -225,43 +226,17 @@ class time_entry(ttentry):
 # Track names along the top.
 #
 class room_entry(ttentry):
-    def __init__(self, room):
+    def __init__(self, room, extra=''):
         ttentry.__init__(self, room)
+        self.extra = extra
 
     def render [html] (self):
         stuff = ''
         if self.title:
-            stuff += self.title + ' ' + track_extra.get(self.title, '')
+            stuff += self.title + ' ' + self.extra
         h'<th>%s</th>\n' % (stuff)
 
-#
-# Crude track-to-color mapping
-#
-track_colors = { }
-track_matrix = { }
-track_extra = { }
-
-def load_tracks(cdir):
-    try:
-        with open(cdir + '/tracks', 'r') as f:
-            for line in f.readlines():
-                line = line.strip()
-                if line == '' or line[0] == '#':
-                    continue
-                sline = line.split(':')
-                if len(sline) not in [2, 3, 4]:
-                    print('Bad tracks line: %s' % (line))
-                    continue
-                track = sline[0]
-                track_colors[track] = sline[1]
-                if len(sline) >= 3:
-                    track_matrix[track] = sline[2]
-                if len(sline) == 4:
-                    track_extra[track] = sline[3]
-                else:
-                    track_extra[track] = ''
-    except FileNotFoundError:
-        print('Unable to open tracks file')
-
-def matrix_room(track):
-    return track_matrix.get(track, '')
+def create_room_entry(slot_id):
+    name = indico.session_name(slot_id)
+    extra = indico.session_extra(slot_id)
+    return room_entry(name, extra)

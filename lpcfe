@@ -15,7 +15,6 @@ def load_configs():
     bbb.load_config(cdir)
     indico.load_sessions(cdir)
     indico.load_timetable()
-    timetable.load_tracks(cdir)
 
 #
 # A simple thread function to occasionally reload the timetable.

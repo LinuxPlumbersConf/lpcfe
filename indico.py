@@ -27,6 +27,19 @@ class Session:
 
 Sessions = {}
 
+def session_name(slot_id):
+    try:
+        return Sessions[slot_id].title
+    except:
+        print('No session ', s)
+        return ''
+
+def session_extra(slot_id):
+    try:
+        return Sessions[slot_id].extra
+    except:
+        print('No session ', s)
+
 def load_sessions(cdir):
     try:
         with open(cdir + '/sessions', 'r') as f:
@@ -74,14 +87,15 @@ def decrypt_indico_json(j):
                 decrypt_session(item)
             elif item['entryType'] == 'Contribution':
                 # A talk outside of any session
-                add_talk('none', item)
+                # FIXME: there shoud be Session object for these talks
+                add_talk('none', item, 0)
             else:
                 print('Unknown entry', item['id'], item['entryType'])
 
-def add_talk(talks, session, talk):
+def add_talk(talks, session, talk, slot_id):
     global final_time
 
-    item = sched_item(talk, session)
+    item = sched_item(talk, session, slot_id)
     talks.append(item)
     if (final_time is None) or (item.end > final_time):
         final_time = item.end
@@ -105,7 +119,7 @@ def decrypt_session(session):
         if entry['entryType'] not in ['Break', 'Contribution']:
             print('Funky session entry', title, entry['title'], entry['entryType'])
         else:
-            add_talk(talks, title, entry)
+            add_talk(talks, title, entry, slot_id)
     Sessions[slot_id].talks = talks
 
 #
@@ -117,8 +131,9 @@ def fixtime(indico_time):
     return datetime.datetime.strptime(ts, '%Y-%m-%d %H:%M:%S %z')
 
 class sched_item:
-    def __init__(self, item, track):
+    def __init__(self, item, track, slot_id):
         self.is_break = item['entryType'] == 'Break'
+        self.slot_id = slot_id
         self.title = item['title']
         self.begin = fixtime(item['startDate'])
         self.end = fixtime(item['endDate'])
@@ -143,7 +158,8 @@ def get_timetable(begin, minutes, in_progress = 10):
     end = begin + datetime.timedelta(minutes = minutes)
     ip_end = begin + datetime.timedelta(minutes = in_progress)
     ret = { }
-    for track in Sessions.keys():
+    tracks = dict(sorted(Sessions.items(), key=lambda x:x[1].title))
+    for track in tracks:
         items = [ ]
         title = Sessions[track].title
         for item in Sessions[track].talks:
@@ -151,7 +167,7 @@ def get_timetable(begin, minutes, in_progress = 10):
                (item.begin < begin and item.end > end):
                 items.append(copy.copy(item))
         if items:
-            ret[title] = items
+            ret[track] = items
     return ret
 
 #
@@ -181,3 +197,12 @@ def track_in_room(room, time, lead = 60):
                (item.begin < time and item.end > end)):
                 return track
     return None
+
+#
+# Get matrix room ID for the session running in the @room
+#
+def matrix_room(room, time):
+    track = track_in_room(room, time)
+    if track:
+        return Sessions[track].matrix
+    return ''
