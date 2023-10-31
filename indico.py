@@ -40,6 +40,12 @@ def session_extra(slot_id):
     except:
         print('No session ', s)
 
+def session_room(slot_id):
+    try:
+        return Sessions[slot_id].room
+    except:
+        print('No session ', s)
+
 def load_sessions(cdir):
     try:
         with open(cdir + '/sessions', 'r') as f:

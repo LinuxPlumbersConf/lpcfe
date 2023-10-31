@@ -226,17 +226,21 @@ class time_entry(ttentry):
 # Track names along the top.
 #
 class room_entry(ttentry):
-    def __init__(self, room, extra=''):
-        ttentry.__init__(self, room)
+    def __init__(self, title, room='', extra=''):
+        ttentry.__init__(self, title)
+        self.room = room
         self.extra = extra
 
     def render [html] (self):
-        stuff = ''
-        if self.title:
-            stuff += self.title + ' ' + self.extra
-        h'<th>%s</th>\n' % (stuff)
+        h'<th>' + self.title
+        if self.extra:
+            h'<br>' + self.extra
+        if self.room:
+            h'<br><br><div style="color: dimgrey">%s</div>' % self.room
+        h'</th>'
 
 def create_room_entry(slot_id):
     name = indico.session_name(slot_id)
+    room = indico.session_room(slot_id)
     extra = indico.session_extra(slot_id)
-    return room_entry(name, extra)
+    return room_entry(name, room, extra)
