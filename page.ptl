@@ -566,6 +566,7 @@ def sponsor_box [html] ():
 <a href="https://www.arm.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt="" /></a>
 <a href="https://www.qualcomm.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/current/wp-content/uploads/2023/08/Qualcomm-logo-blue.svg" alt="" /></a>
 <a href="https://www.microsoft.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/08/microsoft-horizontal-color.svg" alt="" /></a>
+<a href="https://www.tenstorrent.com"><img decoding="async" class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events//blog/current/wp-content/uploads/2023/10/tt_logo_lockup.svg" alt="" /></a><br />
 <!--
 <a href="https://www.digitalocean.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/DigitalOcean_Logo.svg" alt="" /></a>
 <a href="https://www.efficios.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/efficios-logo28.svg" alt="" /></a>
