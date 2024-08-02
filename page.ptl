@@ -475,7 +475,7 @@ def header [html] (current, title, admin = False, menu = True):
          </div>
          <div class="grayheader">
            <div class="datePlace">
-             <div class="date">13–15 Nov 2023</div>
+             <div class="date">18–20 Sept 2024</div>
              <div class="timezone">&nbsp;%s and local time</div>
            </div>
          </div>

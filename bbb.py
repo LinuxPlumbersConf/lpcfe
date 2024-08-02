@@ -17,7 +17,7 @@ import config
 #
 # We may eventually want some more flexibility here.
 #
-Welcome = '''Welcome to the Linux Plumbers Conference 2023 %s!
+Welcome = '''Welcome to the Linux Plumbers Conference 2024 %s!
 <br><br>
 Please remember that the <a
 href="https://lpc.events/event/17/page/214-anti-harassment-policy"
@@ -157,7 +157,7 @@ def all_rooms(type = None):
         ret = [ room for room in ret if rooms[room].type == type ]
     return ret
 
-# 
+#
 # Start a room, attached to the given matrix room if provided.
 #
 def start_room(room, matrix = ''):
