@@ -570,6 +570,7 @@ def sponsor_box [html] ():
 <a href="https://www.linaro.org/"><img decoding="async" class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/linaro-new.svg" alt="" /></a><br />
 <a href="https://www.igalia.com"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/Igalia-NEW.svg" alt="" /></a><br />
 <a href="https://www.redhat.com"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2023/06/Red-Hat.svg" alt="" /></a><br />
+<a href="https://www.amazon.jobs/en"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/08/amazon-web-services.svg" alt=""</a><br />
 </div>
 
     '''
