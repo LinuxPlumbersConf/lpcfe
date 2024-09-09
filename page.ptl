@@ -572,5 +572,9 @@ def sponsor_box [html] ():
 <a href="https://www.redhat.com"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2023/06/Red-Hat.svg" alt="" /></a><br />
 <a href="https://www.amazon.jobs/en"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/08/amazon-web-services.svg" alt=""</a><br />
 </div>
+<div class="SponsorClass">
+<h5>Conference Services Provided by</h5>
+<a href="https://www.linuxfoundation.org"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/2021/wp-content/uploads/2021/09/LF_logo_Pantone.svg" alt="" /></a>
+</div>
 
     '''
