@@ -545,32 +545,42 @@ def sponsor_box [html] ():
 <br clear="all">
 <br clear="all">
 <div class="SponsorClass">
+<h5>Diamond Sponsors</h5>
+<a href="https://about.facebook.com/meta/"><img class="SponsorImg alignleft" style="width: 110px; max-width: 110px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/02/meta-logo-primary_standardsize.svg" alt="" /></a>
+<a href="https://opensource.google/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/10/google-logo-web-1.svg" alt="" /></a>
 
-<h5>Diamond Sponsor</h5>
-<p><a href="https://about.facebook.com/meta/"><img decoding="async" class="SponsorImg alignleft" style="width: 110px; max-width: 110px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/02/meta-logo-primary_standardsize.svg" alt="" /></a></p>
 </div>
 <div class="SponsorClass">
 <h5>Platinum Sponsors</h5>
-<p><a href="https://ebpf.foundation/"><img decoding="async" class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/current/wp-content/uploads/2023/04/eBPF_Foundation_onwhite.svg" alt="" /></a><br />
-<a href="https://www.nvidia.com"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2023/08/NVIDIA.svg" alt="" /></a><br />
-<a href="https://www.westerndigital.com"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/Western_Digital_logo.svg" alt="" /></a><br />
-<a href="https://opensource.google"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2019/wp-content/uploads/2019/08/google.svg" alt="" /></a><br />
+<a href="https://ebpf.foundation/"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/current/wp-content/uploads/2023/04/eBPF_Foundation_onwhite.svg" alt="" /></a>
+<a href="https://www.nvidia.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/07/NVIDIA-2025.svg" alt="" /></a>
+
 </div>
 <div class="SponsorClass">
 <h5>Gold Sponsors</h5>
-<p><a href="https://www.arm.com"><img decoding="async" class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt="" /></a><br />
-<a href="https://www.digitalocean.com"><img decoding="async" class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/06/DigitalOcean_Logo.svg" alt="" /></a><br />
-<a href="https://jobs.netflix.com"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2023/04/Netflix_Logo_RGB.svg" alt="" /></a><br />
-<a href="https://www.intel.com"><img decoding="async" class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/04/Intel.svg" alt="" /></a><br />
-<a href="https://www.microsoft.com"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/08/microsoft-horizontal-color.svg" alt="" /></a><br />
+<a href="https://www.arm.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/2019/wp-content/uploads/2019/06/Arm_logo_CMYK.svg" alt="" /></a>
+<a href="https://automobiles.honda.com/"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/07/Honda-3.svg" alt="" /></a>
+<a href="https://aws.amazon.com/opensource/"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/08/AWS_logo_RGB_1c_Gray850-4.svg" alt="" /></a>
+<a href="https://opensource.microsoft.com/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/2022/wp-content/uploads/2022/08/microsoft-horizontal-color.svg" alt="" /></a>
+<a href="https://www.sony.com/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/09/sony-corporation.svg" alt="" /></a>
+<a href="https://www.westerndigital.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/Western_Digital_logo.svg" alt="" /></a>
+<a href="https://global.fujitsu/en-global"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/09/Fujitsu.svg" alt="" /></a>
+
+
 </div>
 <div class="SponsorClass">
 <h5>Silver Sponsors</h5>
-<p><a href="https://www.jumptrading.com/"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/05/Jump-Trading-New-Logo-Red-Black.svg" alt="" /></a><br />
-<a href="https://www.linaro.org/"><img decoding="async" class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/linaro-new.svg" alt="" /></a><br />
-<a href="https://www.igalia.com"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/Igalia-NEW.svg" alt="" /></a><br />
-<a href="https://www.redhat.com"><img decoding="async" class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2023/06/Red-Hat.svg" alt="" /></a><br />
-<a href="https://www.amazon.jobs/en"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/08/amazon-web-services.svg" alt=""</a><br />
+<a href="https://www.renesas.com/in/en/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/06/renesas-spn.svg" alt="" /></a>
+<a href="https://global.toyota/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/08/logo_toyota-horizontal-color.svg" alt="" /></a>
+<a href="https://www.igalia.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/Igalia-NEW.svg" alt="" /></a>
+<a href="https://www.suse.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/09/SUSE-Logo.svg" alt="" /></a>
+<a href="https://www.jumptrading.com/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/05/Jump-Trading-New-Logo-Red-Black.svg" alt="" /></a>
+
+</div>
+<div class="SponsorClass">
+<h5>T-Shirt Sponsor</h5>
+<a href="https://www.linaro.org/"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/linaro-new.svg" alt="" /></a>
+
 </div>
 <div class="SponsorClass">
 <h5>Conference Services Provided by</h5>
