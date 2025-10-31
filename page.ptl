@@ -61,7 +61,7 @@ body {
 
 .titlebox {
     color: white;
-    background: transparent url(https://lpc.events/event/18/images/336-lpc24_banner_title.png);
+    background: transparent url(https://lpc.events/event/19/images/368-lpc25_banner_title_logo.png);
     min-height: 90px;
     height: 40vh;
     max-height: 256px;
