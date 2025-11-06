@@ -575,6 +575,7 @@ def sponsor_box [html] ():
 <a href="https://www.igalia.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/Igalia-NEW.svg" alt="" /></a>
 <a href="https://www.suse.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/09/SUSE-Logo.svg" alt="" /></a>
 <a href="https://www.jumptrading.com/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/05/Jump-Trading-New-Logo-Red-Black.svg" alt="" /></a>
+<a href="https://www.huawei.com/en/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/11/Huawei-Logo-1.svg" alt="" /></a>
 
 </div>
 <div class="SponsorClass">
