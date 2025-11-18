@@ -554,6 +554,7 @@ def sponsor_box [html] ():
 <h5>Platinum Sponsors</h5>
 <a href="https://ebpf.foundation/"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/current/wp-content/uploads/2023/04/eBPF_Foundation_onwhite.svg" alt="" /></a>
 <a href="https://www.nvidia.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/07/NVIDIA-2025.svg" alt="" /></a>
+<a href="https://www.jumptrading.com/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/05/Jump-Trading-New-Logo-Red-Black.svg" alt="" /></a>
 
 </div>
 <div class="SponsorClass">
@@ -574,7 +575,6 @@ def sponsor_box [html] ():
 <a href="https://global.toyota/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/08/logo_toyota-horizontal-color.svg" alt="" /></a>
 <a href="https://www.igalia.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/06/Igalia-NEW.svg" alt="" /></a>
 <a href="https://www.suse.com"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/09/SUSE-Logo.svg" alt="" /></a>
-<a href="https://www.jumptrading.com/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2024/05/Jump-Trading-New-Logo-Red-Black.svg" alt="" /></a>
 <a href="https://www.huawei.com/en/"><img class="SponsorImg alignleft" style="width: 100px;" src="https://lpc.events/blog/current/wp-content/uploads/2025/11/Huawei-Logo-1.svg" alt="" /></a>
 
 </div>
