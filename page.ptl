@@ -61,7 +61,7 @@ body {
 
 .titlebox {
     color: white;
-    background: transparent url(https://lpc.events/event/19/images/368-lpc25_banner_title_logo.png);
+    background: transparent url(https://lpc.events/blog/current/wp-content/uploads/2026/02/LPC26_banner-with-title_logo.jpg);
     min-height: 90px;
     height: 40vh;
     max-height: 256px;
