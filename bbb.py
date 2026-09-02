@@ -17,10 +17,10 @@ import config
 #
 # We may eventually want some more flexibility here.
 #
-Welcome = '''Welcome to the Linux Plumbers Conference 2025 %s!
+Welcome = '''Welcome to the Linux Plumbers Conference 2026 %s!
 <br><br>
 Please remember that the <a
-href="https://lpc.events/event/17/page/214-anti-harassment-policy"
+href="https://lpc.events/event/20/page/280-anti-harassment-policy"
 target="_blank">LPC
 anti-harassment policy</a> applies to interaction in this room, and that
 this room is being recorded.

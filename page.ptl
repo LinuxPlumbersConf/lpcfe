@@ -475,7 +475,7 @@ def header [html] (current, title, admin = False, menu = True):
          </div>
          <div class="grayheader">
            <div class="datePlace">
-             <div class="date">11–13 Dec 2025</div>
+             <div class="date">5–7 Oct 2026</div>
              <div class="timezone">&nbsp;%s and local time</div>
            </div>
          </div>
@@ -511,9 +511,9 @@ menu_items = [
     ('/hackrooms', 'Hackrooms'),
 #    ('https://chat.2020.linuxplumbersconf.org/home', 'Chat area'),
     ("https://lpc.events/", 'Main LPC site'),
-    ("https://lpc.events/event/17/page/214-anti-harassment-policy",
+    ("https://lpc.events/event/20/page/280-anti-harassment-policy",
      'Anti-harrassment policy'),
-    ("https://lpc.events/event/17/page/215-contact", 'Contact'),
+    ("https://lpc.events/event/20/page/282-contact", 'Contact'),
     ("/logout", 'Log out') ]
 
 priv_menu_items = [
