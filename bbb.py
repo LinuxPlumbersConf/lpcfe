@@ -17,7 +17,7 @@ import config
 #
 # We may eventually want some more flexibility here.
 #
-Welcome = '''Welcome to the Linux Plumbers Conference 2026 %s!
+Welcome = '''Welcome to the %s %s!
 <br><br>
 Please remember that the <a
 href="https://lpc.events/event/20/page/280-anti-harassment-policy"
@@ -194,7 +194,7 @@ def start_room(room, matrix = ''):
                            record = 'true',
                            autoStartRecording = autostart,
                            allowStartStopRecording = allowstop,
-                           welcome = Welcome % (room))
+                           welcome = Welcome % (config.EVENT, room))
     # We should maybe return something rather than assuming it worked...
 
 def join_room_url(name, room, user):

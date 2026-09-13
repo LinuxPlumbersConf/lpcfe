@@ -13,7 +13,7 @@ from datetime import timezone
 import pytz
 import config
 
-fake_time = datetime.datetime(2026, 10, 5, 8, 30, 0, tzinfo = timezone.utc)
+fake_time = None
 
 def fake_time_set(time):
     global current_time, fake_time
@@ -30,6 +30,10 @@ def real_current_time():
     return datetime.datetime.now(tz = timezone.utc)
 
 def fake_current_time():
+    if fake_time is None:
+        return datetime.datetime.combine(config.EVENT_START,
+                                         datetime.time(8, 30),
+                                         tzinfo = timezone.utc)
     return fake_time
 
 current_time = real_current_time

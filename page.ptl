@@ -475,11 +475,11 @@ def header [html] (current, title, admin = False, menu = True):
          </div>
          <div class="grayheader">
            <div class="datePlace">
-             <div class="date">5–7 Oct 2026</div>
+             <div class="date">%s</div>
              <div class="timezone">&nbsp;%s and local time</div>
            </div>
          </div>
-       ''' % (config.EVENT, config.EVENT, config.VENUE_TZ)
+       ''' % (config.EVENT, config.EVENT, config.EVENT_DATES, config.VENUE_TZ)
     if menu:
         left_menu(admin, current)
     h'''<div class="lead-text">
