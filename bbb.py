@@ -197,8 +197,9 @@ def start_room(room, matrix = ''):
                            welcome = Welcome % (config.EVENT, room))
     # We should maybe return something rather than assuming it worked...
 
-def join_room_url(name, room, user):
-    matrix = rooms[room].matrix
+def join_room_url(name, room, user, matrix = ''):
+    if not matrix:
+        matrix = rooms[room].matrix
     pw = ATT_PW
     if user.is_moderator():
         pw = MOD_PW

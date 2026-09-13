@@ -362,9 +362,10 @@ class frontend(Directory):
         # Policy: let any user start a room if they have access to
         # a "join" button.
         #
+        matrix = self.get_matrix(room)
         if not status['running']:
-            bbb.start_room(room, matrix = self.get_matrix(room))
-        url = bbb.join_room_url(user.name, room, user)
+            bbb.start_room(room, matrix = matrix)
+        url = bbb.join_room_url(user.name, room, user, matrix = matrix)
         return response.redirect(url)
 
     def get_matrix(self, room):
