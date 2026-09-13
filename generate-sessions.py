@@ -40,6 +40,9 @@ def decrypt_indico_json(j):
                 slotId = item['sessionSlotId']
                 title = item['title']
                 room = item['room']
+                if not room:
+                    raise ValueError('Session %s (%s) has no room' %
+                                     (slotId, title))
                 sessions.append("%s:%s:%s" % (slotId, title, room))
             elif item['entryType'] == 'Contribution':
                 pass
