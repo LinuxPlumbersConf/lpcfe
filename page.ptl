@@ -558,6 +558,7 @@ def sponsor_box [html] ():
 <a href="https://www.qube-rt.com/"><img class="SponsorImg alignleft" style="width: 88px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/07/QRT-Brand-Master-Full-BO-HR-1.png" alt="" /></a>
 <a href="https://www.westerndigital.com/"><img class="SponsorImg alignleft" style="width: 110px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/08/WD_Logo_TM_Color_RGB.svg" alt="" /></a>
 <a href="https://www.deshaw.com/"><img class="SponsorImg alignleft" style="width: 110px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/08/DESCO_Logo_blk.svg" alt="" /></a>
+<a href="https://opensource.google/"><img class="SponsorImg alignleft" style="width: 110px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/09/google-logo-web.svg" alt="" /></a>
 
 </div>
 <div class="SponsorClass">
@@ -569,6 +570,7 @@ def sponsor_box [html] ():
 <a href="https://www.amd.com/en/solutions/data-center/cloud-computing.html"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/07/53863A_AMD_P_Blk.svg" alt="" /></a>
 <a href="https://www.sony.com/en/"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/08/Sony_GPVI_Logo_SonyBlue90_RGB-1.svg" alt="" /></a>
 <a href="https://www.microsoft.com/en-us/"><img class="SponsorImg alignleft" style="width: 110px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/08/microsoft-horizontal-color.svg" alt="" /></a>
+<a href="https://aws.amazon.com/"><img class="SponsorImg alignleft" style="width: 70px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/09/AWS_logo_RGB_1c_Gray850-1.png" alt="" /></a>
 
 </div>
 <div class="SponsorClass">
@@ -576,6 +578,7 @@ def sponsor_box [html] ():
 <a href="https://www.intel.com/content/www/us/en/developer/ecosystem/pytorch-foundation.html"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/07/Intel-logo.svg" alt="" /></a>
 <a href="https://www.igalia.com"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/08/igalia-tagline_-_CMYK_-_Nov20-1.svg" alt="" /></a>
 <a href="https://www.suse.com/"><img class="SponsorImg alignleft" style="width: 110px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/08/SUSE_Logo-hor_L_Green-pos_sRGB.svg" alt="" /></a>
+<a href="https://www.huawei.com/"><img class="SponsorImg alignleft" style="width: 70px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/09/Huawei.svg" alt="" /></a>
 
 </div>
 <div class="SponsorClass">
@@ -586,6 +589,11 @@ def sponsor_box [html] ():
 <div class="SponsorClass">
 <h5>Attendee Gift Sponsor</h5>
 <a href="https://www.qualcomm.com/"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/07/qualcomm-01.svg" alt="" /></a>
+
+</div>
+<div class="SponsorClass">
+<h5>Video Recording Sponsor</h5>
+<a href="https://opensource.google/"><img class="SponsorImg alignleft" style="width: 80px;" src="https://lpc.events/blog/current/wp-content/uploads/2026/09/google-logo-web.svg" alt="" /></a>
 
 </div>
 <div class="SponsorClass">
